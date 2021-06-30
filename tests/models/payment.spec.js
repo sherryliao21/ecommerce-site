@@ -43,29 +43,39 @@ describe('# Payment Model', () => {
   context('action', () => {
     let data = null
 
-    it('create', async done => {
+    before(async function () {
+      await db.User.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Order.destroy({ where: {}, truncate: { cascade: true } })
+    })
+
+    it('create', async function () {
+      await db.User.create({
+        id: 1,
+        name: '123',
+        email: '123@gmail.com',
+        password: '123',
+        role: 'user'
+      })
+      await db.Order.create({ id: 1, UserId: 1 })
       const payment = await db.Payment.create({ OrderId: 1 })
       data = payment
-      done()
     })
 
-    it('read', async done => {
-      const payment = await db.Payment.findByPK(data.id)
+    it('read', async function () {
+      const payment = await db.Payment.findByPk(data.id)
       expect(data.id).to.be.equal(payment.id)
-      done()
     })
 
-    it('update', async done => {
-      const payment = await db.Payment.findByPK(data.id)
+    it('update', async function () {
+      await db.Payment.update({}, { where: { id: data.id } })
+      const payment = await db.Payment.findByPk(data.id)
       expect(data.updatedAt).to.be.not.equal(payment.updatedAt)
-      done()
     })
 
-    it('delete', async done => {
+    it('delete', async function () {
       await db.Payment.destroy({ where: { id: data.id } })
-      const payment = db.Payment.findByPK(data.id)
+      const payment = await db.Payment.findByPk(data.id)
       expect(payment).to.be.equal(null)
-      done()
     })
   })
 })

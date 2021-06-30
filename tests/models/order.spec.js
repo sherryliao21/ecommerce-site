@@ -64,29 +64,38 @@ describe('# Order Model', () => {
   context('action', () => {
     let data = null
 
-    it('create', async done => {
+    before(async function () {
+      await db.User.destroy({ where: {}, truncate: { cascade: true } })
+    })
+
+    it('create', async function () {
+      await db.User.create({
+        id: 1,
+        name: '123',
+        email: '123@gmail.com',
+        password: '123',
+        role: 'user'
+      })
       const order = await db.Order.create({ UserId: 1 })
+      console.log('----order----', order)
       data = order
-      done()
     })
 
-    it('read', async done => {
-      const order = await db.Order.findByPK(data.id)
+    it('read', async function () {
+      const order = await db.Order.findByPk(data.id)
       expect(data.id).to.be.equal(order.id)
-      done()
     })
 
-    it('update', async done => {
-      const order = await db.Order.findByPK(data.id)
+    it('update', async function () {
+      await db.Order.update({}, { where: { id: data.id } })
+      const order = await db.Order.findByPk(data.id)
       expect(data.updatedAt).to.be.not.equal(order.updatedAt)
-      done()
     })
 
-    it('delete', async done => {
+    it('delete', async function () {
       await db.Order.destroy({ where: { id: data.id } })
-      const order = db.Order.findByPK(data.id)
+      const order = await db.Order.findByPk(data.id)
       expect(order).to.be.equal(null)
-      done()
     })
   })
 })
