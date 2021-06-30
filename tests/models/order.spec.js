@@ -45,10 +45,18 @@ describe('# Order Model', () => {
       Order.associate({ User })
     })
 
-    it('should belong to order', done => {
-      expect(Order.hasMany).to.have.been.calledWith(Payment)
-      expect(Order.hasMany).to.have.been.calledWith(OrderItem)
+    it('should belong to user', done => {
       expect(Order.belongsTo).to.have.been.calledWith(User)
+      done()
+    })
+
+    it('should have many payments', done => {
+      expect(Order.hasMany).to.have.been.calledWith(Payment)
+      done()
+    })
+
+    it('should have many order items', done => {
+      expect(Order.hasMany).to.have.been.calledWith(OrderItem)
       done()
     })
   })
