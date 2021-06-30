@@ -29,7 +29,7 @@ describe('# User Model', () => {
     const Order = 'Order'
 
     before(() => {
-      Order.associate({ Order })
+      User.associate({ Order })
     })
 
     it('should have many orders', done => {
@@ -42,7 +42,7 @@ describe('# User Model', () => {
     let data = null
 
     it('create', async done => {
-      const user = await db.User.create({ UserId: 1 })
+      const user = await db.User.create({}})
       data = user
       done()
     })

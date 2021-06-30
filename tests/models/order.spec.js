@@ -65,7 +65,7 @@ describe('# Order Model', () => {
     let data = null
 
     it('create', async done => {
-      const order = await db.Order.create({ OrderId: 1 })
+      const order = await db.Order.create({ UserId: 1 })
       data = order
       done()
     })
