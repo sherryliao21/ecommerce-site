@@ -41,29 +41,31 @@ describe('# User Model', () => {
   context('action', () => {
     let data = null
 
-    it('create', async done => {
-      const user = await db.User.create({}})
+    it('create', async function () {
+      const user = await db.User.create({
+        name: '123',
+        email: '123@gmail.com',
+        password: '123',
+        role: 'user'
+      })
       data = user
-      done()
     })
 
-    it('read', async done => {
-      const user = await db.User.findByPK(data.id)
+    it('read', async function () {
+      const user = await db.User.findByPk(data.id)
       expect(data.id).to.be.equal(user.id)
-      done()
     })
 
-    it('update', async done => {
-      const user = await db.User.findByPK(data.id)
+    it('update', async function () {
+      await db.User.update({}, { where: { id: data.id } })
+      const user = await db.User.findByPk(data.id)
       expect(data.updatedAt).to.be.not.equal(user.updatedAt)
-      done()
     })
 
-    it('delete', async done => {
+    it('delete', async function () {
       await db.User.destroy({ where: { id: data.id } })
-      const user = db.User.findByPK(data.id)
+      const user = await db.User.findByPk(data.id)
       expect(user).to.be.equal(null)
-      done()
     })
   })
 })
