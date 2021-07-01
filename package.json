@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "NODE_ENV=development node app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
     "test": "mocha tests --exit --recursive --timeout 5000"
   },
   "keywords": [],
