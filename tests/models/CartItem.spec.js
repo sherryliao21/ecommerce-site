@@ -49,21 +49,20 @@ describe('# CartItem Model', () => {
   })
   // check CRUD action
   context('action', () => {
-
     let data = null
 
     before(async function () {
       await db.Product.destroy({ where: {}, truncate: { cascade: true } })
       await db.Category.destroy({ where: {}, truncate: { cascade: true } })
       await db.Cart.destroy({ where: {}, truncate: { cascade: true } })
-      await db.CartItem.destroy({ where: {}, truncate: { cascade: true } })
     })
 
     it('create', async function() {
       await db.Category.create({ id: 1 })
       await db.Product.create({ id: 1, CategoryId: 1 })
-      await db.Cart.create({ id: 1 })
-      const cartItem = await db.CartItem.create({ id: 1, CartId: 1, ProductId: 1 })
+      await db.Cart.create({ id: 1, quantity: 1 })
+      const cartItem = await db.CartItem.create({ CartId: 1, ProductId: 1, quantity: 1 })
+      console.log('cartItem: ', cartItem)
       data = cartItem
     })
 

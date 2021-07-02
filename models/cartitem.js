@@ -4,8 +4,19 @@ module.exports = (sequelize, DataTypes) => {
   const CartItem = sequelize.define(
     'CartItem',
     {
-      CartId: DataTypes.INTEGER,
-      ProductId: DataTypes.INTEGER,
+      id: {
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
+      CartId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      ProductId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       quantity: DataTypes.INTEGER,
     },
     {}
@@ -15,4 +26,4 @@ module.exports = (sequelize, DataTypes) => {
     CartItem.belongsTo(models.Product)
   }
   return CartItem
-};
+}
