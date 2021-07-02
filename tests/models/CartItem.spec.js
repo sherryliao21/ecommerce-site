@@ -1,5 +1,4 @@
 const chai = require('chai')
-const sinon = require('sinon')
 chai.use(require('sinon-chai'))
 
 const { expect } = require('chai')
@@ -7,18 +6,15 @@ const {
   sequelize,
   dataTypes,
   checkModelName,
-  checkUniqueIndex,
   checkPropertyExists
 } = require('sequelize-test-helpers')
 
 const db = require('../../models')
-const CartItemModel = require('../../models/cartItem')
+const CartItemModel = require('../../models/cartitem')
 
 describe('# CartItem Model', () => {
-
   before(done => {
     done()
-
   })
 
   const CartItem = CartItemModel(sequelize, dataTypes)
@@ -28,7 +24,7 @@ describe('# CartItem Model', () => {
 
   // check property
   context('properties', () => {
-    ;['quantity'].forEach(checkPropertyExists(cartItem))
+    ;['CartId', 'ProductId', 'quantity'].forEach(checkPropertyExists(cartItem))
   })
 
   // data association
@@ -41,51 +37,50 @@ describe('# CartItem Model', () => {
       CartItem.associate({ Cart })
     })
 
-    it('defined a belongsTo association with Cart', (done) => {
+    it('defined a belongsTo association with Cart', done => {
       expect(CartItem.belongsTo).to.have.been.calledWith(Cart)
       done()
     })
 
-    it('defined a belongsTo association with Product', (done) => {
+    it('defined a belongsTo association with Product', done => {
       expect(CartItem.belongsTo).to.have.been.calledWith(Product)
       done()
     })
   })
   // check CRUD action
   context('action', () => {
-
     let data = null
 
-    it('create', (done) => {
-      db.CartItem.create({ CartItemId: 1, quantity: 1 }).then((cartItem) => {
-        data = cartItem
-        done()
-      })
+    before(async function () {
+      await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Cart.destroy({ where: {}, truncate: { cascade: true } })
     })
 
-    it('read', (done) => {
-      db.CartItem.findByPk(data.id).then((cartItem) => {
-        expect(data.id).to.be.equal(cartItem.id)
-        done()
-      })
+    it('create', async function() {
+      await db.Category.create({ id: 1 })
+      await db.Product.create({ id: 1, CategoryId: 1 })
+      await db.Cart.create({ id: 1, quantity: 1 })
+      const cartItem = await db.CartItem.create({ CartId: 1, ProductId: 1, quantity: 1 })
+      console.log('cartItem: ', cartItem)
+      data = cartItem
     })
 
-    it('update', () => {
-      db.CartItem.update({}, { where: { id: data.id }}).then(() => {
-        db.CartItem.findByPk(data.id).then((cartItem) => {
-          expect(data.updatedAt).to.be.not.equal(cartItem.updatedAt)
-          done()
-        })
-      })
+    it('read', async function() {
+      const cartItem = await db.CartItem.findByPk(data.id)
+      expect(data.id).to.be.equal(cartItem.id)
     })
 
-    it('delete', () => {
-      db.CartItem.destroy({ where: { id: data.id }}).then(() => {
-        db.CartItem.findByPk(data.id).then((cartItem) => {
-          expect(cartItem).to.be.equal(null)
-          done()
-        })
-      })
+    it('update', async function() {
+      await db.CartItem.update({}, { where: { id: data.id }})
+      const cartItem = await db.CartItem.findByPk(data.id)
+      expect(data.updatedAt).to.be.not.equal(cartItem.updatedAt)
+    })
+
+    it('delete', async function() {
+      await db.CartItem.destroy({ where: { id: data.id }})
+      const cartItem = await db.CartItem.findByPk(data.id)
+      expect(cartItem).to.be.equal(null)
     })
   })
 })
