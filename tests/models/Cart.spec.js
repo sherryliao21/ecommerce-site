@@ -47,7 +47,7 @@ describe('# Cart Model', () => {
     let data = null
 
     it('create', async function() {
-      const cart = await db.Cart.create({ CartId: 1 })
+      const cart = await db.Cart.create({ CartId: 1, quantity: 1 })
       data = cart
     })
 
