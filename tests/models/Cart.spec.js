@@ -1,5 +1,4 @@
 const chai = require('chai')
-const sinon = require('sinon')
 chai.use(require('sinon-chai'))
 
 const { expect } = require('chai')
@@ -7,7 +6,6 @@ const {
   sequelize,
   dataTypes,
   checkModelName,
-  checkUniqueIndex,
   checkPropertyExists
 } = require('sequelize-test-helpers')
 
@@ -15,10 +13,8 @@ const db = require('../../models')
 const CartModel = require('../../models/cart')
 
 describe('# Cart Model', () => {
-
   before(done => {
     done()
-
   })
 
   const Cart = CartModel(sequelize, dataTypes)
@@ -34,12 +30,14 @@ describe('# Cart Model', () => {
   // data association
   context('associations', () => {
     const Product = 'Product'
+    const CartItem = 'CartItem'
     
     before(() => {
       Cart.associate({ Product })
+      Cart.associate({ CartItem })
     })
 
-    it('defined a hasMany association with Product as CartItem', (done) => {
+    it('defined a hasMany association with Product as CartItem', done => {
       expect(Cart.hasMany).to.have.been.calledWith(Product, {
         as: 'CartItem'
       })
@@ -48,39 +46,28 @@ describe('# Cart Model', () => {
   })
   // check CRUD action
   context('action', () => {
-
     let data = null
 
-    it('create', (done) => {
-      db.Cart.create({ CartId: 1 }).then((cart) => {
-        data = cart
-        done()
-      })
+    it('create', async function() {
+      const cart = await db.Cart.create({ CartId: 1 })
+      data = cart
     })
 
-    it('read', (done) => {
-      db.Cart.findByPk(data.id).then((cart) => {
-        expect(data.id).to.be.equal(cart.id)
-        done()
-      })
+    it('read', async function() {
+      const cart = await db.Cart.findByPk(data.id)
+      expect(data.id).to.be.equal(cart.id)
     })
 
-    it('update', () => {
-      db.Cart.update({}, { where: { id: data.id }}).then(() => {
-        db.Cart.findByPk(data.id).then((cart) => {
-          expect(data.updatedAt).to.be.not.equal(cart.updatedAt)
-          done()
-        })
-      })
+    it('update', async function() {
+      await db.Cart.update({}, { where: { id: data.id }})
+      const cart = await db.Cart.findByPk(data.id)
+      expect(data.updatedAt).to.be.not.equal(cart.updatedAt)
     })
 
-    it('delete', () => {
-      db.Cart.destroy({ where: { id: data.id }}).then(() => {
-        db.Cart.findByPk(data.id).then((cart) => {
-          expect(cart).to.be.equal(null)
-          done()
-        })
-      })
+    it('delete', async function() {
+      await db.Cart.destroy({ where: { id: data.id }})
+      const cart = await db.Cart.findByPk(data.id)
+      expect(cart).to.be.equal(null)
     })
   })
 })
