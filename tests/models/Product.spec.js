@@ -32,26 +32,24 @@ describe('# Product Model', () => {
     const CartItem = 'CartItem'
     const OrderItem = 'OrderItem'
     const Category = 'Category'
+    const Cart = 'Cart'
+    const Order = 'Order'
     
     before(() => {
       Product.associate({ CartItem })
       Product.associate({ OrderItem })
       Product.associate({ Category })
+      Product.associate({ Cart })
+      Product.associate({ Order })
     })
 
-    it('defined a belongsToMany association with Cart through CartItem', done => {
-      expect(Product.belongsToMany).to.have.been.calledWith(Cart, {
-        through: CartItem,
-        as: 'CartItem'
-      })
+    it('defined a belongsToMany association with Cart', done => {
+      expect(Product.belongsToMany).to.have.been.calledWith(Cart)
       done()
     })
 
-    it('defined a belongsToMany association with Order through OrderItem', done => {
-      expect(Product.belongsToMany).to.have.been.calledWith(Order, {
-        through: OrderItem,
-        as: 'OrderItem'
-      })
+    it('defined a belongsToMany association with Order', done => {
+      expect(Product.belongsToMany).to.have.been.calledWith(Order)
       done()
     })
 
@@ -66,7 +64,6 @@ describe('# Product Model', () => {
 
     it('create', async function() {
       const product = await db.Product.create({ 
-        id: 1, 
         CategoryId: 1, 
         name: 'test', 
         price: 500,
@@ -74,6 +71,7 @@ describe('# Product Model', () => {
         quantity: 1,
         image: 'https://www.collinsdictionary.com/images/full/dress_31690953_1000.jpg'
        })
+       console.log('product: ', product)
       data = product
     })
 
