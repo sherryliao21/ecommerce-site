@@ -37,10 +37,8 @@ describe('# Cart Model', () => {
       Cart.associate({ CartItem })
     })
 
-    it('defined a hasMany association with Product as CartItem', done => {
-      expect(Cart.hasMany).to.have.been.calledWith(Product, {
-        as: 'CartItem'
-      })
+    it('defined a hasMany association with CartItem', done => {
+      expect(Cart.hasMany).to.have.been.calledWith(CartItem)
       done()
     })
   })
