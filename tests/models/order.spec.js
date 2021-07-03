@@ -77,7 +77,6 @@ describe('# Order Model', () => {
         role: 'user'
       })
       const order = await db.Order.create({ UserId: 1 })
-      console.log('----order----', order)
       data = order
     })
 
