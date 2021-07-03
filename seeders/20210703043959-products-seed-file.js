@@ -15,7 +15,7 @@ module.exports = {
         price: 800 + 50 * (Math.floor(Math.random() * 10)),
         description: faker.lorem.sentences(2, '.'),
         quantity: Math.floor(Math.random() * 100),
-        image: faker.image.fashion(),
+        image: faker.image.unsplash.image(300, 400, 'fashion'),
         createdAt: new Date(),
         updatedAt: new Date()
       })),
@@ -25,8 +25,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Products', null, {
       where: {},
-      // truncate: true
-      // 設定的話會有跟 product 的外鍵限制，需要使用再解除註解
+      truncate: { cascade: true }
     });
   }
 };
