@@ -1,47 +1,90 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-// const db = require('../models')
-// const User = db.User
+const FacebookStrategy = require('passport-facebook').Strategy
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const db = require('../models')
+const User = db.User
 const bcrypt = require('bcryptjs')
 
+// local strategy
 passport.use(new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true    // for flash msg
-}, (req, username, password, cb) => {
-  // User.findOne({ where: { email: username } })
-  //   .then(user => {
-  //     if (!user) {
-  //       return cb(null, false, req.flash('error_msg', ['帳號或密碼輸入錯誤']))
-  //     }
-  //     if (!bcrypt.compareSync(password, user.password)) {
-  //       return cb(null, false, req.flash('error_msg', '帳號或密碼輸入錯誤'))
-  //     }
-  //     return cb(null, user)   // if success, pass on user info
-  //   })
-  //   .catch(err => console.log(err))
+  passReqToCallback: true
+  }, 
+  async(req, email, password, done) => {
+    try {
+      const user = await User.findOne({ email })
+      if (!user) {
+        req.flash('warning_msg', '此信箱未註冊')
+        return done(null, false)
+      }
+      const isMatch = await bcrypt.compareSync(password, user.password)
+      if (!isMatch) {
+        req.flash('warning_msg', '信箱或密碼輸入錯誤')
+        return done(null, false)
+      }
+      return done(null, user)
+    }
+    catch (error) {
+      console.log(error)
+    } 
+  }
+))
+
+// facebook strategy
+passport.use(new FacebookStrategy(
+  {
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK,
+    profileFields: ['email', 'displayName']
+  }, 
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      const { name, email } = profile._json
+      const user = await User.findAll({ where: { email }  })
+      if (user) return done(null, user)
+      const randomPassword = Math.random.toString(36).slice(-8)
+      const salt = await bcrypt.genSalt(10)
+      const hash = await bcrypt.hash(randomPassword, salt)
+      await User.create({
+        name, email, password: hash
+      })
+      return done(null, user)  
+    }
+    catch (error) {
+      console.log(error)
+      return done(error, false)
+    }
 }))
 
-passport.serializeUser((user, cb) => {
-  cb(null, user.id)  // only pass on user.id to save space since the user object is stored in the browser session. if we have the id, we are able to get the entire user object
-})
-passport.deserializeUser((id, cb) => {
-  // User.findByPk(id, {
-  //   include: [
-  //     { model: Restaurant, as: 'FavoritedRestaurants' },
-  //     { model: Restaurant, as: 'LikedRestaurants' },
-  //     { model: User, as: 'Followers' },
-  //     { model: User, as: 'Followings' }
-  //   ]
-  // })
-  //   .then(user => {
-  //     user = user.toJSON()
-  //     return cb(null, user)
-  //   })
-  //   .catch(err => console.log(err))
+// google strategy
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK
+},
+  async (accessToken, refreshToken, profile, done) => {
+       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+         return done(err, user);
+       });
+  }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id)
+    return done(null, user)
+  }
+  catch (error) {
+    return done(error, null)
+  }
 })
 
-// for JWT strategy
+// for JWT strategy 
 // const jwt = require('jsonwebtoken')
 // const passportJWT = require('passport-jwt')
 // const ExtractJwt = passportJWT.ExtractJwt
@@ -54,10 +97,7 @@ passport.deserializeUser((id, cb) => {
 // let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 //   User.findByPk(jwt_payload.id, {
 //     include: [
-//       { model: db.Restaurant, as: 'FavoritedRestaurants' },
-//       { model: db.Restaurant, as: 'LikedRestaurants' },
-//       { model: User, as: 'Followers' },
-//       { model: User, as: 'Followings' }
+//       { model: Order, as: 'Orders' }
 //     ]
 //   }).then(user => {
 //     if (!user) return next(null, false)
