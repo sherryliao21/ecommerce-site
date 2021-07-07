@@ -12,6 +12,11 @@ describe('# Product Request', () => {
     describe('GET /products', () => {
       before(async function () {
         await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+
+        await db.Category.create({ id: 1 })
+        await db.Category.create({ id: 2 })
+
         await db.Product.create({
           id: 1,
           CategoryId: 1,
@@ -34,7 +39,7 @@ describe('# Product Request', () => {
         })
       })
 
-      // GET /tweets
+      // GET /products
       it('can render index', done => {
         request(app)
           .get('/products')
@@ -48,7 +53,7 @@ describe('# Product Request', () => {
           })
       })
 
-      // GET /api/tweets
+      // GET /api/products
       it(' - successfully', done => {
         request(app)
           .get('/api/products')
@@ -56,13 +61,15 @@ describe('# Product Request', () => {
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err)
-            expect(res.body).to.be.an('array')
-            res.body[0].name.should.equal('test1')
+            expect(res.body).to.be.an('object')
+            res.body.products[0].name.should.equal('test1')
             return done()
           })
       })
+    })
 
-      // GET /tweets/:id
+    describe('GET /products/:id', () => {
+      // GET /products/:id
       it('can see product description', done => {
         request(app)
           .get('/products/1')
@@ -74,24 +81,25 @@ describe('# Product Request', () => {
             return done()
           })
       })
-    })
 
-    // GET /api/tweets/:id
-    it(' - successfully', done => {
-      request(app)
-        .get('/api/products/1')
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) return done(err)
-          expect(res.body).to.be.an('object')
-          res.body.description.should.equal('test1 detail')
-          return done()
-        })
-    })
+      // GET /api/products/:id
+      it(' - successfully', done => {
+        request(app)
+          .get('/api/products/1')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            expect(res.body).to.be.an('object')
+            res.body.description.should.equal('test1 detail')
+            return done()
+          })
+      })
 
-    after(async function () {
-      await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+      after(async function () {
+        await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+      })
     })
   })
 })
