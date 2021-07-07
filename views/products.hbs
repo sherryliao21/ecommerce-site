@@ -1,0 +1,31 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All</a>
+  </li>
+  {{#each categories}}
+    <li class="nav-item">
+      <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">{{this.name}}</a>
+    </li>
+  {{/each}}
+</ul>
+<br/>
+{{!-- <div class="container"> --}}
+  <div class="row" id="data-panel">
+    {{#each products}}
+      <div class="col-md-3">
+        <div class="card mb-4 shadow-sm">
+          <img class="card-img-top" src="{{this.image}}" alt="Card image cap" width="286px" height="180px">
+          <div class="card-body">
+            <p class="card-title">
+              <a href="/products/{{this.id}}">
+                {{this.name}}
+              </a>
+            </p>
+            <p class="card-text">$ {{this.price}}</p>
+
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+{{!-- </div> --}}
