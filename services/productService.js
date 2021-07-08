@@ -11,9 +11,10 @@ const productService = {
     const page = Number(req.query.page) || 1
     const PAGE_LIMIT = 16
     const offset = (page - 1) * PAGE_LIMIT
-    const keyword = req.query.keyword.trim()
+    let keyword = req.query.keyword
 
     if (keyword) {
+      keyword = req.query.keyword.trim()
       whereQuery.name = { [Op.like]: '%' + keyword + '%' }
     }
 

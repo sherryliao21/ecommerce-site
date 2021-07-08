@@ -76,3 +76,29 @@
   </ul>
 </nav>
 </div>
+
+<div class="footer mt-5">
+  <div class="inner-footer p-5" style="border-top: 1px solid #6c757d;">
+    <div class="nav-footer row justify-content-md-center">
+      <div class="contact col-md-4 col-lg-3">
+        <h6 class="text-secondary">Customer Service</h6>
+        <p class="text-secondary">Monday – Friday 9 am -6 pm</p>
+      </div>
+      <div class="contact col-md-4 col-lg-3">
+        <h6 class="text-secondary">Explore</h6>
+        {{#each categories}}
+          <div>
+          <a class="" href="/products?categoryId={{this.id}}">{{this.name}}</a>
+          </div>
+        {{/each}}
+      </div>
+      <div class="contact col-md-4 col-lg-3">
+        <h6 class="text-secondary">Follow Us</h6>
+        <a href="" class="me-2"><i class="fab fa-twitter-square fa-2x"></i></a>
+        <a href="" class="me-2"><i class="fab fa-facebook-square fa-2x"></i></a>
+        <a href="" class="me-2"><i class="fab fa-instagram-square fa-2x"></i></a>
+        
+      </div>
+    </div>
+  </div>
+</div>
