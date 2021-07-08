@@ -5,7 +5,6 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash')
 
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -14,7 +13,14 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const passport = require('./config/passport')
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine(
+  'hbs',
+  exphbs({
+    defaultLayout: 'main',
+    extname: '.hbs',
+    helpers: require('./config/handlebars-helpers')
+  })
+)
 app.set('view engine', 'hbs')
 
 // app.use(session({
@@ -25,11 +31,11 @@ app.set('view engine', 'hbs')
 
 app.use(express.static('public'))
 // app.use('/upload', express.static(__dirname + '/upload'))
-app.use(express.urlencoded({ extended: true }))   // replace body-parser(deprecated)
-app.use(express.json())   // replace body-parser(deprecated)
+app.use(express.urlencoded({ extended: true })) // replace body-parser(deprecated)
+app.use(express.json()) // replace body-parser(deprecated)
 app.use(methodOverride('_method'))
-app.use(passport.initialize())  // passport initialize
-app.use(passport.session())  // activate passport session
+app.use(passport.initialize()) // passport initialize
+app.use(passport.session()) // activate passport session
 app.use(flash())
 
 app.listen(PORT, () => {
