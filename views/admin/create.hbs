@@ -1,0 +1,52 @@
+<div class="row d-flex justify-content-center" style="min-height: 600px">
+  {{#if product }}
+  <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data" class="col-6 d-flex flex-column justify-content-between">
+    {{else}}
+    <form action="/admin/products" method="POST" enctype="multipart/form-data"  class="col-6 d-flex flex-column justify-content-between">
+      {{/if}}
+      <div class="form-group">
+        <label for="name" class="mb-1">Name</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="ex: Clara" value="{{ product.name }}"
+          maxlength="20">
+      </div>
+  
+      <div class="form-group">
+        <label for="categoryId" class="mb-1">Category</label>
+        <select class="form-control" id="categoryId" name="categoryId">
+          <option value="category" disabled selected>Please select category</option>
+          {{#each categories}}
+          <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryId }} selected {{/ifCond}}>
+            {{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="price" class="mb-1">Price</label>
+        <input type="number"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+          maxlength="10" class="form-control" name="price" id="price" placeholder="ex: 1200" value="${{ product.price }}">
+      </div>
+  
+      <div class="form-group">
+        <label for="quantity" class="mb-1">Quantity</label>
+        <input type="number"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+          maxlength="10" class="form-control" name="quantity" id="quantity" placeholder="ex: 10"
+          value="{{ product.quantity }}">
+      </div>
+  
+      <div class="form-group">
+        <label for="description" class="mb-1">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3"
+          maxlength="200">{{ product.description }}</textarea>
+      </div>
+  
+      <div class="form-group">
+        <label for="image" class="mb-1 me-3">Image</label>
+        <input type="file" class="form-control-file" id="image" name="image">
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

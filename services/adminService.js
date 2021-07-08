@@ -21,6 +21,16 @@ const adminService = {
     catch (error) {
       console.log(error)
     }
+  },
+
+  getCreateProduct: async (req, res, callback) => {
+    try {
+      const categories = await Category.findAll({ raw: true, nest: true })
+      return callback({ categories })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 

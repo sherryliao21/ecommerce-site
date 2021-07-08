@@ -11,6 +11,12 @@ const adminController = {
     adminService.getProduct(req, res, data => {
       return res.render('admin/product', data)
     })
+  },
+
+  getCreateProduct: (req, res) => {
+    adminService.getCreateProduct(req, res, data => {
+      return res.render('admin/create', data)
+    })
   }
 }
 
