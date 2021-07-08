@@ -20,6 +20,14 @@ const productService = {
     const data = result.rows.map(product => ({ ...product.dataValues }))
 
     callback({ products: data, categories, categoryId })
+  },
+  getProduct: async (req, res, callback) => {
+    const [categories, product] = await Promise.all([
+      Category.findAll({ raw: true, nest: true }),
+      await Product.findByPk(req.params.id)
+    ])
+
+    callback({ product: product.toJSON(), categories })
   }
 }
 

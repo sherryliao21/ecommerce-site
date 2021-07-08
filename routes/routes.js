@@ -7,5 +7,6 @@ router.get('/', (req, res) => {
   return res.render('index')
 })
 router.get('/products', productController.getProducts)
+router.get('/products/:id', productController.getProduct)
 
 module.exports = router

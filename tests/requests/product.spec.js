@@ -91,7 +91,7 @@ describe('# Product Request', () => {
           .end(function (err, res) {
             if (err) return done(err)
             expect(res.body).to.be.an('object')
-            res.body.description.should.equal('test1 detail')
+            res.body.product.description.should.equal('test1 detail')
             return done()
           })
       })
