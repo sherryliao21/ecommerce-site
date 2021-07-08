@@ -1,8 +1,8 @@
 <div class="row d-flex justify-content-center" style="min-height: 600px">
   {{#if product }}
-  <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data" class="col-6 d-flex flex-column justify-content-between">
+  <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data" class="col-11 col-lg-6 d-flex flex-column justify-content-between">
     {{else}}
-    <form action="/admin/products" method="POST" enctype="multipart/form-data"  class="col-6 d-flex flex-column justify-content-between">
+    <form action="/admin/products" method="POST" enctype="multipart/form-data"  class="col-11 col-6 d-flex flex-column justify-content-between">
       {{/if}}
       <div class="form-group">
         <label for="name" class="mb-1">Name</label>
