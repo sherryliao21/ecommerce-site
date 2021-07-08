@@ -1,15 +1,37 @@
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All</a>
-  </li>
-  {{#each categories}}
+<div class="navigation row">
+
+  {{!-- Categories --}}
+  <ul class="nav nav-pills col-md-8 mb-3">
     <li class="nav-item">
-      <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">{{this.name}}</a>
+      <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All</a>
     </li>
-  {{/each}}
-</ul>
+    {{#each categories}}
+      <li class="nav-item">
+        <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">{{this.name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{!-- Search --}}
+  <form action="/products" class="col-md-4 d-flex justify-content-end">
+    <div class="input-group mb-3">
+      <input type="text" name="keyword" class="form-control" placeholder="Keyword" value="{{keyword}}" aria-label="keyword" aria-describedby="button-addon2">
+      <button class="btn btn-outline-secondary" type="submit" id="button-addon2" ><i class="fas fa-search"></i></button>
+    </div>
+  </form>
+
+</div>
+
+
 <br/>
 <div class="row" id="data-panel">
+
+  {{#if keyword}}
+    <div class="d-flex justify-content-end text-secondary">
+      <p>FOUND {{products.length}} PRODUCTS FOR '{{keyword}}'</p>
+    </div>
+  {{/if}}
+
   {{#each products}}
     <div class="col-md-3">
       <div class="card mb-4 shadow-sm">
@@ -25,6 +47,7 @@
       </div>
     </div>
   {{/each}}
+
 </div>
 
 <br />

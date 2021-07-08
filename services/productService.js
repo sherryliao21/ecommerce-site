@@ -2,6 +2,8 @@ const db = require('../models')
 const Product = db.Product
 const Category = db.Category
 
+const { Op } = require('sequelize')
+
 const productService = {
   getProducts: async (req, res, callback) => {
     let whereQuery = {}
@@ -9,6 +11,11 @@ const productService = {
     const page = Number(req.query.page) || 1
     const PAGE_LIMIT = 16
     const offset = (page - 1) * PAGE_LIMIT
+    const keyword = req.query.keyword.trim()
+
+    if (keyword) {
+      whereQuery.name = { [Op.like]: '%' + keyword + '%' }
+    }
 
     if (req.query.categoryId) {
       categoryId = Number(req.query.categoryId)
@@ -35,7 +42,8 @@ const productService = {
       page,
       totalPage,
       prev,
-      next
+      next,
+      keyword
     })
   },
 
