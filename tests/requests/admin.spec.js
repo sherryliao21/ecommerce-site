@@ -2,8 +2,10 @@ const request = require('supertest')
 const app = require('../../app')
 const chai = require('chai')
 chai.use(require('sinon-chai'))
-const { expect, should() } = require('chai')
+const { expect } = require('chai')
+const should = chai.should()
 const passport = require('../../config/passport')
+const helpers = require('../../test_helpers')
 
 const db = require('../../models')
 
@@ -16,17 +18,21 @@ describe('# Admin Requests', () => {
     describe('GET /admin/products', () => {
 
       before(async() => {
-        await db.User.destroy({ where: {}, truncate: true })
+        await db.Order.destroy({ where: {}, truncate: { cascade: true } })
         await db.Product.destroy({ where: {}, truncate: { cascade: true } })
         await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+        await db.User.destroy({ where: {}, truncate: true })
 
-        const rootUser = await db.User.create({ name: 'root' });this.authenticate =  sinon.stub(passport,"authenticate").callsFake((strategy, options, callback) => {            
+        const rootUser = await db.User.create({ name: 'root' })
+        this.authenticate =  sinon.stub(passport,"authenticate").callsFake((strategy, options, callback) => {            
           callback(null, {...rootUser}, null)
           return (req,res,next) => {}
         })
+        this.ensureAuthenticated = sinon.stub(
+          helpers, 'ensureAuthenticated'
+        ).returns(true)
         this.getUser = sinon.stub(
-            helpers, 'getUser' // object, 'method'
-            // req.user
+          helpers, 'getUser'
         ).returns({ id: 1, role: 'admin' })
 
         // await db.User.create({ name: 'User1', email: 'User1', password: 'User1', role: 'user' })
