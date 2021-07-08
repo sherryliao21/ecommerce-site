@@ -1,0 +1,57 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="../products?categoryId=">All</a>
+  </li>
+  {{#each categories}}
+    <li class="nav-item">
+      <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="../products?categoryId={{this.id}}">{{this.name}}</a>
+    </li>
+  {{/each}}
+</ul>
+<br/>
+<div class="row" id="product-area">
+  
+  <div class="col-12 col-md-6 product-image mb-2">
+    <img src="{{product.image}}" style="width:100%;" alt="">
+  </div>
+  <div class="col-12 col-md-6 product-details">
+    <div class="product-title fw-bold mb-2">{{product.name}}</div>
+    <div class="product-price text-secondary">$ {{product.price}}</div>
+    <hr>
+    <div class="product-description mb-3">{{product.description}}</div>
+
+    <div class="btn-group">
+      <form action="/restaurants" class="d-flex flex-column">
+
+        {{!-- Size --}}
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="size">Size</label>
+          <select class="form-select" id="size">
+            <option selected value="F">F</option>
+          </select>
+
+          {{!-- Quantity --}}
+          <label class="input-group-text" for="quantity">Quantity</label>
+          <select class="form-select" id="quantity">
+            <option selected value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <input type="hidden" name="productId" value="{{product.id}}">
+
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+        
+      </form>
+
+    </div>
+  </div>
+</div>
