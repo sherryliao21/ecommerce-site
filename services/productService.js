@@ -27,7 +27,15 @@ const productService = {
       await Product.findByPk(req.params.id)
     ])
 
-    callback({ product: product.toJSON(), categories })
+    // show quantity selection according to inventory
+    let quantity
+    if (product.quantity < 10 && product.quantity > 0) {
+      quantity = Array.from({ length: product.quantity }).map((_, i) => i + 1)
+    } else if (product.quantity >= 10) {
+      quantity = Array.from({ length: 10 }).map((_, i) => i + 1)
+    }
+
+    callback({ product: product.toJSON(), categories, quantity })
   }
 }
 
