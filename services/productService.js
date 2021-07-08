@@ -63,6 +63,12 @@ const productService = {
     }
 
     callback({ product: product.toJSON(), categories, quantity })
+  },
+
+  getHome: async (req, res, callback) => {
+    const categories = await Category.findAll({ raw: true, nest: true })
+
+    callback({ categories })
   }
 }
 

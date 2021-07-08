@@ -10,6 +10,11 @@ const productController = {
     productService.getProduct(req, res, data => {
       return res.render('product', data)
     })
+  },
+  getHome: (req, res) => {
+    productService.getHome(req, res, data => {
+      return res.render('home', data)
+    })
   }
 }
 
