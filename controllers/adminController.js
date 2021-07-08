@@ -7,6 +7,11 @@ const adminController = {
     })
   },
   
+  getProduct: (req, res) => {
+    adminService.getProduct(req, res, data => {
+      return res.render('admin/product', data)
+    })
+  }
 }
 
 module.exports = adminController

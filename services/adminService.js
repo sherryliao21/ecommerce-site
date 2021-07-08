@@ -13,6 +13,15 @@ const adminService = {
     }
   },
 
+  getProduct: async (req, res, callback) => {
+    try {
+      const product = await Product.findByPk(req.params.id, { include: [ Category ] })
+      return callback({ product: product.toJSON() })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = adminService
