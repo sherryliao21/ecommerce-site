@@ -1,26 +1,4 @@
-<div class="navigation row">
 
-  {{!-- Categories --}}
-  <ul class="nav nav-pills col-md-8 mb-3">
-    <li class="nav-item">
-      <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All</a>
-    </li>
-    {{#each categories}}
-      <li class="nav-item">
-        <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">{{this.name}}</a>
-      </li>
-    {{/each}}
-  </ul>
-
-  {{!-- Search --}}
-  <form action="/products" class="col-md-4 d-flex justify-content-end">
-    <div class="input-group mb-3">
-      <input type="text" name="keyword" class="form-control" placeholder="Keyword" value="{{keyword}}" aria-label="keyword" aria-describedby="button-addon2">
-      <button class="btn btn-outline-secondary" type="submit" id="button-addon2" ><i class="fas fa-search"></i></button>
-    </div>
-  </form>
-
-</div>
 
 
 <br/>
@@ -77,28 +55,3 @@
 </nav>
 </div>
 
-<div class="footer mt-5">
-  <div class="inner-footer p-5" style="border-top: 1px solid #6c757d;">
-    <div class="nav-footer row justify-content-md-center">
-      <div class="contact col-md-4 col-lg-3">
-        <h6 class="text-secondary">Customer Service</h6>
-        <p class="text-secondary">Monday – Friday 9 am -6 pm</p>
-      </div>
-      <div class="contact col-md-4 col-lg-3">
-        <h6 class="text-secondary">Explore</h6>
-        {{#each categories}}
-          <div>
-          <a class="" href="/products?categoryId={{this.id}}">{{this.name}}</a>
-          </div>
-        {{/each}}
-      </div>
-      <div class="contact col-md-4 col-lg-3">
-        <h6 class="text-secondary">Follow Us</h6>
-        <a href="" class="me-2"><i class="fab fa-twitter-square fa-2x"></i></a>
-        <a href="" class="me-2"><i class="fab fa-facebook-square fa-2x"></i></a>
-        <a href="" class="me-2"><i class="fab fa-instagram-square fa-2x"></i></a>
-        
-      </div>
-    </div>
-  </div>
-</div>
