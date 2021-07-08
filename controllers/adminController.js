@@ -17,6 +17,12 @@ const adminController = {
     adminService.getCreateProduct(req, res, data => {
       return res.render('admin/create', data)
     })
+  },
+
+  editProduct: (req, res) => {
+    adminService.editProduct(req, res, data => {
+      return res.render('admin/create', data)
+    })
   }
 }
 

@@ -25,7 +25,8 @@
         <label for="price" class="mb-1">Price</label>
         <input type="number"
           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-          maxlength="10" class="form-control" name="price" id="price" placeholder="ex: 1200" value="${{ product.price }}">
+          maxlength="10" class="form-control" name="price" id="price" placeholder="ex: 1200"
+          value="{{ product.price }}">
       </div>
   
       <div class="form-group">

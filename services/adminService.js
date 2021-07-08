@@ -31,6 +31,17 @@ const adminService = {
     catch (error) {
       console.log(error)
     }
+  }, 
+
+  editProduct: async (req, res, callback) => {
+    try {
+      const product = await Product.findByPk(req.params.id, { include: [ Category ] })
+      const categories = await Category.findAll({ raw: true, nest: true })
+      return callback({ product: product.toJSON(), categories })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 

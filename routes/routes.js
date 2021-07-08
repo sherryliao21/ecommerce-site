@@ -16,5 +16,6 @@ router.get('/admin', (req, res) => res.redirect('/admin/products'))   // redirec
 router.get('/admin/products', adminController.getProducts)
 router.get('/admin/products/create', adminController.getCreateProduct)
 router.get('/admin/products/:id', adminController.getProduct)
+router.get('/admin/products/:id/edit', adminController.editProduct)
 
 module.exports = router
