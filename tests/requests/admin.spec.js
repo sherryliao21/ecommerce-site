@@ -44,8 +44,8 @@ describe('# Admin Requests', () => {
 
         // await db.User.create({ name: 'User1', email: 'User1', password: 'User1', role: 'user' })
         // await db.User.create({ name: 'User2', email: 'User2', password: 'User2', role: 'user' })
-        await db.Category.create({ id: 1 })
-        await db.Category.create({ id: 2 })
+        await db.Category.create({ id: 1, name: 'test1' })
+        await db.Category.create({ id: 2, name: 'test2' })
         await db.Product.create({
           id: 1,
           CategoryId: 1,
@@ -125,6 +125,70 @@ describe('# Admin Requests', () => {
             return done()
           })
       })
+    })
+
+    describe('GET /admin/products/:id/edit', () => {
+      // GET /admin/products/:id/edit
+      it('can render admin product edit page', done => {
+        request(app)
+          .get('/admin/products/1/edit')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            res.text.should.include('test1 detail')
+            return done()
+          })
+      })
+
+      // GET /api/admin/products/:id/edit
+      it(' - successfully', done => {
+        request(app)
+          .get('/api/admin/products/1/edit')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            expect(res.body).to.be.an('object')
+            res.body.product.description.should.equal('test1 detail')
+            return done()
+          })
+      })
+    })
+
+    describe('GET /admin/products/create', () => {
+
+      // GET /admin/products/create
+      it('can render admin create product page', done => {
+        request(app)
+          .get('/admin/products/create')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            res.text.should.include('name')
+            res.text.should.include('category')            
+            res.text.should.include('price')
+            res.text.should.include('quantity')
+            res.text.should.include('description')
+            return done()
+          })
+      })
+
+      // GET /api/admin/products/:id/edit
+      it(' - successfully', done => {
+        request(app)
+          .get('/api/admin/products/create')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err)
+            expect(res.body).to.be.an('object')
+            res.body.categories[0].id.should.equal(1)
+            res.body.categories[0].name.should.equal('test1')
+            return done()
+          })
+      })
 
       after(async () => {
         this.authenticate.restore()
@@ -135,5 +199,7 @@ describe('# Admin Requests', () => {
         await db.Category.destroy({ where: {}, truncate: { cascade: true } })
       })
     })
+
+
   })
 })
