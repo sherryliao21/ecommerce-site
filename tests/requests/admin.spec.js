@@ -267,7 +267,7 @@ describe('# Admin Requests', () => {
             expect(res.body).to.be.an('object')
             console.log('========res.body: ', res.body)
             res.body.status.should.equal('success')
-            res.body.message.should.equal('product was successfully created!')
+            res.body.message.should.equal('product successfully created!')
           })
       })
 
@@ -340,7 +340,7 @@ describe('# Admin Requests', () => {
       })
 
       it(' - successfully', async () => {
-        const product = await db.Product.findOne({ where: { CategoryId: 1 }})
+        const product = await db.Product.findOne({ where: { id: 1 }})
         request(app)
           .post('/api/admin/products')
           .send({ name: 'test3', categoryId: product.CategoryId, price: 10, quantity: 20, description: 'test1 details', image: product.image })
@@ -350,7 +350,98 @@ describe('# Admin Requests', () => {
             expect(res.body).to.be.an('object')
             console.log('========res.body: ', res.body)
             res.body.status.should.equal('success')
-            res.body.message.should.equal('product was successfully created!')
+            res.body.message.should.equal('product successfully created!')
+          })
+      })
+
+      after(async () => {    
+        this.ensureAuthenticated.restore()
+        this.getUser.restore()
+        await db.User.destroy({ where: {}, truncate: { cascade: true }})
+        await db.Product.destroy({ where: {}, truncate: { cascade: true }})
+      })
+    })
+  })
+
+  context('# DELETE', () => {
+    // PUT /admin/products/:id
+    describe('DELETE /admin/products/:id', async () => {
+      before(async() => {
+        await db.User.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Order.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+
+        const rootUser = await db.User.create({
+          id: 1,
+          name: '123',
+          email: '123@gmail.com',
+          password: '123',
+          role: 'admin'
+        })
+        // this.authenticate =  sinon.stub(passport,"authenticate").callsFake((strategy, options, callback) => {            
+        //   callback(null, {...rootUser}, null)
+        //   return (req,res,next) => {}
+        // })
+        // this.ensureAuthenticated = sinon.stub(
+        //   helpers, 'ensureAuthenticated'
+        // ).returns(true)
+        this.getUser = sinon.stub(
+          helpers, 'getUser'
+        ).returns({ id: 1, role: 'admin' })
+        
+        await db.Category.create({ id: 1, name: 'test1' })
+        await db.Category.create({ id: 2, name: 'test2' })
+        await db.Product.create({
+          id: 1, 
+          CategoryId: 1,
+          name: 'test1',
+          price: 10,
+          quantity: 10,
+          description: 'test1 detail',
+          image: faker.image.unsplash.image(300, 400, 'fashion')
+        })
+        await db.Product.create({
+          id: 2, 
+          CategoryId: 2,
+          name: 'test2',
+          price: 10,
+          quantity: 10,
+          description: 'test2 detail',
+          image: faker.image.unsplash.image(300, 400, 'fashion')
+        })
+      })
+      
+      
+      it('will redirect to products page', (done) => {
+        request(app)
+        .delete('/admin/products/1')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end(function(err, res) {
+          if (err) return done(err)
+          return done()
+        })
+      })
+      
+      it('can delete product', async () => {
+        let data = await db.Product.findByPk(2)
+        await db.Product.destroy({ where: { id: data.id }})
+        const product = await db.Product.findByPk(data.id)
+        expect(product).to.be.equal(null)
+      })
+
+      it(' - successfully', async () => {
+        const product = await db.Product.findByPk(1)
+        request(app)
+          .delete('/api/admin/products/1')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function async(err, res) {
+            if (err) return done(err)
+            expect(product).to.be(null)
+            res.body.status.should.equal('success')
+            res.body.message.should.equal('product successfully deleted!')
           })
       })
 
