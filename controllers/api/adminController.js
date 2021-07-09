@@ -23,6 +23,12 @@ const adminController = {
     adminService.editProduct(req, res, data => {
       return res.json(data)
     })
+  },
+
+  postProduct: (req, res) => {
+    adminService.postProduct(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

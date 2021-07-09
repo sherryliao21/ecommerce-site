@@ -23,6 +23,12 @@ const adminController = {
     adminService.editProduct(req, res, data => {
       return res.render('admin/create', data)
     })
+  },
+
+  postProduct: (req, res) => {
+    adminService.postProduct(req, res, data => {
+      return res.redirect('/admin/products')
+    })
   }
 }
 

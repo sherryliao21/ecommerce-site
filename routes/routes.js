@@ -5,6 +5,9 @@ const { authenticated, authenticatedAdmin, authenticatedUser } = require('../mid
 const productController = require('../controllers/productController')
 const adminController = require('../controllers/adminController')
 
+const multer = require('multer')
+const upload = multer({ dest: 'temp/'})
+
 // storefront display
 router.get('/', (req, res) => {
   return res.render('index')
@@ -18,5 +21,7 @@ router.get('/admin/products', adminController.getProducts)
 router.get('/admin/products/create', adminController.getCreateProduct)
 router.get('/admin/products/:id', adminController.getProduct)
 router.get('/admin/products/:id/edit', adminController.editProduct)
+
+router.post('/admin/products', upload.single('image'), adminController.postProduct)
 
 module.exports = router
