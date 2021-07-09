@@ -42,8 +42,6 @@ describe('# Admin Requests', () => {
           helpers, 'getUser'
         ).returns({ id: 1, role: 'admin' })
 
-        // await db.User.create({ name: 'User1', email: 'User1', password: 'User1', role: 'user' })
-        // await db.User.create({ name: 'User2', email: 'User2', password: 'User2', role: 'user' })
         await db.Category.create({ id: 1, name: 'test1' })
         await db.Category.create({ id: 2, name: 'test2' })
         await db.Product.create({
@@ -189,17 +187,80 @@ describe('# Admin Requests', () => {
             return done()
           })
       })
+    })
+    
+    after(async () => {
+      this.authenticate.restore()
+      this.getUser.restore()
+      await db.User.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Order.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+    })
+  })
+})
 
-      after(async () => {
-        this.authenticate.restore()
-        this.getUser.restore()
-        await db.User.destroy({ where: {}, truncate: { cascade: true } })
-        await db.Order.destroy({ where: {}, truncate: { cascade: true } })
-        await db.Product.destroy({ where: {}, truncate: { cascade: true } })
-        await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+context('# POST', () => {
+  // POST /admin/products
+  describe('POST /admin/products', () => {
+    before(async() => {
+      await db.User.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Order.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Product.destroy({ where: {}, truncate: { cascade: true } })
+      await db.Category.destroy({ where: {}, truncate: { cascade: true } })
+
+      const rootUser = await db.User.create({
+        id: 1,
+        name: '123',
+        email: '123@gmail.com',
+        password: '123',
+        role: 'admin'
+      })
+      this.authenticate =  sinon.stub(passport,"authenticate").callsFake((strategy, options, callback) => {            
+        callback(null, {...rootUser}, null)
+        return (req,res,next) => {}
+      })
+      // this.ensureAuthenticated = sinon.stub(
+      //   helpers, 'ensureAuthenticated'
+      // ).returns(true)
+      this.getUser = sinon.stub(
+        helpers, 'getUser'
+      ).returns({ id: 1, role: 'admin' })
+      
+      await db.Category.create({ id: 1, name: 'test1' })
+      await db.Product.create({
+        id: 1, 
+        CategoryId: 1,
+        name: 'test1',
+        price: 10,
+        quantity: 10,
+        description: 'test1 detail'
       })
     })
 
+    it('will redirect to index', (done) => {
+      request(app)
+        .post('/admin/products')
+        .send('description=description')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end(function(err, res) {
+          if (err) return done(err)
+          return done()
+        })
+    })
 
+    it('can create new product', async () => {
+      const product = await db.Product.findOne({ where: { CategoryId: 1 }})
+      console.log('========product: ', product)
+      expect(product).to.not.be.null
+    })
+
+    after(async () => {    
+      this.ensureAuthenticated.restore()
+      this.getUser.restore()
+      await db.User.destroy({ where: {}, truncate: { cascade: true }})
+      await db.Product.destroy({ where: {}, truncate: { cascade: true }})
+    })
   })
 })
