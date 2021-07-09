@@ -29,6 +29,13 @@ const adminController = {
     adminService.postProduct(req, res, data => {
       return res.redirect('/admin/products')
     })
+  },
+
+  putProduct: (req, res) => {
+    adminService.putProduct(req, res, data => {
+      const id = req.params.id
+      return res.redirect(`/admin/products/${id}`)
+    })
   }
 }
 

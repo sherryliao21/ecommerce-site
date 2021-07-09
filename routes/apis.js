@@ -17,7 +17,7 @@ router.get('/admin/products/create', adminController.getCreateProduct)
 router.get('/admin/products/:id', adminController.getProduct)
 router.get('/admin/products/:id/edit', adminController.editProduct)
 router.post('/admin/products', upload.single('image'), adminController.postProduct)
-
+router.put('/admin/products/:id', upload.single('image'), adminController.putProduct)
 
 
 module.exports = router

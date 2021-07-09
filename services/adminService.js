@@ -55,7 +55,7 @@ const adminService = {
       const file = req.file
       if (file) {
         imgur.setClientID(IMGUR_CLIENT_ID)
-        // const image = ''
+        let image = ''
         await new Promise(async (resolve, reject) => {
           imgur.upload(file.path, async(err, img) => {
             resolve((image = img.data.link))
@@ -74,6 +74,41 @@ const adminService = {
           CategoryId: categoryId
         })
         return callback({ product, status: 'success', message: 'product was successfully created!' })
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  
+  putProduct: async (req, res, callback) => {
+    try {
+      const { name, categoryId, price, quantity, description } = req.body
+      const id = req.params.id
+      const file = req.file
+      if (file) {
+        imgur.setClientID(IMGUR_CLIENT_ID);
+        let image = ''
+        await new Promise(async (resolve, reject) => {
+          imgur.upload(file.path, async(err, img) => {
+            resolve((image = img.data.link))
+          })
+        })
+        const product = await Product.findByPk(id)
+        await product.update({
+          name, price, quantity, description,
+          image: file ? image : product.image,
+          CategoryId: categoryId
+        })
+        return callback({ product, status: 'success', message: 'product was successfully updated!' })
+      } else {
+        const product = await Product.findByPk(id)
+        await product.update({
+          name, price, quantity, description, 
+          image: product.image, 
+          CategoryId: categoryId
+        })
+        return callback({ status: 'success', message: 'product was successfully updated!' })
       }
     }
     catch (error) {

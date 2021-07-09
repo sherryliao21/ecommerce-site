@@ -29,6 +29,12 @@ const adminController = {
     adminService.postProduct(req, res, data => {
       return res.json(data)
     })
+  },
+
+  putProduct: (req, res) => {
+    adminService.putProduct(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 
