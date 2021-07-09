@@ -4,19 +4,100 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Ecommerce site</title>
+    <script
+      src='https://kit.fontawesome.com/fc38f96ac0.js'
+      crossorigin='anonymous'
+    ></script>
     <link
       href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css'
       rel='stylesheet'
       integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC'
       crossorigin='anonymous'
     />
+
   </head>
   <body>
-    <h1>Main Layout</h1>
-    <div class='container'>
-      {{{body}}}
-    </div>
+    <div class="container">
+      <header>
+        <nav class='navbar navbar-expand-lg navbar-light my-2'>
+          <div class='container-fluid'>
+            <a class='navbar-brand' href='/home'>
+              <i class='fas fa-tshirt fa-lg me-1'></i>
+              SHOP
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/home">HOME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/user/profile">PROFILE</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/cart">CART</a>
+                </li>
+              </ul>
+          </div>
+        </nav>
 
+        <div class="navigation row pt-4 pb-3" style="border-top: 1px solid #6c757d;">
+
+          {{!-- Categories --}}
+          <ul class="nav nav-pills col-md-8 mb-3">
+            <li class="nav-item">
+              <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="/products?categoryId=">All</a>
+            </li>
+            {{#each categories}}
+              <li class="nav-item">
+                <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="/products?categoryId={{this.id}}">{{this.name}}</a>
+              </li>
+            {{/each}}
+          </ul>
+
+          {{!-- Search --}}
+          <form action="/products" class="col-md-4 d-flex justify-content-end">
+            <div class="input-group mb-3">
+              <input type="text" name="keyword" class="form-control" placeholder="Keyword" value="{{keyword}}" aria-label="keyword" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="submit" id="button-addon2" ><i class="fas fa-search"></i></button>
+            </div>
+          </form>
+
+        </div>
+      </header>
+
+      {{{body}}}
+
+      {{!-- Footer --}}
+      <div class="footer mt-5">
+        <div class="inner-footer p-5" style="border-top: 1px solid #6c757d;">
+          <div class="nav-footer row justify-content-md-center">
+            <div class="contact col-md-4 col-lg-3">
+              <h6 class="text-secondary">Customer Service</h6>
+              <p class="text-secondary">Monday – Friday 9 am -6 pm</p>
+            </div>
+            <div class="contact col-md-4 col-lg-3">
+              <h6 class="text-secondary">Explore</h6>
+              {{#each categories}}
+                <div>
+                <a class="" href="/products?categoryId={{this.id}}">{{this.name}}</a>
+                </div>
+              {{/each}}
+            </div>
+            <div class="contact col-md-4 col-lg-3">
+              <h6 class="text-secondary">Follow Us</h6>
+              <a href="" class="me-2"><i class="fab fa-twitter-square fa-2x"></i></a>
+              <a href="" class="me-2"><i class="fab fa-facebook-square fa-2x"></i></a>
+              <a href="" class="me-2"><i class="fab fa-instagram-square fa-2x"></i></a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
     <script
       src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js'
       integrity='sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p'

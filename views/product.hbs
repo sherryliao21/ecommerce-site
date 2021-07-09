@@ -1,20 +1,9 @@
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="../products?categoryId=">All</a>
-  </li>
-  {{#each categories}}
-    <li class="nav-item">
-      <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="../products?categoryId={{this.id}}">{{this.name}}</a>
-    </li>
-  {{/each}}
-</ul>
-<br/>
 <div class="row" id="product-area">
   
-  <div class="col-12 col-md-6 product-image mb-2">
+  <div class="col-12 col-md-6 product-image mb-3">
     <img src="{{product.image}}" style="width:100%;" alt="">
   </div>
-  <div class="col-12 col-md-6 product-details">
+  <div class="col-12 col-md-6 product-details px-4">
     <div class="product-title fw-bold mb-2">{{product.name}}</div>
     <div class="product-price text-secondary">$ {{product.price}}</div>
     <hr>
@@ -33,25 +22,28 @@
           {{!-- Quantity --}}
           <label class="input-group-text" for="quantity">Quantity</label>
           <select class="form-select" id="quantity">
-            <option selected value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+            {{#if quantity}}
+              {{#each quantity}}
+                <option {{#ifCond 1 this}}selected{{/ifCond}} value="{{this}}">{{this}}</option>
+              {{/each}}
+            {{else}}
+              <option disabled selected value="0">0</option>
+            {{/if}}            
           </select>
         </div>
 
         <input type="hidden" name="productId" value="{{product.id}}">
 
-        <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
-        
+        {{#if quantity}}
+          <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+        {{else}}
+          <button type="submit" class="btn btn-sm btn-outline-secondary disabled">Sold out</button>
+        {{/if}}
+
+
       </form>
 
     </div>
   </div>
 </div>
+

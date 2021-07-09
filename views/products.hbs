@@ -1,15 +1,15 @@
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All</a>
-  </li>
-  {{#each categories}}
-    <li class="nav-item">
-      <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}" href="?categoryId={{this.id}}">{{this.name}}</a>
-    </li>
-  {{/each}}
-</ul>
+
+
+
 <br/>
 <div class="row" id="data-panel">
+
+  {{#if keyword}}
+    <div class="d-flex justify-content-end text-secondary">
+      <p>FOUND {{products.length}} PRODUCTS FOR '{{keyword}}'</p>
+    </div>
+  {{/if}}
+
   {{#each products}}
     <div class="col-md-3">
       <div class="card mb-4 shadow-sm">
@@ -21,9 +21,37 @@
             </a>
           </p>
           <p class="card-text">$ {{this.price}}</p>
-
         </div>
       </div>
     </div>
   {{/each}}
+
 </div>
+
+<br />
+
+{{!-- Pagination --}}
+<div id="pagination" class="d-flex justify-content-center">
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item {{#ifCond page prev}}disabled{{/ifCond}}">
+      <a class="page-link" href="/products?page={{prev}}&categoryId={{categoryId}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{#each totalPage}}
+      {{#ifCond this ../page}}
+        <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+      {{else}}
+        <li class="page-item"><a class="page-link" href="/products?page={{this}}&categoryId={{../categoryId}}">{{this}}</a></li>
+      {{/ifCond}}
+    {{/each}}
+    <li class="page-item {{#ifCond page next}}disabled{{/ifCond}}">
+      <a class="page-link" href="/products?page={{next}}&categoryId={{categoryId}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
+
