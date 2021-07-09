@@ -1,6 +1,7 @@
 const request = require('supertest')
 const app = require('../../app')
 const chai = require('chai')
+const sinon = require('sinon')
 chai.use(require('sinon-chai'))
 const { expect } = require('chai')
 const should = chai.should()
@@ -18,12 +19,18 @@ describe('# Admin Requests', () => {
     describe('GET /admin/products', () => {
 
       before(async() => {
+        await db.User.destroy({ where: {}, truncate: { cascade: true } })
         await db.Order.destroy({ where: {}, truncate: { cascade: true } })
         await db.Product.destroy({ where: {}, truncate: { cascade: true } })
         await db.Category.destroy({ where: {}, truncate: { cascade: true } })
-        await db.User.destroy({ where: {}, truncate: true })
 
-        const rootUser = await db.User.create({ name: 'root' })
+        const rootUser = await db.User.create({
+          id: 1,
+          name: '123',
+          email: '123@gmail.com',
+          password: '123',
+          role: 'admin'
+        })
         this.authenticate =  sinon.stub(passport,"authenticate").callsFake((strategy, options, callback) => {            
           callback(null, {...rootUser}, null)
           return (req,res,next) => {}
@@ -69,9 +76,8 @@ describe('# Admin Requests', () => {
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err)
-            expect(res.body).to.be.an('array')
-            res.body[0].name.should.equal('test1')
-            res.body[1].name.should.equal('test2')
+            res.text.should.include('test1')
+            res.text.should.include('test2')
             return done()
           })
       })
@@ -85,7 +91,8 @@ describe('# Admin Requests', () => {
           .end(function (err, res) {
             if (err) return done(err)
             expect(res.body).to.be.an('object')
-            res.body.products[0].name.should.equal('test1')
+            res.body.products[0].name.should.equal('test2')
+            res.body.products[1].name.should.equal('test1')
             return done()
           })
       })
@@ -122,7 +129,8 @@ describe('# Admin Requests', () => {
       after(async () => {
         this.authenticate.restore()
         this.getUser.restore()
-        await db.User.destroy({ where: {},truncate: true })
+        await db.User.destroy({ where: {}, truncate: { cascade: true } })
+        await db.Order.destroy({ where: {}, truncate: { cascade: true } })
         await db.Product.destroy({ where: {}, truncate: { cascade: true } })
         await db.Category.destroy({ where: {}, truncate: { cascade: true } })
       })
