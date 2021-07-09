@@ -24,6 +24,7 @@ router.get('/admin/products/:id/edit', adminController.editProduct)
 
 router.post('/admin/products', upload.single('image'), adminController.postProduct)
 router.put('/admin/products/:id', upload.single('image'), adminController.putProduct)
+router.delete('/admin/products/:id', adminController.deleteProduct)
 
 
 module.exports = router

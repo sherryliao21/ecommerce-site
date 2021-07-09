@@ -35,6 +35,12 @@ const adminController = {
     adminService.putProduct(req, res, data => {
       return res.json(data)
     })
+  },
+
+  deleteProduct: (req, res) => {
+    adminService.deleteProduct(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

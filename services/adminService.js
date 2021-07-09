@@ -66,14 +66,14 @@ const adminService = {
           image: file ? image : null,
           CategoryId: categoryId
         })
-        return callback({ product, status: 'success', message: 'product was successfully created!' })
+        return callback({ product, status: 'success', message: 'product successfully created!' })
       } else {
         const product = await Product.create({
           name, price, quantity, description, 
           image: null, 
           CategoryId: categoryId
         })
-        return callback({ product, status: 'success', message: 'product was successfully created!' })
+        return callback({ product, status: 'success', message: 'product successfully created!' })
       }
     }
     catch (error) {
@@ -100,7 +100,7 @@ const adminService = {
           image: file ? image : product.image,
           CategoryId: categoryId
         })
-        return callback({ product, status: 'success', message: 'product was successfully updated!' })
+        return callback({ product, status: 'success', message: 'product successfully updated!' })
       } else {
         const product = await Product.findByPk(id)
         await product.update({
@@ -108,8 +108,21 @@ const adminService = {
           image: product.image, 
           CategoryId: categoryId
         })
-        return callback({ status: 'success', message: 'product was successfully updated!' })
+        return callback({ status: 'success', message: 'product successfully updated!' })
       }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  deleteProduct: async (req, res, callback) => {
+    try {
+      const id = req.params.id
+      const product = await Product.findByPk(id)
+      await product.destroy()
+      
+      return callback({ status: 'success', message: 'product successfully deleted!'})
     }
     catch (error) {
       console.log(error)

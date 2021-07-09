@@ -36,6 +36,12 @@ const adminController = {
       const id = req.params.id
       return res.redirect(`/admin/products/${id}`)
     })
+  },
+
+  deleteProduct: (req, res) => {
+    adminService.deleteProduct(req, res, data => {
+      return res.redirect('/admin/products')
+    })
   }
 }
 
