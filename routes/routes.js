@@ -5,6 +5,7 @@ const {
 	authenticatedAdmin,
 	authenticatedUser,
 } = require("../middlewares/auth")
+const passport = require("passport")
 
 const productController = require("../controllers/productController")
 const adminController = require("../controllers/adminController")
@@ -45,5 +46,10 @@ router.post("/users/login", userController.login)
 
 router.get("/users/register", userController.getRegisterPage)
 router.post("/users/register", userController.register)
+
+router.get("/users/logout", (req, res) => {
+	req.logOut()
+	res.redirect("/users/login")
+})
 
 module.exports = router
