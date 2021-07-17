@@ -7,7 +7,17 @@ const userController = {
 	},
 	login: (req, res) => {
 		userService.login(req, res, data => {
-			return res.redirect("/home")
+			if (data.statusCode === 200) return res.redirect("/home")
+			return res.render("login", data)
+		})
+	},
+	getRegisterPage: (req, res, data) => {
+		return res.render("register")
+	},
+	register: (req, res) => {
+		userService.register(req, res, data => {
+			if (data.statusCode === 200) return res.redirect("/users/login")
+			return res.render("register", data)
 		})
 	},
 }

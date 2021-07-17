@@ -1,6 +1,7 @@
 const { User } = require("../models")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const { checkUserInfo } = require("../utils/users")
 
 const userService = {
 	login: async (req, res, callback) => {
@@ -48,6 +49,70 @@ const userService = {
 					email: user.email,
 					role: user.role,
 				},
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	},
+	register: async (req, res, callback) => {
+		try {
+			const { name, email, password, confirmPassword } = req.body
+			const errors = []
+
+			if (!name || !email || !password || !confirmPassword) {
+				errors.push({ message: "Please fill out all fields." })
+			}
+
+			if (!errors.length) {
+				await User.create({
+					name,
+					email,
+					password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null),
+					role: "user",
+				})
+
+				return callback({
+					status: "success",
+					statusCode: 200,
+					message: `${email} registered successfully! Please login.`,
+				})
+			}
+
+			// const result = await checkUserInfo(req)
+			// console.log(result)
+			// if (!result) {
+			// 	await User.create({
+			// 		name: req.body.name,
+			// 		email: req.body.email,
+			// 		password: bcrypt.hashSync(
+			// 			req.body.password,
+			// 			bcrypt.genSaltSync(10),
+			// 			null
+			// 		),
+			// 		role: "user",
+			// 	})
+			// 	console.log("created")
+			// 	return callback({
+			// 		status: "success",
+			// 		statusCode: 200,
+			// 		message: `${req.body.email} register successfully! Please login.`,
+			// 	})
+			// }
+
+			// // All the required fields should be filled out correctly
+			// if (result.errors) {
+			// 	return callback({
+			// 		status: "error",
+			// 		statusCode: 422,
+			// 		errors: result.errors,
+			// 		userInput: req.body,
+			// 	})
+			// }
+
+			return callback({
+				status: "error",
+				statusCode: 422,
+				message: `A user already exists. Choose a different account or email.`,
 			})
 		} catch (error) {
 			console.log(error)

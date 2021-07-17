@@ -30,5 +30,6 @@ router.put(
 router.delete("/admin/products/:id", adminController.deleteProduct)
 
 router.post("/users/login", userController.login)
+router.post("/users/register", userController.register)
 
 module.exports = router

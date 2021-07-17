@@ -1,0 +1,72 @@
+<div class="row mt-5">
+	<div class="col-md-6 m-auto">
+		<div class="card card-body">
+			<h1 class="text-center mt-3">Register</h1>
+			{{!-- {{> message}} --}}
+			<form
+				action="/users/register"
+				method="POST"
+				class="row d-flex flex-column align-items-center"
+			>
+				<div class="form-group col-10 mt-2">
+					<label for="name">Name</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						class="form-control"
+						placeholder="Enter Name"
+						value="{{name}}"
+					/>
+				</div>
+				<div class="form-group col-10 mt-2">
+					<label for="email">Email</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						class="form-control"
+						placeholder="Enter Email"
+						value="{{email}}"
+					/>
+				</div>
+				<div class="form-group col-10 mt-2">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						class="form-control"
+						placeholder="Enter Password"
+						value="{{password}}"
+					/>
+				</div>
+				<div class="form-group col-10 mt-2">
+					<label for="confirmPassword">Confirm Password</label>
+					<input
+						type="password"
+						id="confirmPassword"
+						name="confirmPassword"
+						class="form-control"
+						placeholder="Confirm Password"
+						value="{{confirmPassword}}"
+					/>
+				</div>
+				<div class="row d-flex justify-content-center mt-5">
+					<button
+						type="submit"
+						class="btn btn-info btn-block col-5"
+					>Register</button>
+					<a
+						href="/auth/facebook"
+						class="btn btn-primary btn-block col-5 ms-3"
+					>Facebook Login</a>
+				</div>
+			</form>
+			<p class="lead mt-4 ms-5">
+				Have An Account?
+				<a href="/users/login">Login</a>
+			</p>
+		</div>
+	</div>
+</div>

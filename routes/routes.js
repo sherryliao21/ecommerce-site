@@ -8,9 +8,9 @@ const {
 
 const productController = require("../controllers/productController")
 const adminController = require("../controllers/adminController")
+const userController = require("../controllers/userController")
 
 const multer = require("multer")
-const userController = require("../controllers/userController")
 const upload = multer({ dest: "temp/" })
 
 // storefront display
@@ -42,5 +42,8 @@ router.delete("/admin/products/:id", adminController.deleteProduct)
 
 router.get("/users/login", userController.getLoginPage)
 router.post("/users/login", userController.login)
+
+router.get("/users/register", userController.getRegisterPage)
+router.post("/users/register", userController.register)
 
 module.exports = router
