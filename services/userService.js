@@ -6,8 +6,9 @@ const userService = {
 	login: async (req, res, callback) => {
 		// Make sure all the fields are filled out
 		if (!req.body.email || !req.body.password) {
-			return callback(res.status(422), {
+			return callback({
 				status: "error",
+				statusCode: 422,
 				message: "All fields are required.",
 			})
 		}
@@ -15,19 +16,20 @@ const userService = {
 		try {
 			// Check email and password
 			const { email, password } = req.body
-			console.log(email, password)
 			const user = await User.findOne({ where: { email } })
 
 			if (!user) {
-				return callback(res.status(401), {
+				return callback({
 					status: "error",
+					statusCode: 401,
 					message: "This account does not exist.",
 				})
 			}
 
 			if (!bcrypt.compareSync(password, user.password)) {
-				return callback(res.status(401), {
+				return callback({
 					status: "error",
+					statusCode: 401,
 					message: "Incorrect Password",
 				})
 			}
@@ -35,8 +37,9 @@ const userService = {
 			// Sign token
 			const payload = { id: user.id }
 			const token = jwt.sign(payload, process.env.JWT_SECRET)
-			return callback(res.status(200), {
+			return callback({
 				status: "success",
+				statusCode: 200,
 				message: "login successfully",
 				token: token,
 				user: {
