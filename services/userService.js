@@ -18,7 +18,7 @@ const userService = {
 			// Check email and password
 			const { email, password } = req.body
 			const user = await User.findOne({ where: { email } })
-
+			console.log("===============user.name, user.role", user.name, user.role)
 			if (!user) {
 				return callback({
 					status: "error",
@@ -28,7 +28,6 @@ const userService = {
 			}
 
 			if (!bcrypt.compare(password, user.password)) {
-				console.log(password, user.password)
 				return callback({
 					status: "error",
 					statusCode: 401,
@@ -81,11 +80,11 @@ const userService = {
 
 			// All the required fields should be filled out correctly
 			if (result.errors) {
-				console.log(req.body)
+				console.log(result.errors[0].message)
 				return callback({
 					status: "error",
 					statusCode: 422,
-					errors: result.errors,
+					errors: result.errors[0],
 					userInput: req.body,
 				})
 			}
@@ -93,7 +92,7 @@ const userService = {
 			return callback({
 				status: "error",
 				statusCode: 422,
-				message: `A user already exists. Choose a different email.`,
+				message: `This user already exists. Choose a different email.`,
 				name: req.body.name,
 			})
 		} catch (error) {
