@@ -2,7 +2,7 @@
 	<div class="col-md-6 m-auto">
 		<div class="card card-body">
 			<h1 class="text-center mt-3">Register</h1>
-			{{!-- {{> message}} --}}
+			{{> message}}
 			<form
 				action="/users/register"
 				method="POST"
@@ -21,6 +21,7 @@
             {{else}}
 						value="{{userInput.name}}"
             {{/if}}
+            required
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -32,6 +33,7 @@
 						class="form-control"
 						placeholder="Enter Email"
 						value="{{userInput.email}}"
+            required
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -42,6 +44,7 @@
 						name="password"
 						class="form-control"
 						placeholder="Enter Password"
+            required
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -52,6 +55,7 @@
 						name="confirmPassword"
 						class="form-control"
 						placeholder="Confirm Password"
+            required
 					/>
 				</div>
 				<div class="row d-flex justify-content-center mt-5">

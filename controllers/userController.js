@@ -7,7 +7,6 @@ const userController = {
 	},
 	login: (req, res) => {
 		userService.login(req, res, data => {
-			if (data.statusCode === 200) return res.redirect("/home")
 			return res.render("login", data)
 		})
 	},
