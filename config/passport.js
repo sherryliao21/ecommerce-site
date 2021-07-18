@@ -11,24 +11,21 @@ passport.use(
 	new LocalStrategy(
 		{
 			usernameField: "email",
-			passReqToCallback: true,
+			passwordField: "password",
+			passReqToCallback: true, // for flash msg
 		},
-		async (req, email, password, done) => {
-			try {
-				const user = await User.findOne({ email })
-				if (!user) {
-					req.flash("warning_msg", "此信箱未註冊")
-					return done(null, false)
-				}
-				const isMatch = await bcrypt.compareSync(password, user.password)
-				if (!isMatch) {
-					req.flash("warning_msg", "信箱或密碼輸入錯誤")
-					return done(null, false)
-				}
-				return done(null, user)
-			} catch (error) {
-				console.log(error)
-			}
+		(req, username, password, cb) => {
+			User.findOne({ where: { email: req.body.email } })
+				.then(user => {
+					if (!user) {
+						return cb(null, false, req.flash("error_msg", ["此信箱尚未註冊"]))
+					}
+					if (!bcrypt.compareSync(password, user.password)) {
+						return cb(null, false, req.flash("error_msg", "帳號或密碼輸入錯誤"))
+					}
+					return cb(null, user) // if success, pass on user info
+				})
+				.catch(err => console.log(err))
 		}
 	)
 )

@@ -23,29 +23,31 @@ router.get("/products", productController.getProducts)
 router.get("/products/:id", productController.getProduct)
 
 // admin control panel
-router.get("/admin", (req, res) => res.redirect("/admin/products")) // redirect when access '/admin'
-router.get("/admin/products", adminController.getProducts)
-router.get("/admin/products/create", adminController.getCreateProduct)
-router.get("/admin/products/:id", adminController.getProduct)
-router.get("/admin/products/:id/edit", adminController.editProduct)
-
-router.post(
-	"/admin/products",
-	upload.single("image"),
-	adminController.postProduct
-)
-router.put(
-	"/admin/products/:id",
-	upload.single("image"),
-	adminController.putProduct
-)
-router.delete("/admin/products/:id", adminController.deleteProduct)
+router
+	.route("/admin")
+	.get(authenticatedAdmin, (req, res) => res.redirect("/admin/products")) // redirect when access '/admin'
+router
+	.route("/admin/products")
+	.all(authenticatedAdmin)
+	.get(adminController.getProducts)
+	.post(upload.single("image"), adminController.postProduct)
+router
+	.route("/admin/products/create")
+	.get(authenticatedAdmin, adminController.getCreateProduct)
+router
+	.route("/admin/products/:id")
+	.all(authenticatedAdmin)
+	.get(adminController.getProduct)
+	.put(upload.single("image"), adminController.putProduct)
+	.delete(adminController.deleteProduct)
+router
+	.route("/admin/products/:id/edit")
+	.get(authenticatedAdmin, adminController.editProduct)
 
 router.get("/users/login", userController.getLoginPage)
 router.post(
 	"/users/login",
 	passport.authenticate("local", {
-		successRedirect: "/home",
 		failureRedirect: "/users/login",
 		failureFlash: true,
 	}),
