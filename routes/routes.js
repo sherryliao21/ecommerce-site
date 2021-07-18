@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const {
-	authenticated,
+	// authenticated,
 	authenticatedAdmin,
 	authenticatedUser,
 } = require("../middlewares/auth")
@@ -44,22 +44,26 @@ router
 	.route("/admin/products/:id/edit")
 	.get(authenticatedAdmin, adminController.editProduct)
 
-router.get("/users/login", userController.getLoginPage)
-router.post(
-	"/users/login",
-	passport.authenticate("local", {
-		failureRedirect: "/users/login",
-		failureFlash: true,
-	}),
-	userController.login
-)
+// users login/logout & register
+router
+	.route("/users/login")
+	.get(userController.getLoginPage)
+	.post(
+		passport.authenticate("local", {
+			failureRedirect: "/users/login",
+			failureFlash: true,
+		}),
+		userController.login
+	)
 
-router.get("/users/register", userController.getRegisterPage)
-router.post("/users/register", userController.register)
+router
+	.route("/users/register")
+	.get(userController.getRegisterPage)
+	.post(userController.register)
 
 router.get("/users/logout", (req, res) => {
 	req.logOut()
-	req.flash("success_msg", "你已成功登出！")
+	req.flash("success_msg", "You have logged out successfully！")
 	res.redirect("/users/login")
 })
 

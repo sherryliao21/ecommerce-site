@@ -1,12 +1,12 @@
 const helpers = require("../test_helpers")
 
-const authenticated = (req, res, next) => {
-	if (helpers.ensureAuthenticated(req)) {
-		return next()
-	}
-	req.flash("error_msg", "請先登入才能使用！")
-	res.redirect("/users/login")
-}
+// const authenticated = (req, res, next) => {
+// 	if (helpers.ensureAuthenticated(req)) {
+// 		return next()
+// 	}
+// 	req.flash("error_msg", "Please log in first!")
+// 	res.redirect("/users/login")
+// }
 
 const authenticatedAdmin = (req, res, next) => {
 	if (helpers.ensureAuthenticated(req)) {
@@ -15,7 +15,7 @@ const authenticatedAdmin = (req, res, next) => {
 		}
 		return res.redirect("/home")
 	}
-	req.flash("error_msg", "請先登入才能使用！")
+	req.flash("error_msg", "Please log in first!")
 	res.redirect("/users/login")
 }
 
@@ -26,7 +26,7 @@ const authenticatedUser = (req, res, next) => {
 		}
 		return res.redirect("/")
 	}
-	req.flash("error_msg", "請先登入才能使用！")
+	req.flash("error_msg", "Please log in first!")
 	res.redirect("/users/login")
 }
 
