@@ -42,13 +42,22 @@ router.put(
 router.delete("/admin/products/:id", adminController.deleteProduct)
 
 router.get("/users/login", userController.getLoginPage)
-router.post("/users/login", userController.login)
+router.post(
+	"/users/login",
+	passport.authenticate("local", {
+		successRedirect: "/home",
+		failureRedirect: "/users/login",
+		failureFlash: true,
+	}),
+	userController.login
+)
 
 router.get("/users/register", userController.getRegisterPage)
 router.post("/users/register", userController.register)
 
 router.get("/users/logout", (req, res) => {
 	req.logOut()
+	req.flash("success_msg", "你已成功登出！")
 	res.redirect("/users/login")
 })
 

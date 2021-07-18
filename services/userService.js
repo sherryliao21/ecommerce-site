@@ -27,7 +27,8 @@ const userService = {
 				})
 			}
 
-			if (!bcrypt.compareSync(password, user.password)) {
+			if (!bcrypt.compare(password, user.password)) {
+				console.log(password, user.password)
 				return callback({
 					status: "error",
 					statusCode: 401,
