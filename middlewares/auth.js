@@ -31,7 +31,7 @@ const authenticatedUser = (req, res, next) => {
 }
 
 module.exports = {
-	authenticated,
+	// authenticated,
 	authenticatedAdmin,
 	authenticatedUser,
 }

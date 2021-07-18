@@ -18,10 +18,18 @@ passport.use(
 			User.findOne({ where: { email: req.body.email } })
 				.then(user => {
 					if (!user) {
-						return cb(null, false, req.flash("error_msg", ["此信箱尚未註冊"]))
+						return cb(
+							null,
+							false,
+							req.flash("error_msg", ["This email is not registered yet!"])
+						)
 					}
 					if (!bcrypt.compareSync(password, user.password)) {
-						return cb(null, false, req.flash("error_msg", "帳號或密碼輸入錯誤"))
+						return cb(
+							null,
+							false,
+							req.flash("error_msg", "Wrong input of email or password!")
+						)
 					}
 					return cb(null, user) // if success, pass on user info
 				})
