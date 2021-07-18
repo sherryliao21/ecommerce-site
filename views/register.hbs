@@ -16,7 +16,11 @@
 						name="name"
 						class="form-control"
 						placeholder="Enter Name"
-						value="{{name}}"
+            {{#if name}}
+            value="{{name}}"
+            {{else}}
+						value="{{userInput.name}}"
+            {{/if}}
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -27,7 +31,7 @@
 						name="email"
 						class="form-control"
 						placeholder="Enter Email"
-						value="{{email}}"
+						value="{{userInput.email}}"
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -38,7 +42,6 @@
 						name="password"
 						class="form-control"
 						placeholder="Enter Password"
-						value="{{password}}"
 					/>
 				</div>
 				<div class="form-group col-10 mt-2">
@@ -49,7 +52,6 @@
 						name="confirmPassword"
 						class="form-control"
 						placeholder="Confirm Password"
-						value="{{confirmPassword}}"
 					/>
 				</div>
 				<div class="row d-flex justify-content-center mt-5">

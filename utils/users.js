@@ -1,4 +1,4 @@
-const User = require("../models/user")
+const { User } = require("../models")
 const validator = require("validator")
 const { Op } = require("sequelize")
 
@@ -18,7 +18,7 @@ async function checkUserInfo(req) {
 		errors.push({ message: "Password does not meet the required length" })
 	}
 	if (password !== confirmPassword) {
-		errors.push({ message: "Password and checkPassword do not match." })
+		errors.push({ message: "Password and confirmPassword do not match." })
 	}
 	if (name && !validator.isByteLength(name, { min: 0, max: 50 })) {
 		errors.push({ message: "Name can not be longer than 50 characters." })
@@ -31,14 +31,14 @@ async function checkUserInfo(req) {
 
 	// register page
 	if (!req.user) {
-		users = await User.findAll({
+		users = await User.findOne({
 			where: { email },
 		})
 	}
 
-	console.log("users", users)
+	// console.log("users", users)
 
-	if (users.length) return true
+	if (users) return true
 	return false
 }
 

@@ -16,7 +16,7 @@ const userController = {
 	},
 	register: (req, res) => {
 		userService.register(req, res, data => {
-			if (data.statusCode === 200) return res.redirect("/users/login")
+			if (data.statusCode === 200) return res.render("login", data)
 			return res.render("register", data)
 		})
 	},
