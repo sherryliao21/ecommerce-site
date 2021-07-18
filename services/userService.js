@@ -18,7 +18,7 @@ const userService = {
 			// Check email and password
 			const { email, password } = req.body
 			const user = await User.findOne({ where: { email } })
-			console.log("===============user.name, user.role", user.name, user.role)
+
 			if (!user) {
 				return callback({
 					status: "error",
@@ -38,6 +38,7 @@ const userService = {
 			// Sign token
 			const payload = { id: user.id }
 			const token = jwt.sign(payload, process.env.JWT_SECRET)
+
 			return callback({
 				status: "success",
 				statusCode: 200,

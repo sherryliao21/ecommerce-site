@@ -6,7 +6,7 @@ const userController = {
 			return res.json(data)
 		})
 	},
-	register: (req, res, data) => {
+	register: (req, res) => {
 		userService.register(req, res, data => {
 			return res.json(data)
 		})
