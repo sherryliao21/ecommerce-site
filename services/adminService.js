@@ -168,6 +168,10 @@ const adminService = {
 				nest: true,
 				order: [["id", "DESC"]],
 			})
+			if (req.params.id) {
+				const category = await Category.findByPk(req.params.id)
+				return callback({ categories, category: category.toJSON() })
+			}
 
 			return callback({ categories })
 		} catch (error) {
@@ -178,12 +182,43 @@ const adminService = {
 	postCategory: async (req, res, callback) => {
 		try {
 			const { name } = req.body
-			if (!req.body.name) {
+			if (!name) {
 				req.flash("error_msg", "Please input category name")
 				return res.redirect("back")
 			} else {
 				const category = await Category.create({ name })
 				return callback({ category })
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	},
+
+	putCategory: async (req, res, callback) => {
+		try {
+			const { id } = req.params
+			const { name } = req.body
+			const category = await Category.findByPk(id)
+
+			if (!category) {
+				req.flash("error_msg", "No such category")
+				res.redirect("back")
+				return callback({
+					status: "error",
+					message: "No such category",
+				})
+			}
+
+			if (!name) {
+				req.flash("error_msg", "Please input category name")
+				return res.redirect("back")
+			} else {
+				const category = await Category.findByPk(id)
+				category.update({ name })
+				return callback({
+					status: "success",
+					message: "Successfully updated category name",
+				})
 			}
 		} catch (error) {
 			console.log(error)

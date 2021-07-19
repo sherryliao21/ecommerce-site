@@ -55,6 +55,12 @@ const adminController = {
 			return res.redirect("/admin/categories")
 		})
 	},
+
+	putCategory: (req, res) => {
+		adminService.putCategory(req, res, data => {
+			return res.redirect("/admin/categories")
+		})
+	},
 }
 
 module.exports = adminController

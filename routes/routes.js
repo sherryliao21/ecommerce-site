@@ -51,6 +51,12 @@ router
 	.get(adminController.getCategories)
 	.post(adminController.postCategory)
 
+router
+	.route("/admin/categories/:id")
+	.all(authenticatedAdmin)
+	.get(adminController.getCategories)
+	.put(adminController.putCategory)
+
 // users login/logout & register
 router
 	.route("/users/login")
