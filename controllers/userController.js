@@ -7,6 +7,7 @@ const userController = {
 	},
 	login: (req, res) => {
 		req.flash("success_msg", "登入成功！")
+		if (req.user.role === "admin") return res.redirect("/admin")
 		return res.redirect("/home")
 	},
 	getRegisterPage: (req, res, data) => {
