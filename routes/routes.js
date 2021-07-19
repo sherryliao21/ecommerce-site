@@ -12,6 +12,7 @@ const adminController = require("../controllers/adminController")
 const userController = require("../controllers/userController")
 
 const multer = require("multer")
+const adminService = require("../services/adminService")
 const upload = multer({ dest: "temp/" })
 
 // storefront display
@@ -43,6 +44,12 @@ router
 router
 	.route("/admin/products/:id/edit")
 	.get(authenticatedAdmin, adminController.editProduct)
+
+router
+	.route("/admin/categories")
+	.all(authenticatedAdmin)
+	.get(adminController.getCategories)
+	.post(adminController.postCategory)
 
 // users login/logout & register
 router

@@ -1,0 +1,59 @@
+<h1>Control panel</h1>
+
+<a href="/admin/products">Products</a>
+|
+<a href="/admin/categories">Categories</a>
+<br />
+<br />
+<div
+	class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm"
+>
+	<form
+		action="/admin/categories"
+		method="POST"
+		class="d-flex align-items-center"
+	>
+		<input
+			type="text"
+			class="form-control"
+			placeholder="Category Name"
+			name="name"
+		/>
+		<button class="btn btn-primary ms-2" type="submit">Submit</button>
+	</form>
+</div>
+<br />
+<br />
+<table class="table">
+	<thead class="table-dark table-hover table-bordered">
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Category Name</th>
+			<th scope="col">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each categories}}
+			<tr>
+				<th scope="row">{{this.id}}</th>
+				<td>{{this.name}}</td>
+				<td>
+					<button type="button" class="btn btn-link">
+						<a href="/admin/categories/{{this.id}}">
+							Edit
+						</a>
+					</button>
+					<form
+						action="/admin/categories/{{this.id}}?_method=DELETE"
+						method="POST"
+						style="display: inline;"
+					>
+						<button type="submit" class="btn btn-link">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>
+<br />
+<br />
