@@ -27,6 +27,9 @@ const adminController = {
 
 	postProduct: (req, res) => {
 		adminService.postProduct(req, res, data => {
+			if (data.status === "error") {
+				return res.redirect("back")
+			}
 			return res.redirect("/admin/products")
 		})
 	},

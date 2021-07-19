@@ -10,7 +10,7 @@
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm justify-content-start">
   {{#if category}}
     <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST" class="d-flex align-items-center" style="min-width: 700px;">
-      <input class="form-control" type="text" placeholder="name" name="name" value="{{category.name}}" style="width: 200px;">
+      <input class="form-control" type="text" placeholder="name" name="name" value="{{category.name}}" style="width: 200px;" required>
       <button class="btn btn-primary ms-2" type="submit">Update</button>
       <div class="create-new ms-3"  style="width: 160px; display: inline-block;">
         <a href="/admin/categories">or Create New</a>
@@ -18,7 +18,7 @@
     </form>
   {{else}}
     <form action="/admin/categories" method="POST" class="d-flex">
-      <input class="form-control" type="text" placeholder="name" name="name">
+      <input class="form-control" type="text" placeholder="name" name="name" required>
       <button type="submit" class="btn btn-primary ms-2">Create</button>
     </form>
   {{/if}}

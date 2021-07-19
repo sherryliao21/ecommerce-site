@@ -66,8 +66,11 @@ const adminService = {
 	postProduct: async (req, res, callback) => {
 		try {
 			const { name, categoryId, price, quantity, description } = req.body
-			if (!name) {
-				return callback({ status: "error", message: "name didn't exist" })
+			if (!name || !categoryId || !price || !quantity || !description) {
+				return callback({
+					status: "error",
+					message: "Please fill out all fields!",
+				})
 			}
 			const file = req.file
 			if (file) {
@@ -117,6 +120,12 @@ const adminService = {
 		try {
 			const { name, categoryId, price, quantity, description } = req.body
 			const id = req.params.id
+			if (!name || !categoryId || !price || !quantity || !description) {
+				return callback({
+					status: "error",
+					message: "Please fill out all fields!",
+				})
+			}
 			const file = req.file
 			if (file) {
 				imgur.setClientID(IMGUR_CLIENT_ID)
