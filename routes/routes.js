@@ -56,6 +56,7 @@ router
 	.all(authenticatedAdmin)
 	.get(adminController.getCategories)
 	.put(adminController.putCategory)
+	.delete(adminController.deleteCategory)
 
 // users login/logout & register
 router

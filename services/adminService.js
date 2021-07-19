@@ -77,6 +77,7 @@ const adminService = {
 				return callback({
 					product,
 					status: "success",
+					statusCode: 200,
 					message: "product successfully created!",
 				})
 			} else {
@@ -91,6 +92,7 @@ const adminService = {
 				return callback({
 					product,
 					status: "success",
+					statusCode: 200,
 					message: "product successfully created!",
 				})
 			}
@@ -124,6 +126,7 @@ const adminService = {
 				return callback({
 					product,
 					status: "success",
+					statusCode: 200,
 					message: "product successfully updated!",
 				})
 			} else {
@@ -138,6 +141,7 @@ const adminService = {
 				})
 				return callback({
 					status: "success",
+					statusCode: 200,
 					message: "product successfully updated!",
 				})
 			}
@@ -154,6 +158,7 @@ const adminService = {
 
 			return callback({
 				status: "success",
+				statusCode: 200,
 				message: "product successfully deleted!",
 			})
 		} catch (error) {
@@ -214,12 +219,38 @@ const adminService = {
 				return res.redirect("back")
 			} else {
 				const category = await Category.findByPk(id)
-				category.update({ name })
+				await category.update({ name })
 				return callback({
 					status: "success",
+					statusCode: 200,
 					message: "Successfully updated category name",
 				})
 			}
+		} catch (error) {
+			console.log(error)
+		}
+	},
+
+	deleteCategory: async (req, res, callback) => {
+		try {
+			const { id } = req.params
+			const category = await Category.findByPk(id)
+			const name = category.name
+
+			if (!category) {
+				req.flash("error_msg", "No such category")
+				res.redirect("back")
+				return callback({
+					status: "error",
+					message: "No such category",
+				})
+			}
+			await category.destroy()
+			return callback({
+				status: "success",
+				statusCode: 200,
+				message: `successfully deleted category ${name}`,
+			})
 		} catch (error) {
 			console.log(error)
 		}
