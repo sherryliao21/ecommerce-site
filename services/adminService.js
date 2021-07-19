@@ -24,6 +24,12 @@ const adminService = {
 			const product = await Product.findByPk(req.params.id, {
 				include: [Category],
 			})
+			if (!product) {
+				return callback({
+					status: "error",
+					message: "This product does not exist",
+				})
+			}
 			return callback({ product: product.toJSON() })
 		} catch (error) {
 			console.log(error)
@@ -44,6 +50,12 @@ const adminService = {
 			const product = await Product.findByPk(req.params.id, {
 				include: [Category],
 			})
+			if (!product) {
+				return callback({
+					status: "error",
+					message: "This product does not exist",
+				})
+			}
 			const categories = await Category.findAll({ raw: true, nest: true })
 			return callback({ product: product.toJSON(), categories })
 		} catch (error) {
@@ -115,6 +127,12 @@ const adminService = {
 					})
 				})
 				const product = await Product.findByPk(id)
+				if (!product) {
+					return callback({
+						status: "error",
+						message: "This product does not exist",
+					})
+				}
 				await product.update({
 					name,
 					price,
@@ -131,6 +149,12 @@ const adminService = {
 				})
 			} else {
 				const product = await Product.findByPk(id)
+				if (!product) {
+					return callback({
+						status: "error",
+						message: "This product does not exist",
+					})
+				}
 				await product.update({
 					name,
 					price,
@@ -154,6 +178,14 @@ const adminService = {
 		try {
 			const id = req.params.id
 			const product = await Product.findByPk(id)
+
+			if (!product) {
+				return callback({
+					status: "error",
+					message: "This product does not exist",
+				})
+			}
+
 			await product.destroy()
 
 			return callback({
@@ -206,8 +238,6 @@ const adminService = {
 			const category = await Category.findByPk(id)
 
 			if (!category) {
-				req.flash("error_msg", "No such category")
-				res.redirect("back")
 				return callback({
 					status: "error",
 					message: "No such category",
@@ -235,11 +265,8 @@ const adminService = {
 		try {
 			const { id } = req.params
 			const category = await Category.findByPk(id)
-			const name = category.name
 
 			if (!category) {
-				req.flash("error_msg", "No such category")
-				res.redirect("back")
 				return callback({
 					status: "error",
 					message: "No such category",
@@ -249,7 +276,7 @@ const adminService = {
 			return callback({
 				status: "success",
 				statusCode: 200,
-				message: `successfully deleted category ${name}`,
+				message: `successfully deleted category ${category.toJSON().name}`,
 			})
 		} catch (error) {
 			console.log(error)

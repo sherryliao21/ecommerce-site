@@ -44,23 +44,40 @@ router
 	.all(authenticatedAdmin)
 	.get(adminController.getProducts)
 	.post(upload.single("image"), adminController.postProduct)
+
 router
 	.route("/admin/products/create")
 	.get(authenticatedAdmin, adminController.getCreateProduct)
+
 router
 	.route("/admin/products/:id")
 	.all(authenticatedAdmin)
 	.get(adminController.getProduct)
 	.put(upload.single("image"), adminController.putProduct)
 	.delete(adminController.deleteProduct)
+
 router
 	.route("/admin/products/:id/edit")
 	.get(authenticatedAdmin, adminController.editProduct)
+
+router
+	.route("/admin/categories")
+	.all(authenticatedAdmin)
+	.get(adminController.getCategories)
+	.post(adminController.postCategory)
+
+router
+	.route("/admin/categories/:id")
+	.all(authenticatedAdmin)
+	.get(adminController.getCategories)
+	.put(adminController.putCategory)
+	.delete(adminController.deleteCategory)
 
 // users login/logout & register
 router
 	.route("/users/login")
 	.post(passport.authenticate("local"), userController.login)
+
 router.route("/users/register").post(userController.register)
 
 module.exports = router
