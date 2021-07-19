@@ -9,29 +9,29 @@ const helpers = require("../test_helpers")
 // }
 
 const authenticatedAdmin = (req, res, next) => {
-	if (helpers.ensureAuthenticated(req)) {
-		if (helpers.getUser(req).role === "admin") {
-			return next()
-		}
-		return res.redirect("/home")
-	}
-	req.flash("error_msg", "Please log in first!")
-	res.redirect("/users/login")
+  if (helpers.ensureAuthenticated(req)) {
+    if (helpers.getUser(req).role === "admin") {
+      return next()
+    }
+    return res.redirect("/home")
+  }
+  req.flash("error_msg", "Please log in first!")
+  res.redirect("/users/login")
 }
 
 const authenticatedUser = (req, res, next) => {
-	if (helpers.ensureAuthenticated(req)) {
-		if (helpers.getUser(req).role === "user") {
-			return next()
-		}
-		return res.redirect("/")
-	}
-	req.flash("error_msg", "Please log in first!")
-	res.redirect("/users/login")
+  if (helpers.ensureAuthenticated(req)) {
+    if (helpers.getUser(req).role === "user") {
+      return next()
+    }
+    return res.redirect("/")
+  }
+  req.flash("error_msg", "Please log in first!")
+  res.redirect("/users/login")
 }
 
 module.exports = {
-	// authenticated,
-	authenticatedAdmin,
-	authenticatedUser,
+  // authenticated,
+  authenticatedAdmin,
+  authenticatedUser,
 }

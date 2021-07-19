@@ -6,7 +6,7 @@ const session = require("express-session")
 const flash = require("connect-flash")
 
 if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config()
+  require("dotenv").config()
 }
 
 const app = express()
@@ -14,21 +14,21 @@ const PORT = process.env.PORT || 3000
 const passport = require("./config/passport")
 
 app.engine(
-	"hbs",
-	exphbs({
-		defaultLayout: "main",
-		extname: ".hbs",
-		helpers: require("./config/handlebars-helpers"),
-	})
+  "hbs",
+  exphbs({
+    defaultLayout: "main",
+    extname: ".hbs",
+    helpers: require("./config/handlebars-helpers"),
+  })
 )
 app.set("view engine", "hbs")
 
 app.use(
-	session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: true,
-	})
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
 )
 
 app.use(express.static("public"))
@@ -40,14 +40,14 @@ app.use(passport.initialize()) // passport initialize
 app.use(passport.session()) // activate passport session
 app.use(flash())
 app.use((req, res, next) => {
-	res.locals.success_msg = req.flash("success_msg")
-	res.locals.error_msg = req.flash("error_msg")
-	next()
+  res.locals.success_msg = req.flash("success_msg")
+  res.locals.error_msg = req.flash("error_msg")
+  next()
 })
 
 app.listen(PORT, () => {
-	db.sequelize.sync() // sync models with database
-	console.log(`app is listening at PORT ${PORT}...`)
+  db.sequelize.sync() // sync models with database
+  console.log(`app is listening at PORT ${PORT}...`)
 })
 
 require("./routes")(app)

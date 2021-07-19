@@ -1,4 +1,4 @@
-const productService = require('../../services/productService')
+const productService = require("../../services/productService")
 
 const productController = {
   getProducts: (req, res) => {
@@ -10,7 +10,7 @@ const productController = {
     productService.getProduct(req, res, data => {
       return res.json(data)
     })
-  }
+  },
 }
 
 module.exports = productController
