@@ -19,7 +19,7 @@
   {{else}}
     <form action="/admin/categories" method="POST" class="d-flex">
       <input class="form-control" type="text" placeholder="name" name="name">
-      <button type="submit" class="btn btn-primary ms-2">Submit</button>
+      <button type="submit" class="btn btn-primary ms-2">Create</button>
     </form>
   {{/if}}
 </div>
@@ -49,7 +49,7 @@
 						method="POST"
 						style="display: inline;"
 					>
-						<button type="submit" class="btn btn-link">Delete</button>
+						<button type="submit" class="btn btn-link" onclick="return confirmDelete()">Delete</button>
 					</form>
 				</td>
 			</tr>
@@ -58,3 +58,5 @@
 </table>
 <br />
 <br />
+
+<script src="/javascripts/utils.js"></script>
