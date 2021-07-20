@@ -1,5 +1,5 @@
 <div class="row" id="product-area">
-  
+
   <div class="col-12 col-md-6 product-image mb-3">
     <img src="{{product.image}}" style="width:100%;" alt="">
   </div>
@@ -10,7 +10,7 @@
     <div class="product-description mb-3">{{product.description}}</div>
 
     <div class="btn-group">
-      <form action="/restaurants" class="d-flex flex-column">
+      <form action="/cart" class="d-flex flex-column" method="POST">
 
         {{!-- Size --}}
         <div class="input-group mb-3">
@@ -23,21 +23,21 @@
           <label class="input-group-text" for="quantity">Quantity</label>
           <select class="form-select" id="quantity">
             {{#if quantity}}
-              {{#each quantity}}
-                <option {{#ifCond 1 this}}selected{{/ifCond}} value="{{this}}">{{this}}</option>
-              {{/each}}
+            {{#each quantity}}
+            <option {{#ifCond 1 this}}selected{{/ifCond}} value="{{this}}">{{this}}</option>
+            {{/each}}
             {{else}}
-              <option disabled selected value="0">0</option>
-            {{/if}}            
+            <option disabled selected value="0">0</option>
+            {{/if}}
           </select>
         </div>
 
         <input type="hidden" name="productId" value="{{product.id}}">
 
         {{#if quantity}}
-          <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
         {{else}}
-          <button type="submit" class="btn btn-sm btn-outline-secondary disabled">Sold out</button>
+        <button type="submit" class="btn btn-sm btn-outline-secondary disabled">Sold out</button>
         {{/if}}
 
 
@@ -46,4 +46,3 @@
     </div>
   </div>
 </div>
-
