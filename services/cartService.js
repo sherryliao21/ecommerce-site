@@ -29,6 +29,20 @@ const cartService = {
     return req.session.save(() => {
       callback()
     })
+  },
+  getCart: async (req, res, callback) => {
+    let cart = await Cart.findByPk(req.session.cartId, {
+      include: 'cartedProducts'
+    })
+    cart = cart.toJSON() || { cartedProducts: [] }
+
+    let totalPrice =
+      cart.cartedProducts.length > 0
+        ? cart.cartedProducts
+            .map(d => d.price * d.CartItem.quantity)
+            .reduce((a, b) => a + b)
+        : 0
+    callback({ cart, totalPrice })
   }
 }
 

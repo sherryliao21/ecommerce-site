@@ -22,6 +22,7 @@ router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getProduct)
 
 // cart
+router.get('/cart', cartController.getCart)
 router.post('/cart', cartController.postCart)
 
 // admin control panel
