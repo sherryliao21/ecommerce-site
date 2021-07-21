@@ -24,6 +24,7 @@ router.get('/products/:id', productController.getProduct)
 // cart
 router.get('/cart', cartController.getCart)
 router.post('/cart', cartController.postCart)
+router.post('/cartItem/:id/add', cartController.addCartItem)
 
 // admin control panel
 router.get('/admin', (req, res) => res.redirect('/admin/products')) // redirect when access '/admin'

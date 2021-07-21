@@ -34,7 +34,7 @@ const cartService = {
     let cart = await Cart.findByPk(req.session.cartId, {
       include: 'cartedProducts'
     })
-    cart = cart.toJSON() || { cartedProducts: [] }
+    cart = cart ? cart.toJSON() : { cartedProducts: [] }
 
     let totalPrice =
       cart.cartedProducts.length > 0
@@ -43,6 +43,13 @@ const cartService = {
             .reduce((a, b) => a + b)
         : 0
     callback({ cart, totalPrice })
+  },
+  addCartItem: async (req, res, callback) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({
+      quantity: cartItem.quantity + 1
+    })
+    callback()
   }
 }
 

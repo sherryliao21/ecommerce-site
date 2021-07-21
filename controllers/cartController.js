@@ -10,6 +10,11 @@ const cartController = {
     cartService.getCart(req, res, data => {
       return res.render('cart', data)
     })
+  },
+  addCartItem: (req, res) => {
+    cartService.addCartItem(req, res, data => {
+      return res.redirect('back')
+    })
   }
 }
 
