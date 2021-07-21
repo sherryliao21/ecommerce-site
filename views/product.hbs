@@ -15,13 +15,13 @@
         {{!-- Size --}}
         <div class="input-group mb-3">
           <label class="input-group-text" for="size">Size</label>
-          <select class="form-select" id="size">
+          <select class="form-select" id="size" name="size">
             <option selected value="F">F</option>
           </select>
 
           {{!-- Quantity --}}
           <label class="input-group-text" for="quantity">Quantity</label>
-          <select class="form-select" id="quantity">
+          <select class="form-select" id="quantity" name="quantity">
             {{#if quantity}}
             {{#each quantity}}
             <option {{#ifCond 1 this}}selected{{/ifCond}} value="{{this}}">{{this}}</option>

@@ -22,7 +22,7 @@ const cartService = {
     })
 
     await cartItem.update({
-      quantity: (cartItem.quantity || 0) + 1
+      quantity: (cartItem.quantity || 0) + Number(req.body.quantity)
     })
 
     req.session.cartId = cart.id
