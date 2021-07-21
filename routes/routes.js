@@ -14,9 +14,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
 // storefront display
-router.get('/', (req, res) => {
-  return res.render('index')
-})
+router.get('/', (req, res) => res.redirect('/home'))
 router.get('/home', productController.getHome)
 router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getProduct)
