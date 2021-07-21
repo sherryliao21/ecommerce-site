@@ -1,0 +1,19 @@
+.table tr {
+  border-bottom: 1px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
+}
+
+.step-container .step span {
+  color: #6c757d;
+}
+
+.step-container .selected span {
+  border-bottom: 3px solid;
+  padding-bottom: 10px;
+  font-weight: 600;
+  color: 595f65;
+}
+
+form i {
+  color: #6c757d;
+}
