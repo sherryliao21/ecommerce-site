@@ -2,6 +2,7 @@ const db = require('../models')
 const Cart = db.Cart
 const CartItem = db.CartItem
 const Category = db.Category
+const Product = db.Product
 
 const cartService = {
   postCart: async (req, res, callback) => {
@@ -50,7 +51,15 @@ const cartService = {
     callback({ cart, totalPrice, categories })
   },
   addCartItem: async (req, res, callback) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
+    const cartItem = await CartItem.findByPk(req.params.id, {
+      include: Product
+    })
+
+    // CartItem's quantity can not exceed Product's inventory
+    if (cartItem.quantity >= cartItem.Product.quantity) {
+      return callback()
+    }
+
     await cartItem.update({
       quantity: cartItem.quantity + 1
     })
