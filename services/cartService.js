@@ -57,6 +57,11 @@ const cartService = {
       quantity: cartItem.quantity - 1 >= 1 ? cartItem.quantity - 1 : 1
     })
     callback()
+  },
+  deleteCartItem: async (req, res, callback) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.destroy()
+    callback()
   }
 }
 
