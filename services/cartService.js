@@ -50,6 +50,13 @@ const cartService = {
       quantity: cartItem.quantity + 1
     })
     callback()
+  },
+  subCartItem: async (req, res, callback) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({
+      quantity: cartItem.quantity - 1 >= 1 ? cartItem.quantity - 1 : 1
+    })
+    callback()
   }
 }
 
