@@ -1,6 +1,7 @@
 const db = require('../models')
 const Cart = db.Cart
 const CartItem = db.CartItem
+const Category = db.Category
 
 const cartService = {
   postCart: async (req, res, callback) => {
@@ -31,9 +32,13 @@ const cartService = {
     })
   },
   getCart: async (req, res, callback) => {
-    let cart = await Cart.findByPk(req.session.cartId, {
-      include: 'cartedProducts'
-    })
+    let [cart, categories] = await Promise.all([
+      Cart.findByPk(req.session.cartId, {
+        include: 'cartedProducts'
+      }),
+      Category.findAll({ raw: true, nest: true })
+    ])
+
     cart = cart ? cart.toJSON() : { cartedProducts: [] }
 
     let totalPrice =
@@ -42,7 +47,7 @@ const cartService = {
             .map(d => d.price * d.CartItem.quantity)
             .reduce((a, b) => a + b)
         : 0
-    callback({ cart, totalPrice })
+    callback({ cart, totalPrice, categories })
   },
   addCartItem: async (req, res, callback) => {
     const cartItem = await CartItem.findByPk(req.params.id)
