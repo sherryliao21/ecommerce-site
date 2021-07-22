@@ -1,4 +1,4 @@
-const adminService = require("../../services/adminService")
+const adminService = require('../../services/adminService')
 
 const adminController = {
   getProducts: (req, res) => {
@@ -65,7 +65,7 @@ const adminController = {
     adminService.deleteCategory(req, res, data => {
       return res.json(data)
     })
-  },
+  }
 }
 
 module.exports = adminController

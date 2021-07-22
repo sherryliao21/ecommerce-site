@@ -1,7 +1,7 @@
-const db = require("../models")
+const db = require('../models')
 const Product = db.Product
 const Category = db.Category
-const imgur = require("imgur-node-api")
+const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminService = {
@@ -11,7 +11,7 @@ const adminService = {
         raw: true,
         nest: true,
         include: [Category],
-        order: [["id", "DESC"]],
+        order: [['id', 'DESC']]
       })
       return callback({ products })
     } catch (error) {
@@ -22,12 +22,12 @@ const adminService = {
   getProduct: async (req, res, callback) => {
     try {
       const product = await Product.findByPk(req.params.id, {
-        include: [Category],
+        include: [Category]
       })
       if (!product) {
         return callback({
-          status: "error",
-          message: "This product does not exist",
+          status: 'error',
+          message: 'This product does not exist'
         })
       }
       return callback({ product: product.toJSON() })
@@ -48,12 +48,12 @@ const adminService = {
   editProduct: async (req, res, callback) => {
     try {
       const product = await Product.findByPk(req.params.id, {
-        include: [Category],
+        include: [Category]
       })
       if (!product) {
         return callback({
-          status: "error",
-          message: "This product does not exist",
+          status: 'error',
+          message: 'This product does not exist'
         })
       }
       const categories = await Category.findAll({ raw: true, nest: true })
@@ -68,14 +68,14 @@ const adminService = {
       const { name, categoryId, price, quantity, description } = req.body
       if (!name || !categoryId || !price || !quantity || !description) {
         return callback({
-          status: "error",
-          message: "Please fill out all fields!",
+          status: 'error',
+          message: 'Please fill out all fields!'
         })
       }
       const file = req.file
       if (file) {
         imgur.setClientID(IMGUR_CLIENT_ID)
-        let image = ""
+        let image = ''
         await new Promise(async (resolve, reject) => {
           imgur.upload(file.path, async (err, img) => {
             resolve((image = img.data.link))
@@ -87,13 +87,13 @@ const adminService = {
           description,
           quantity,
           image: file ? image : null,
-          CategoryId: categoryId,
+          CategoryId: categoryId
         })
         return callback({
           product,
-          status: "success",
+          status: 'success',
           statusCode: 200,
-          message: "product successfully created!",
+          message: 'product successfully created!'
         })
       } else {
         const product = await Product.create({
@@ -102,13 +102,13 @@ const adminService = {
           quantity,
           description,
           image: null,
-          CategoryId: categoryId,
+          CategoryId: categoryId
         })
         return callback({
           product,
-          status: "success",
+          status: 'success',
           statusCode: 200,
-          message: "product successfully created!",
+          message: 'product successfully created!'
         })
       }
     } catch (error) {
@@ -122,14 +122,14 @@ const adminService = {
       const id = req.params.id
       if (!name || !categoryId || !price || !quantity || !description) {
         return callback({
-          status: "error",
-          message: "Please fill out all fields!",
+          status: 'error',
+          message: 'Please fill out all fields!'
         })
       }
       const file = req.file
       if (file) {
         imgur.setClientID(IMGUR_CLIENT_ID)
-        let image = ""
+        let image = ''
         await new Promise(async (resolve, reject) => {
           imgur.upload(file.path, async (err, img) => {
             resolve((image = img.data.link))
@@ -138,8 +138,8 @@ const adminService = {
         const product = await Product.findByPk(id)
         if (!product) {
           return callback({
-            status: "error",
-            message: "This product does not exist",
+            status: 'error',
+            message: 'This product does not exist'
           })
         }
         await product.update({
@@ -148,20 +148,20 @@ const adminService = {
           quantity,
           description,
           image: file ? image : product.image,
-          CategoryId: categoryId,
+          CategoryId: categoryId
         })
         return callback({
           product,
-          status: "success",
+          status: 'success',
           statusCode: 200,
-          message: "product successfully updated!",
+          message: 'product successfully updated!'
         })
       } else {
         const product = await Product.findByPk(id)
         if (!product) {
           return callback({
-            status: "error",
-            message: "This product does not exist",
+            status: 'error',
+            message: 'This product does not exist'
           })
         }
         await product.update({
@@ -170,12 +170,12 @@ const adminService = {
           quantity,
           description,
           image: product.image,
-          CategoryId: categoryId,
+          CategoryId: categoryId
         })
         return callback({
-          status: "success",
+          status: 'success',
           statusCode: 200,
-          message: "product successfully updated!",
+          message: 'product successfully updated!'
         })
       }
     } catch (error) {
@@ -190,17 +190,17 @@ const adminService = {
 
       if (!product) {
         return callback({
-          status: "error",
-          message: "This product does not exist",
+          status: 'error',
+          message: 'This product does not exist'
         })
       }
 
       await product.destroy()
 
       return callback({
-        status: "success",
+        status: 'success',
         statusCode: 200,
-        message: "product successfully deleted!",
+        message: 'product successfully deleted!'
       })
     } catch (error) {
       console.log(error)
@@ -212,7 +212,7 @@ const adminService = {
       const categories = await Category.findAll({
         raw: true,
         nest: true,
-        order: [["id", "DESC"]],
+        order: [['id', 'DESC']]
       })
       if (req.params.id) {
         const category = await Category.findByPk(req.params.id)
@@ -229,8 +229,8 @@ const adminService = {
     try {
       const { name } = req.body
       if (!name) {
-        req.flash("error_msg", "Please input category name")
-        return res.redirect("back")
+        req.flash('error_msg', 'Please input category name')
+        return res.redirect('back')
       } else {
         const category = await Category.create({ name })
         return callback({ category })
@@ -248,21 +248,21 @@ const adminService = {
 
       if (!category) {
         return callback({
-          status: "error",
-          message: "No such category",
+          status: 'error',
+          message: 'No such category'
         })
       }
 
       if (!name) {
-        req.flash("error_msg", "Please input category name")
-        return res.redirect("back")
+        req.flash('error_msg', 'Please input category name')
+        return res.redirect('back')
       } else {
         const category = await Category.findByPk(id)
         await category.update({ name })
         return callback({
-          status: "success",
+          status: 'success',
           statusCode: 200,
-          message: "Successfully updated category name",
+          message: 'Successfully updated category name'
         })
       }
     } catch (error) {
@@ -277,20 +277,20 @@ const adminService = {
 
       if (!category) {
         return callback({
-          status: "error",
-          message: "No such category",
+          status: 'error',
+          message: 'No such category'
         })
       }
       await category.destroy()
       return callback({
-        status: "success",
+        status: 'success',
         statusCode: 200,
-        message: `successfully deleted category ${category.toJSON().name}`,
+        message: `successfully deleted category ${category.toJSON().name}`
       })
     } catch (error) {
       console.log(error)
     }
-  },
+  }
 }
 
 module.exports = adminService

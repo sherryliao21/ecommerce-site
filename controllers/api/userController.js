@@ -1,4 +1,4 @@
-const userService = require("../../services/userService")
+const userService = require('../../services/userService')
 
 const userController = {
   login: (req, res) => {
@@ -10,7 +10,7 @@ const userController = {
     userService.register(req, res, data => {
       return res.json(data)
     })
-  },
+  }
 }
 
 module.exports = userController

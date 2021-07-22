@@ -1,13 +1,13 @@
-const db = require("../models")
+const db = require('../models')
 const Product = db.Product
 const Category = db.Category
 
-const { Op } = require("sequelize")
+const { Op } = require('sequelize')
 
 const productService = {
   getProducts: async (req, res, callback) => {
     let whereQuery = {}
-    let categoryId = ""
+    let categoryId = ''
     const page = Number(req.query.page) || 1
     const PAGE_LIMIT = 16
     const offset = (page - 1) * PAGE_LIMIT
@@ -15,7 +15,7 @@ const productService = {
 
     if (keyword) {
       keyword = req.query.keyword.trim()
-      whereQuery.name = { [Op.like]: "%" + keyword + "%" }
+      whereQuery.name = { [Op.like]: '%' + keyword + '%' }
     }
 
     if (req.query.categoryId) {
@@ -25,7 +25,7 @@ const productService = {
 
     const [categories, result] = await Promise.all([
       Category.findAll({ raw: true, nest: true }),
-      Product.findAndCountAll({ where: whereQuery, offset, limit: PAGE_LIMIT }),
+      Product.findAndCountAll({ where: whereQuery, offset, limit: PAGE_LIMIT })
     ])
 
     // data for pagination
@@ -44,14 +44,14 @@ const productService = {
       totalPage,
       prev,
       next,
-      keyword,
+      keyword
     })
   },
 
   getProduct: async (req, res, callback) => {
     const [categories, product] = await Promise.all([
       Category.findAll({ raw: true, nest: true }),
-      await Product.findByPk(req.params.id),
+      await Product.findByPk(req.params.id)
     ])
 
     // show quantity selection according to inventory
@@ -69,7 +69,7 @@ const productService = {
     const categories = await Category.findAll({ raw: true, nest: true })
 
     callback({ categories })
-  },
+  }
 }
 
 module.exports = productService
