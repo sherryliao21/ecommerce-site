@@ -4,6 +4,9 @@ const FacebookStrategy = require("passport-facebook").Strategy
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy
 const db = require("../models")
 const User = db.User
+const Order = db.Order
+const CartItem = db.CartItem
+const Payment = db.Payment
 const bcrypt = require("bcryptjs")
 
 // local strategy
@@ -98,7 +101,6 @@ passport.deserializeUser(async (id, done) => {
 })
 
 // for JWT strategy
-const jwt = require("jsonwebtoken")
 const passportJWT = require("passport-jwt")
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
@@ -107,14 +109,18 @@ let jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 jwtOptions.secretOrKey = process.env.JWT_SECRET
 
-let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  User.findByPk(jwt_payload.id, {
-    include: [{ model: Order, as: "Orders" }],
-  }).then(user => {
-    if (!user) return next(null, false)
-    return next(null, user)
+let strategy = new JwtStrategy(jwtOptions, async (jwt_payload, next) => {
+  const user = await User.findByPk(jwt_payload.id, {
+    include: [Order],
   })
+
+  if (!user) {
+    console.log("============ cant find user ===========")
+    return next(null, false)
+  }
+  return next(null, user)
 })
+
 passport.use(strategy)
 
 module.exports = passport

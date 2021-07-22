@@ -1,12 +1,12 @@
 const helpers = require("../test_helpers")
 
-// const authenticated = (req, res, next) => {
-// 	if (helpers.ensureAuthenticated(req)) {
-// 		return next()
-// 	}
-// 	req.flash("error_msg", "Please log in first!")
-// 	res.redirect("/users/login")
-// }
+const authenticated = (req, res, next) => {
+  if (helpers.ensureAuthenticated(req)) {
+    return next()
+  }
+  req.flash("error_msg", "Please log in first!")
+  res.redirect("/users/login")
+}
 
 const authenticatedAdmin = (req, res, next) => {
   if (helpers.ensureAuthenticated(req)) {
@@ -31,7 +31,7 @@ const authenticatedUser = (req, res, next) => {
 }
 
 module.exports = {
-  // authenticated,
+  authenticated,
   authenticatedAdmin,
   authenticatedUser,
 }
