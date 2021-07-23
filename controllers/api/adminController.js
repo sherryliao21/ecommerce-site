@@ -6,7 +6,7 @@ const adminController = {
       return res.json(data)
     })
   },
-  
+
   getProduct: (req, res) => {
     adminService.getProduct(req, res, data => {
       return res.json(data)
@@ -39,6 +39,30 @@ const adminController = {
 
   deleteProduct: (req, res) => {
     adminService.deleteProduct(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  getCategories: (req, res) => {
+    adminService.getCategories(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  postCategory: (req, res) => {
+    adminService.postCategory(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  putCategory: (req, res) => {
+    adminService.putCategory(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  deleteCategory: (req, res) => {
+    adminService.deleteCategory(req, res, data => {
       return res.json(data)
     })
   }

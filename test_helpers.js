@@ -1,8 +1,8 @@
-const ensureAuthenticated = (req) => {
+const ensureAuthenticated = req => {
   return req.isAuthenticated()
 }
 
-const getUser = (req) => {
+const getUser = req => {
   return req.user
 }
 

@@ -1,0 +1,33 @@
+<div class="row mt-5">
+	<div class="col-6 m-auto">
+		<div class="card card-body">
+			<h1 class="text-center mt-3">Login</h1>
+			{{> message}}
+			<form action="/users/login" method="POST" class="row d-flex flex-column align-items-center">
+				<div class="form-group col-8 mt-3">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" value="{{email}}"
+						required />
+				</div>
+				<div class="form-group mt-3 col-8">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"
+						required />
+				</div>
+				<button type="submit" class="btn btn-block col-6 mt-4"
+					style="border-radius: 10px; border: 1px solid rgb(253, 251, 251); background-color:rgb(250, 224, 224)">Login</button>
+				<a href="/auth/google" class="btn btn-block col-6 mt-3  align-items-center justify-content-center"
+					style="border-radius: 10px; border: 1px solid rgb(168, 165, 165)"> Login with Google <img
+						src="/assets/Google.svg" alt="google_logo" class="google ms-2" width=20 height=20> </a>
+
+				<a href="/auth/facebook" class="btn btn-block col-6 mt-3 d-flex align-items-center justify-content-center"
+					style="border-radius: 10px; border: 1px solid rgb(168, 165, 165)">Login with Facebook <img
+						src="/assets/facebook.svg" alt="facebook_logo" class="facebook ms-2" width=24 height=24> </a>
+				<p class="lead mt-4" style="width: 300px; margin-left: 100px;">
+					No Account? <a href="/users/register">Register</a>
+				</p>
+
+			</form>
+		</div>
+	</div>
+</div>

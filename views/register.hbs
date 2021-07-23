@@ -1,0 +1,36 @@
+<div class="row mt-5">
+	<div class="col-md-6 m-auto">
+		<div class="card card-body">
+			<h1 class="text-center mt-3">Register</h1>
+			{{> message}}
+			<form action="/users/register" method="POST" class="row d-flex flex-column align-items-center">
+				<div class="form-group col-8 mt-3">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" {{#if name}}
+						value="{{name}}" {{else}} value="{{userInput.name}}" {{/if}} required />
+				</div>
+				<div class="form-group col-8 mt-3">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"
+						value="{{userInput.email}}" required />
+				</div>
+				<div class="form-group col-8 mt-3">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"
+						required />
+				</div>
+				<div class="form-group col-8 mt-3">
+					<label for="confirmPassword">Confirm Password</label>
+					<input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+						placeholder="Confirm Password" required />
+				</div>
+				<button type="submit" class="btn btn-block col-6 mt-5"
+					style="border-radius: 10px; border: 1px solid rgb(253, 251, 251); background-color:rgb(250, 224, 224)">Register</button>
+				<p class="lead mt-4" style="width: 300px; margin-left: 72px;">
+					Have An Account?
+					<a href="/users/login">Login</a>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
