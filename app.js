@@ -4,6 +4,7 @@ const db = require('./models')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash')
+const helpers = require('./test_helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -42,6 +43,9 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
+  res.locals.user = helpers.getUser(req)
+    ? helpers.getUser(req).toJSON()
+    : { role: 'visitors' }
   next()
 })
 

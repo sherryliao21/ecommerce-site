@@ -8,6 +8,7 @@ const {
 const passport = require('passport')
 
 const productController = require('../controllers/productController')
+const cartController = require('../controllers/cartController')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
 
@@ -15,12 +16,17 @@ const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
 // storefront display
-router.get('/', (req, res) => {
-  return res.render('index')
-})
+router.get('/', (req, res) => res.redirect('/home'))
 router.get('/home', productController.getHome)
 router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getProduct)
+
+// cart
+router.get('/cart', cartController.getCart)
+router.post('/cart', cartController.postCart)
+router.post('/cartItem/:id/add', cartController.addCartItem)
+router.post('/cartItem/:id/sub', cartController.subCartItem)
+router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 // admin control panel
 router.route('/admin').get(
