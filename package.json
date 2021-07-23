@@ -31,7 +31,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.6.4",
+    "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0",
     "sinon": "^10.0.0",
     "sinon-chai": "^3.7.0",

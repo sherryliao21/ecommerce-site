@@ -23,11 +23,13 @@ app.engine(
 )
 app.set('view engine', 'hbs')
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: true
-// }))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+  })
+)
 
 app.use(express.static('public'))
 // app.use('/upload', express.static(__dirname + '/upload'))
@@ -37,9 +39,14 @@ app.use(methodOverride('_method'))
 app.use(passport.initialize()) // passport initialize
 app.use(passport.session()) // activate passport session
 app.use(flash())
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  next()
+})
 
 app.listen(PORT, () => {
-  // db.sequelize.sync() // sync models with database
+  db.sequelize.sync() // sync models with database
   console.log(`app is listening at PORT ${PORT}...`)
 })
 

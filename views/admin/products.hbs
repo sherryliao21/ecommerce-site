@@ -5,21 +5,21 @@
     <div class="products-nav">
       <a href="/admin/products">Products</a>
       <span> | </span>
-      <a href='/admin/categories'>Categories</a>
+      <a href="/admin/categories">Categories</a>
     </div>
 
     <div class="add-product">
-      <a href='/admin/products/create'>
+      <a href="/admin/products/create">
         <button type="button" class="btn btn-primary">New Product</button>
       </a>
     </div>
   </div>
 </div>
 
-  <br />
-  <br />
+<br />
+<br />
 
-<div class="row">  
+<div class="row">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">
       <tr>
@@ -47,7 +47,7 @@
             </a>
           </button>
           <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-link">Delete</button>
+            <button type="submit" class="btn btn-link" onclick="return confirmDelete()">Delete</button>
           </form>
         </td>
       </tr>
@@ -55,3 +55,5 @@
     </tbody>
   </table>
 </div>
+
+<script src="/javascripts/utils.js"></script>
