@@ -23,24 +23,6 @@ router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 // admin control panel
-<<<<<<< HEAD
-router.get('/admin/products', adminController.getProducts)
-router.get('/admin/products/create', adminController.getCreateProduct)
-router.get('/admin/products/:id', adminController.getProduct)
-router.get('/admin/products/:id/edit', adminController.editProduct)
-router.post(
-  '/admin/products',
-  upload.single('image'),
-  adminController.postProduct
-)
-router.put(
-  '/admin/products/:id',
-  upload.single('image'),
-  adminController.putProduct
-)
-router.delete('/admin/products/:id', adminController.deleteProduct)
-
-=======
 router
   .route('/admin/products')
   .all(authenticated, authenticatedAdmin)
@@ -80,5 +62,4 @@ router.route('/users/login').post(userController.login)
 
 router.route('/users/register').post(userController.register)
 
->>>>>>> master
 module.exports = router
