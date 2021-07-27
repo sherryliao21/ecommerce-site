@@ -19,13 +19,23 @@
           <td>{{this.date}}</td>
           <td>{{this.id}}</td>
           <td>$ {{this.amount}}</td>
-          <td>{{#ifCond this.payment_status '0'}}<a href="/order/{{this.id}}/payment"><button
-                class="btn btn-secondary">Pay</button></a>{{else}}Success{{/ifCond}}</td>
-          <td>{{this.shipping_status}}</td>
           <td>
-            <form action="/order/{{this.id}}/cancel" method="POST">
+            {{#ifCond this.payment_status '0'}}<a href="/order/{{this.id}}/payment"><button
+                class="btn btn-secondary">Pay</button></a>{{else}}{{#ifCond this.payment_status
+            '-1'}}Canceled{{else}}Success{{/ifCond}}{{/ifCond}}
+          </td>
+          <td>{{#ifCond this.shipping_status '0'}}Preparing{{else}}{{#ifCond this.shipping_status
+            '-1'}}Canceled{{else}}Shipped{{/ifCond}}{{/ifCond}}</td>
+          <td>
+            {{#ifCond this.shipping_status '0'}}
+            <form action="/orders/{{this.id}}/cancel" method="POST">
               <button type="submit" class="btn btn-secondary">Cancel</button>
             </form>
+            {{else}}
+            {{#ifCond this.shipping_status '-1'}}
+            Canceled
+            {{/ifCond}}
+            {{/ifCond}}
           </td>
         </tr>
 
