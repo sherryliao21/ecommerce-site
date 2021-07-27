@@ -6,7 +6,39 @@ const Product = db.Product
 const OrderItem = db.OrderItem
 const Order = db.Order
 
+const moment = require('moment')
+
 const orderService = {
+  getOrders: async (req, res, callback) => {
+    try {
+      let [orders, categories] = await Promise.all([
+        Order.findAll({
+          where: { UserId: 2 },
+          include: 'orderedProducts'
+        }),
+        Category.findAll({ raw: true, nest: true })
+      ])
+
+      orders = orders.map(order => {
+        order = order.get({ plain: true })
+        return {
+          id: order.id,
+          date: moment.utc(order.createdAt).format('YYYY-MM-DD'),
+          amount: order.amount,
+          name: order.name,
+          phone: order.phone,
+          address: order.address,
+          payment_status: order.payment_status,
+          shipping_status: order.shipping_status,
+          orderedProducts: order.orderedProducts
+        }
+      })
+
+      callback({ categories, orders })
+    } catch (err) {
+      console.log(err)
+    }
+  },
   postOrder: async (req, res, callback) => {
     try {
       let [cart, categories] = await Promise.all([

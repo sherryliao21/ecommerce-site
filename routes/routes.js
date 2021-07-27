@@ -31,7 +31,8 @@ router.delete('/cartItem/:id', cartController.deleteCartItem)
 router.get('/cart/checkout', cartController.getCheckoutPage)
 
 // order
-router.post('/orders', orderController.postCart)
+router.post('/orders', orderController.postOrder)
+router.get('/orders', orderController.getOrders)
 
 // admin control panel
 router.route('/admin').get(
