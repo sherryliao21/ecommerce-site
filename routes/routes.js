@@ -31,6 +31,11 @@ router.delete('/cartItem/:id', cartController.deleteCartItem)
 router.get('/cart/checkout', authenticatedUser, cartController.getCheckoutPage)
 
 // order
+router.post(
+  '/orders/:id/cancel',
+  authenticatedUser,
+  orderController.cancelOrder
+)
 router.post('/orders', authenticatedUser, orderController.postOrder)
 router.get('/orders', authenticatedUser, orderController.getOrders)
 

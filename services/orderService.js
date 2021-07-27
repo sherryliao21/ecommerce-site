@@ -7,13 +7,14 @@ const OrderItem = db.OrderItem
 const Order = db.Order
 
 const moment = require('moment')
+const orderController = require('../controllers/orderController')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
     try {
       let [orders, categories] = await Promise.all([
         Order.findAll({
-          where: { UserId: 2 },
+          where: { UserId: req.user.id },
           include: 'orderedProducts'
         }),
         Category.findAll({ raw: true, nest: true })
@@ -71,7 +72,7 @@ const orderService = {
 
       // confirm order
       const order = await Order.create({
-        UserId: 2,
+        UserId: req.user.id,
         name: req.body.name,
         address: req.body.address,
         phone: req.body.phone,
@@ -107,6 +108,28 @@ const orderService = {
     } catch (err) {
       console.log(err)
     }
+  },
+  cancelOrder: async (req, res, callback) => {
+    const order = await Order.findByPk(req.params.id)
+    // User can't cancel other's order
+    if (
+      !order ||
+      order.UserId !== req.user.id ||
+      order.shipping_status === '-1'
+    ) {
+      return callback({ status: 'error', message: "The order doesn't exist" })
+    }
+
+    if (order.shipping_status === '-1') {
+      return callback({ status: 'error', message: "The order doesn't exist" })
+    }
+
+    await order.update({
+      ...req.body,
+      shipping_status: '-1',
+      payment_status: '-1'
+    })
+    callback({ orderId: order.id })
   }
 }
 

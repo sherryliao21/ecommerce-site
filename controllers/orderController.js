@@ -13,6 +13,14 @@ const orderController = {
       }
       return res.render('confirmation', data)
     })
+  },
+  cancelOrder: (req, res) => {
+    orderService.cancelOrder(req, res, data => {
+      if (data.status === 'error') {
+        return res.redirect('back')
+      }
+      return res.redirect('back')
+    })
   }
 }
 
