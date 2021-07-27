@@ -28,11 +28,11 @@ router.post('/cart', cartController.postCart)
 router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
-router.get('/cart/checkout', cartController.getCheckoutPage)
+router.get('/cart/checkout', authenticatedUser, cartController.getCheckoutPage)
 
 // order
-router.post('/orders', orderController.postOrder)
-router.get('/orders', orderController.getOrders)
+router.post('/orders', authenticatedUser, orderController.postOrder)
+router.get('/orders', authenticatedUser, orderController.getOrders)
 
 // admin control panel
 router.route('/admin').get(
