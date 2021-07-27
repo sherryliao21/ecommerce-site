@@ -9,6 +9,7 @@ const passport = require('passport')
 
 const productController = require('../controllers/productController')
 const cartController = require('../controllers/cartController')
+const orderController = require('../controllers/orderController')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
 
@@ -28,6 +29,9 @@ router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
 router.get('/cart/checkout', cartController.getCheckoutPage)
+
+// order
+router.post('/orders', orderController.postCart)
 
 // admin control panel
 router.route('/admin').get(
