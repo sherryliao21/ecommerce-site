@@ -58,8 +58,8 @@ router
   .delete(adminController.deleteCategory)
 
 // users login/logout & register
-router.route('/users/login').post(userController.login)
+router.route('/user/login').post(userController.login)
 
-router.route('/users/register').post(userController.register)
+router.route('/user/register').post(userController.register)
 
 module.exports = router

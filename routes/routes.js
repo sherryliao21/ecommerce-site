@@ -67,25 +67,29 @@ router
 
 // users login/logout & register
 router
-  .route('/users/login')
+  .route('/user/login')
   .get(userController.getLoginPage)
   .post(
     passport.authenticate('local', {
-      failureRedirect: '/users/login',
+      failureRedirect: '/user/login',
       failureFlash: true
     }),
     userController.login
   )
 
 router
-  .route('/users/register')
+  .route('/user/register')
   .get(userController.getRegisterPage)
   .post(userController.register)
 
-router.get('/users/logout', (req, res) => {
+router.get('/user/logout', (req, res) => {
   req.logOut()
   req.flash('success_msg', 'You have logged out successfully！')
-  res.redirect('/users/login')
+  res.redirect('/user/login')
 })
+
+// user profile
+router.route('/user/profile/edit')
+  .get(authenticatedUser ,userController.getEditProfilePage)
 
 module.exports = router

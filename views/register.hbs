@@ -3,7 +3,7 @@
 		<div class="card card-body">
 			<h1 class="text-center mt-3">Register</h1>
 			{{> message}}
-			<form action="/users/register" method="POST" class="row d-flex flex-column align-items-center">
+			<form action="/user/register" method="POST" class="row d-flex flex-column align-items-center">
 				<div class="form-group col-8 mt-3">
 					<label for="name">Name</label>
 					<input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" {{#if name}}
@@ -28,7 +28,7 @@
 					style="border-radius: 10px; border: 1px solid rgb(253, 251, 251); background-color:rgb(250, 224, 224)">Register</button>
 				<p class="lead mt-4" style="width: 300px; margin-left: 72px;">
 					Have An Account?
-					<a href="/users/login">Login</a>
+					<a href="/user/login">Login</a>
 				</p>
 			</form>
 		</div>

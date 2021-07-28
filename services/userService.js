@@ -99,6 +99,27 @@ const userService = {
     } catch (error) {
       console.log(error)
     }
+  },
+  
+  getEditProfilePage: async (req, res, callback) => {
+    try {
+      const id = req.user.id
+      const user = await User.findByPk(id)
+      if (!user) {
+        return callback({
+          status: 'error',
+          message: 'This user does not exist!'
+        })
+      }
+      return callback({
+        status: 'success',
+        user
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+
   }
 }
 
