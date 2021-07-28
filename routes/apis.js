@@ -9,7 +9,7 @@ const userController = require('../controllers/api/userController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
-const { authenticated, authenticatedAdmin } = require('../middlewares/api/auth')
+const { authenticated, authenticatedUser, authenticatedAdmin } = require('../middlewares/api/auth')
 
 // storefront
 router.get('/products', productController.getProducts)
@@ -59,7 +59,9 @@ router
 
 // users login/logout & register
 router.route('/user/login').post(userController.login)
-
 router.route('/user/register').post(userController.register)
+
+// user profile
+router.route('/user/profile/edit').get(authenticated, authenticatedUser ,userController.getEditProfilePage)
 
 module.exports = router

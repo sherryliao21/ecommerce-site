@@ -10,6 +10,11 @@ const userController = {
     userService.register(req, res, data => {
       return res.json(data)
     })
+  },
+  getEditProfilePage: (req, res) => {
+    userService.getEditProfilePage(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

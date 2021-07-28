@@ -20,7 +20,16 @@ const userController = {
         return res.redirect('back')
       }
       req.flash('success_msg', data.message)
-      return res.redirect('/users/login')
+      return res.redirect('/user/login')
+    })
+  },
+  getEditProfilePage: (req, res) => {
+    userService.getEditProfilePage(req, res, data => {
+      if (data.status === 'error') {
+        req.flash('error_msg', data.message)
+        return res.redirect('back')
+      }
+      return res.render('user/profile', data)
     })
   }
 }

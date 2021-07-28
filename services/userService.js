@@ -111,15 +111,16 @@ const userService = {
           message: 'This user does not exist!'
         })
       }
+      console.log('===========user:', user)
       return callback({
         status: 'success',
-        user
+        name: user.name,
+        email: user.email
       })
     }
     catch (error) {
       console.log(error)
     }
-
   }
 }
 

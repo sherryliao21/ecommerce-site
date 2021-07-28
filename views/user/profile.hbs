@@ -1,0 +1,34 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mt-3">Edit User Info</h1>
+      {{> message}}
+      <form action="/user/profile" method="POST" class="row d-flex flex-column align-items-center">
+        <div class="form-group col-8 mt-3">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" value="{{name}}" required />
+        </div>
+        <div class="form-group col-8 mt-3">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control" value="{{email}}" required disabled />
+        </div>
+        <div class="form-group col-8 mt-3">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"
+            required />
+        </div>
+        <div class="form-group col-8 mt-3">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+            placeholder="Confirm Password" required />
+        </div>
+        <div class="btn-group col-6 row mt-5">
+          <a href="/home" class="btn btn-block col-2 me-2"
+            style="border-radius: 10px; border: 1px solid rgb(109, 109, 109); color: #ffffff; background-color:rgb(119, 116, 116)">Back</a>
+          <button type="submit" class="btn btn-block col-2"
+            style="border-radius: 10px; border: 1px solid rgb(253, 251, 251); background-color:rgb(250, 224, 224)">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
