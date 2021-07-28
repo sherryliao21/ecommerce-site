@@ -90,6 +90,8 @@ router.get('/user/logout', (req, res) => {
 
 // user profile
 router.route('/user/profile/edit')
-  .get(authenticatedUser, userController.getEditProfilePage)
+  .all(authenticated, authenticatedUser)
+  .get(userController.getEditProfilePage)
+  .put(userController.putProfile)
 
 module.exports = router

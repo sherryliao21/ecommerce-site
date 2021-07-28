@@ -31,6 +31,18 @@ const userController = {
       }
       return res.render('user/profile', data)
     })
+  },
+  putProfile: (req, res) => {
+    userService.putProfile(req, res, data => {
+      if (data.status === 'error') {
+        console.log(data.errors.message)
+        req.flash('error_msg', data.message || data.errors.message)
+        return res.redirect('back')
+      } else {
+        req.flash('success_msg', 'Successfully updated user info')
+      }
+      return res.redirect('/user/profile/edit')
+    })
   }
 }
 

@@ -2,6 +2,7 @@ const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { checkUserInfo } = require('../utils/users')
+const validator = require('validator')
 
 const userService = {
   login: async (req, res, callback) => {
@@ -111,9 +112,62 @@ const userService = {
           message: 'This user does not exist!'
         })
       }
-      console.log('===========user:', user)
       return callback({
         status: 'success',
+        name: user.name,
+        email: user.email
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  putProfile: async (req, res, callback) => {
+    try {
+      const { name, password, confirmPassword } = req.body
+      const id = req.user.id
+      const user = await User.findByPk(id)
+      const errors = []
+
+      if (!user) {
+        return callback({
+          status: 'error',
+          message: 'This user does not exist'
+        })
+      }
+
+      if (!name || !password || !confirmPassword) {
+        errors.push({ message: 'All fields are required' })
+      }
+      if (password && !validator.isByteLength(password, { min: 4, max: 12 })) {
+        errors.push({ message: 'Password does not meet required length' })
+      }
+      if (!validator.equals(password, confirmPassword)) {
+        errors.push({ message: 'Passwords do not match' })
+      }
+      if (errors.length) {
+        return callback({
+          status: 'error',
+          errors: errors[0]
+        })
+      }
+
+      const newPassword = bcrypt.hashSync(
+            password,
+            bcrypt.genSaltSync(10),
+            null
+          )
+
+      await user.update({
+        ...user,
+        name, password: newPassword
+      })
+
+      return callback({
+        status: 'success',
+        message: 'Successfully updated user info',
+        user,
         name: user.name,
         email: user.email
       })

@@ -62,6 +62,9 @@ router.route('/user/login').post(userController.login)
 router.route('/user/register').post(userController.register)
 
 // user profile
-router.route('/user/profile/edit').get(authenticated, authenticatedUser ,userController.getEditProfilePage)
+router.route('/user/profile/edit')
+  .all(authenticated, authenticatedUser)
+  .get(userController.getEditProfilePage)
+  .put(userController.putProfile)
 
 module.exports = router
