@@ -7,7 +7,8 @@ const OrderItem = db.OrderItem
 const Order = db.Order
 
 const moment = require('moment')
-const orderController = require('../controllers/orderController')
+
+const { sendMail, orderConfirmMail } = require('../utils/mail')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -103,6 +104,10 @@ const orderService = {
       results.push(CartItem.destroy({ where: { CartId: req.body.cartId } }))
 
       await Promise.all(results)
+
+      // Send email
+      const mailContent = orderConfirmMail(order, 'unpaid')
+      await sendMail(req.user.email, mailContent)
 
       callback({ categories, order: order.toJSON() })
     } catch (err) {
