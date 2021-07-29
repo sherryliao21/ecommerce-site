@@ -84,14 +84,21 @@ const orderService = {
 
       // create orderItem and update inventory
       let results = []
+      let orderedItems = []
       cart.cartedProducts.forEach(addedProduct => {
+        const orderedItem = {
+          OrderId: order.id,
+          ProductId: addedProduct.id,
+          price: addedProduct.price,
+          quantity: addedProduct.CartItem.quantity
+        }
+        orderedItems.push({
+          ...orderedItem,
+          name: addedProduct.name,
+          image: addedProduct.image
+        })
         results.push(
-          OrderItem.create({
-            OrderId: order.id,
-            ProductId: addedProduct.id,
-            price: addedProduct.price,
-            quantity: addedProduct.CartItem.quantity
-          }),
+          OrderItem.create(orderedItem),
           Product.findByPk(addedProduct.id).then(product => {
             product.update({
               quantity: (product.quantity -= addedProduct.CartItem.quantity)
@@ -106,7 +113,7 @@ const orderService = {
       await Promise.all(results)
 
       // Send email
-      const mailContent = orderConfirmMail(order, 'unpaid')
+      const mailContent = orderConfirmMail(order.toJSON(), 'unpaid')
       await sendMail(req.user.email, mailContent)
 
       callback({ categories, order: order.toJSON() })
