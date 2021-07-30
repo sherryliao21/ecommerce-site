@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'user'
+      },
+      googleId: {
+        type: DataTypes.STRING
       }
     },
     {}

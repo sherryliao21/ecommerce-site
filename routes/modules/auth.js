@@ -7,18 +7,18 @@ router.get('/facebook', passport.authenticate('facebook', {
 }))
 
 router.get('/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/',
+  successRedirect: '/home',
   failureRedirect: '/user/login'
 }))
 
 router.get('/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] })
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'profile', 'email'] })
 )
 
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/user/login' }),
   (req, res) => {
-    res.redirect('/')
+    res.redirect('/home')
   }
 )
 
