@@ -65,6 +65,12 @@ const adminController = {
     adminService.deleteCategory(req, res, data => {
       return res.json(data)
     })
+  },
+
+  getOrders: (req, res) => {
+    adminService.getOrders(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

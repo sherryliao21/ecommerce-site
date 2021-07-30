@@ -69,6 +69,12 @@ const adminController = {
     adminService.deleteCategory(req, res, data => {
       return res.redirect('/admin/categories')
     })
+  },
+
+  getOrders: (req, res) => {
+    adminService.getOrders(req, res, data => {
+      return res.render('admin/orders', data)
+    })
   }
 }
 

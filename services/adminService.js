@@ -1,6 +1,7 @@
 const db = require('../models')
 const Product = db.Product
 const Category = db.Category
+const Order = db.Order
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -288,6 +289,21 @@ const adminService = {
         message: `successfully deleted category ${category.toJSON().name}`
       })
     } catch (error) {
+      console.log(error)
+    }
+  },
+
+  getOrders: async (req, res, callback) => {
+    try {
+      const orders = await Order.findAll({ raw: true, nest: true })
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully retrieved data',
+        orders
+      })
+    }
+    catch (error) {
       console.log(error)
     }
   }
