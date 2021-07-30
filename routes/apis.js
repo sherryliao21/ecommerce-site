@@ -57,7 +57,13 @@ router
   .put(adminController.putCategory)
   .delete(adminController.deleteCategory)
 
-router.get('/admin/orders', authenticated, authenticatedAdmin, adminController.getOrders)
+router
+  .route('/admin/orders')
+  .get(authenticated, authenticatedAdmin, adminController.getOrders)
+router
+  .route('/admin/orders/:id/edit')
+  .all(authenticated, authenticatedAdmin)
+  .get(adminController.getEditOrder)
 
 // users login/logout & register
 router.route('/user/login').post(userController.login)

@@ -2,6 +2,7 @@ const db = require('../models')
 const Product = db.Product
 const Category = db.Category
 const Order = db.Order
+const OrderItem = db.OrderItem
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -295,12 +296,55 @@ const adminService = {
 
   getOrders: async (req, res, callback) => {
     try {
-      const orders = await Order.findAll({ raw: true, nest: true })
+      const orders = await Order.findAll({ raw: true, nest: true, order: [['id', 'DESC']] })
+      
       return callback({
         status: 'success',
         statusCode: 200,
         message: 'successfully retrieved data',
         orders
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  
+  getEditOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const order = await Order.findByPk(id, { include: 'orderedProducts'})
+      
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist'
+        })
+      }
+
+      const orderedProducts = order.orderedProducts.map((d, i) => ({
+        id: order.orderedProducts[i].id,
+        CategoryId: order.orderedProducts[i].CategoryId,
+        name: order.orderedProducts[i].name,
+        price: order.orderedProducts[i].price,
+        image: order.orderedProducts[i].image,
+        quantity: order.orderedProducts[i].OrderItem.quantity,
+        subtotal: order.orderedProducts[i].price * order.orderedProducts[i].OrderItem.quantity
+      }))
+
+      let totalPrice = 0
+      orderedProducts.forEach(e => {
+        totalPrice += e.price * e.quantity
+      })
+
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully retrieved data',
+        order: order.toJSON(),
+        orderedProducts,
+        totalPrice
       })
     }
     catch (error) {

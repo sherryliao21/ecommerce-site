@@ -1,0 +1,87 @@
+<h1>Control panel</h1>
+
+<div class="row">
+  <div class="products-header d-flex align-items-center justify-content-between col-11">
+    <div class="products-nav">
+      <a href="/admin/products">Products</a>
+      <span> | </span>
+      <a href="/admin/categories">Categories</a>
+      <span> | </span>
+      <a href="/admin/orders">Orders</a>
+    </div>
+
+    <div class="search">
+      {{!-- <a href="/admin/products/create">
+        <button type="button" class="btn btn-primary">New Product</button>
+      </a> --}}
+    </div>
+  </div>
+</div>
+
+<br />
+<br />
+
+<h2>Order #{{order.sn}}</h2>
+
+<div class="my-3">
+  <table class="table table-borderless" style="vertical-align: middle;">
+    <thead style="text-align: center;">
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Item Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody style="text-align: center;">
+      {{#each orderedProducts}}
+      <tr>
+        <td><img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;"></td>
+        <td>
+          <span>{{this.name}}</span>
+        </td>
+        <td>
+          <p style="margin: 0;">$ {{this.price}}</p>
+        </td>
+        <td>
+          {{this.quantity}}
+        </td>
+        <td>{{this.subtotal}}</td>
+      </tr>
+      {{/each}}
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: right;">
+
+        </td>
+        <td>
+          <h6 style="margin: 0;">Total: </h6>
+        </td>
+        <td>
+          <h6 style="margin: 0;">$ {{totalPrice}}</h6>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form action="/admin/orders/{{order.id}}/edit?_method=PUT" method="POST" class="mt-5">
+    <div class="status-container row d-flex justify-content-end align-items-end">
+      <div class="select-group col-2">
+        <label for="payment">Payment Status</label>
+        <select name="payment" id="payment" class="form-select">
+          <option value="paid" {{#ifCond order.payment_status 'paid' }} selected {{/ifCond}}>Paid</option>
+          <option value="unpaid" {{#ifCond order.payment_status 'unpaid' }}selected{{/ifCond}}>Unpaid</option>
+        </select>
+      </div>
+      <div class="select-group col-2">
+        <label for="shipment">Shipping Status</label>
+        <select name="shipment" id="shipment" class="form-select">
+          <option value="shipped" {{#ifCond order.shipping_status 'shipped' }}selected{{/ifCond}}>Shipped</option>
+          <option value="unshipped" {{#ifCond order.shipping_status 'unshipped' }}selected{{/ifCond}}>Unshppied</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary col-1" style="padding: 6px 40px;">Save</button>
+    </div>
+  </form>

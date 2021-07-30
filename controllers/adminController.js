@@ -75,6 +75,16 @@ const adminController = {
     adminService.getOrders(req, res, data => {
       return res.render('admin/orders', data)
     })
+  },
+
+  getEditOrder: (req, res) => {
+    adminService.getEditOrder(req, res, data => {
+      if (data.status === 'error') {
+        req.flash('error_msg', 'This order does not exist!')
+        res.redirect('/admin/orders')
+      }
+      return res.render('admin/order', data)
+    })
   }
 }
 

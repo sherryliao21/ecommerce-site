@@ -18,6 +18,8 @@
   </div>
 </div>
 
+{{> message}}
+
 <br />
 <br />
 
@@ -49,11 +51,6 @@
             style="padding: 6px 10px; border-radius: 8px;{{#ifCond this.shipping_status 'shipped'}} background-color: #85D68A; color: #2E731D; {{else}} background-color: #FEB8B3; color: #B53A2A; {{/ifCond}}">{{this.shipping_status}}</span>
         </td>
         <td class="col-2">
-          <button type="button" class="btn btn-link">
-            <a href="/admin/orders/{{this.id}}">
-              Show
-            </a>
-          </button>
           <button type="button" class="btn btn-link">
             <a href="/admin/orders/{{this.id}}/edit">
               Edit

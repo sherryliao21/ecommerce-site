@@ -67,6 +67,11 @@ router
 
 router.get('/admin/orders', authenticated, authenticatedAdmin, adminController.getOrders)
 
+router
+  .route('/admin/orders/:id/edit')
+  .all(authenticated, authenticatedAdmin)
+  .get(adminController.getEditOrder)
+
 // users login/logout & register
 router
   .route('/user/login')
