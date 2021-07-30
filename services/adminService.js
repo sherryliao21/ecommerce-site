@@ -394,6 +394,31 @@ const adminService = {
     catch (error) {
       console.log(error)
     }
+  },
+
+  deleteOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const order = await Order.findByPk(id)
+
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist'
+        })
+      }
+      
+      await order.destroy()
+      return callback({
+        status: 'success',
+        message: `successfully deleted order #${id}`
+      })
+
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 

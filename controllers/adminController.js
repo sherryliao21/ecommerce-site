@@ -94,6 +94,15 @@ const adminController = {
       }
       return res.redirect('/admin/orders')
     })
+  },
+
+  deleteOrder: (req, res) => {
+    adminService.deleteOrder(req, res, data => {
+      if (data.status === 'error') {
+        req.flash('error_msg', data.message)
+      }
+      return res.redirect('/admin/orders')
+    })
   }
 }
 

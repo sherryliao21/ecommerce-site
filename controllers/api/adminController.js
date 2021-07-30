@@ -83,6 +83,12 @@ const adminController = {
     adminService.putOrder(req, res, data => {
       return res.json(data)
     })
+  },
+
+  deleteOrder: (req, res) => {
+    adminService.deleteOrder(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

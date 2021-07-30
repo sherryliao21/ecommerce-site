@@ -74,6 +74,7 @@ router
   .route('/admin/orders/:id')
   .all(authenticated, authenticatedAdmin)
   .put(adminController.putOrder)
+  .delete(adminController.deleteOrder)
 
 router
   .route('/admin/orders/:id/edit')
