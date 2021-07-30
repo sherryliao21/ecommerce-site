@@ -13,6 +13,7 @@ const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
 
 const multer = require('multer')
+const adminService = require('../services/adminService')
 const upload = multer({ dest: 'temp/' })
 
 // storefront display
@@ -71,6 +72,7 @@ router
   .route('/admin/orders/:id/edit')
   .all(authenticated, authenticatedAdmin)
   .get(adminController.getEditOrder)
+  .put(adminController.putOrder)
 
 // users login/logout & register
 router

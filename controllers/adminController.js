@@ -85,6 +85,15 @@ const adminController = {
       }
       return res.render('admin/order', data)
     })
+  },
+
+  putOrder: (req, res) => {
+    adminService.putOrder(req, res, data => {
+      if (data.status === 'error') {
+        req.flash('error_msg', data.message)
+      }
+      return res.redirect('/admin/orders')
+    })
   }
 }
 

@@ -77,6 +77,12 @@ const adminController = {
     adminService.getEditOrder(req, res, data => {
       return res.json(data)
     })
+  },
+
+  putOrder: (req, res) => {
+    adminService.putOrder(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

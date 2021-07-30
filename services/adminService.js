@@ -350,6 +350,50 @@ const adminService = {
     catch (error) {
       console.log(error)
     }
+  },
+
+  putOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const { payment, shipment } = req.body
+      const order = await Order.findByPk(id)
+
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist!'
+        })
+      }
+
+      if (!payment || !shipment) {
+        return callback({
+          status: 'error',
+          message: 'Please select a status'
+        })
+      }
+
+      await order.update({
+        id,
+        UserId: order.userId,
+        sn: order.sn,
+        amount: order.amount,
+        name: order.name,
+        phone: order.phone,
+        address: order.address,
+        payment_status: payment,
+        shipping_status: shipment
+      })
+
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully updated order'
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 

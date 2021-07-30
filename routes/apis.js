@@ -64,6 +64,7 @@ router
   .route('/admin/orders/:id/edit')
   .all(authenticated, authenticatedAdmin)
   .get(adminController.getEditOrder)
+  .put(adminController.putOrder)
 
 // users login/logout & register
 router.route('/user/login').post(userController.login)
