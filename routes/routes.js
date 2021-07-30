@@ -89,7 +89,7 @@ router.get('/user/logout', (req, res) => {
 })
 
 // user profile
-router.route('/user/profile/edit')
+router.route('/user/profile')
   .all(authenticated, authenticatedUser)
   .get(userController.getEditProfilePage)
   .put(userController.putProfile)

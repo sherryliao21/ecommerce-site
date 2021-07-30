@@ -3,7 +3,7 @@
     <div class="card card-body">
       <h1 class="text-center mt-3">Edit User Info</h1>
       {{> message}}
-      <form action="/user/profile/edit?_method=PUT" method="POST" class="row d-flex flex-column align-items-center">
+      <form action="/user/profile?_method=PUT" method="POST" class="row d-flex flex-column align-items-center">
         <div class="form-group col-8 mt-3">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" class="form-control" value="{{name}}" required />

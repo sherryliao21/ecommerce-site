@@ -62,7 +62,7 @@ router.route('/user/login').post(userController.login)
 router.route('/user/register').post(userController.register)
 
 // user profile
-router.route('/user/profile/edit')
+router.route('/user/profile')
   .all(authenticated, authenticatedUser)
   .get(userController.getEditProfilePage)
   .put(userController.putProfile)
