@@ -1,4 +1,4 @@
 function confirmDelete() {
-	if (confirm("Are you sure to delete this category?")) return true
+	if (confirm("Are you sure to delete this one?")) return true
 	return false
 }
