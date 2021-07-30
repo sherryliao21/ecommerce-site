@@ -66,13 +66,19 @@ router
   .put(adminController.putCategory)
   .delete(adminController.deleteCategory)
 
-router.get('/admin/orders', authenticated, authenticatedAdmin, adminController.getOrders)
+router
+  .route('/admin/orders')
+  .get(authenticated, authenticatedAdmin, adminController.getOrders)
+
+router
+  .route('/admin/orders/:id')
+  .all(authenticated, authenticatedAdmin)
+  .put(adminController.putOrder)
 
 router
   .route('/admin/orders/:id/edit')
   .all(authenticated, authenticatedAdmin)
   .get(adminController.getEditOrder)
-  .put(adminController.putOrder)
 
 // users login/logout & register
 router
