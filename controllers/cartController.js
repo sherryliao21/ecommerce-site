@@ -25,6 +25,14 @@ const cartController = {
     cartService.deleteCartItem(req, res, data => {
       return res.redirect('back')
     })
+  },
+  getCheckoutPage: (req, res) => {
+    cartService.getCheckoutPage(req, res, data => {
+      if (data.status === 'error') {
+        return res.redirect('back')
+      }
+      return res.render('checkout', data)
+    })
   }
 }
 

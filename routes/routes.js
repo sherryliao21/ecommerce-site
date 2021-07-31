@@ -9,6 +9,7 @@ const passport = require('passport')
 
 const productController = require('../controllers/productController')
 const cartController = require('../controllers/cartController')
+const orderController = require('../controllers/orderController')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
 
@@ -17,17 +18,31 @@ const adminService = require('../services/adminService')
 const upload = multer({ dest: 'temp/' })
 
 // storefront display
-router.get('/', (req, res) => res.redirect('/home'))
-router.get('/home', productController.getHome)
-router.get('/products', productController.getProducts)
-router.get('/products/:id', productController.getProduct)
+router.route('/').get((req, res) => res.redirect('/home'))
+router.route('/home').get(productController.getHome)
+router.route('/products').get(productController.getProducts)
+router.route('/products/:id').get(productController.getProduct)
 
 // cart
-router.get('/cart', cartController.getCart)
-router.post('/cart', cartController.postCart)
-router.post('/cartItem/:id/add', cartController.addCartItem)
-router.post('/cartItem/:id/sub', cartController.subCartItem)
-router.delete('/cartItem/:id', cartController.deleteCartItem)
+router.route('/cart').get(cartController.getCart).post(cartController.postCart)
+router.route('/cartItem/:id/add').post(cartController.addCartItem)
+router.route('/cartItem/:id/sub').post(cartController.subCartItem)
+router.route('/cartItem/:id').delete(cartController.deleteCartItem)
+router
+  .route('/cart/checkout')
+  .all(authenticatedUser)
+  .get(cartController.getCheckoutPage)
+
+// order
+router
+  .route('/orders/:id/cancel')
+  .all(authenticatedUser)
+  .post(orderController.cancelOrder)
+router
+  .route('/orders')
+  .all(authenticatedUser)
+  .get(orderController.getOrders)
+  .post(orderController.postOrder)
 
 // admin control panel
 router.route('/admin').get(

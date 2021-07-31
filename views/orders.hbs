@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="/stylesheets/orders.css">
+{{#each orders}}
+<div class="row mb-5">
+  {{!-- Order info --}}
+  <div class="col-12">
+    <table class="table table-borderless" style="border-bottom: 1px solid #dee2e6;">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Order Number</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Payment Status</th>
+          <th scope="col">Shipping Status</th>
+          <th scope="col">Cancel Order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{this.date}}</td>
+          <td>{{this.id}}</td>
+          <td>$ {{this.amount}}</td>
+          <td>
+            {{#ifCond this.payment_status '0'}}<a href="/order/{{this.id}}/payment"><button
+                class="btn btn-secondary">Pay</button></a>{{else}}{{#ifCond this.payment_status
+            '-1'}}Canceled{{else}}Success{{/ifCond}}{{/ifCond}}
+          </td>
+          <td>{{#ifCond this.shipping_status '0'}}Preparing{{else}}{{#ifCond this.shipping_status
+            '-1'}}Canceled{{else}}Shipped{{/ifCond}}{{/ifCond}}</td>
+          <td>
+            {{#ifCond this.shipping_status '0'}}
+            <form action="/orders/{{this.id}}/cancel" method="POST">
+              <button type="submit" class="btn btn-secondary">Cancel</button>
+            </form>
+            {{else}}
+            {{#ifCond this.shipping_status '-1'}}
+            Canceled
+            {{/ifCond}}
+            {{/ifCond}}
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="order-detail-tile">
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#order{{this.id}}"
+      aria-expanded="false" aria-controls="{{this.id}}">
+      + Order Details
+    </button>
+
+  </div>
+  {{!-- Product detail --}}
+  <div class="col-12 collapse" id="order{{this.id}}">
+    <table class="table table-borderless" style="vertical-align: middle;">
+      <thead style="text-align: center;">
+        <tr>
+          <th scope="col">Item Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center;">
+        {{#each this.orderedProducts}}
+        <tr>
+          <td>
+            <div style="text-align: left;">
+              <img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;">
+              <span>{{this.name}}</span>
+            </div>
+          </td>
+          <td>
+            <p style="margin: 0;">$ {{this.price}}</p>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <span style="margin: 0 20px;">
+                {{this.OrderItem.quantity}}
+              </span>
+            </div>
+          </td>
+          <td>{{this.price}} * {{this.OrderItem.quantity}}</td>
+        </tr>
+        {{/each}}
+        <tr style="border-top: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;">
+          <td></td>
+          <td style="text-align: right;">
+
+          </td>
+          <td>
+            <h6 style="margin: 0;">Total: </h6>
+          </td>
+          <td>
+            <h6 style="margin: 0;">$ {{this.amount}}</h6>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <ul class="list-group">
+        <li class="list-group-item">Name: {{this.name}}</li>
+        <li class="list-group-item">Address: {{this.address}}</li>
+        <li class="list-group-item">Phone: {{this.phone}}</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<hr />
+{{/each}}
