@@ -70,18 +70,25 @@
     <div class="status-container row d-flex justify-content-end align-items-end">
       <div class="select-group col-2">
         <label for="payment">Payment Status</label>
-        <select name="payment" id="payment" class="form-select">
+        <select name="payment" id="payment" class="form-select" {{#ifCond order.payment_status 'canceled' }}
+          value="canceled" disabled {{/ifCond}}>
           <option value="paid" {{#ifCond order.payment_status 'paid' }} selected {{/ifCond}}>Paid</option>
           <option value="unpaid" {{#ifCond order.payment_status 'unpaid' }}selected{{/ifCond}}>Unpaid</option>
+          <option value="canceled" {{#ifCond order.payment_status 'canceled' }}selected{{/ifCond}}disabled>Canceled
+          </option>
         </select>
       </div>
       <div class="select-group col-2">
         <label for="shipment">Shipping Status</label>
-        <select name="shipment" id="shipment" class="form-select">
+        <select name="shipment" id="shipment" class="form-select" {{#ifCond order.payment_status 'canceled' }}
+          value="canceled" disabled {{/ifCond}}>
           <option value="shipped" {{#ifCond order.shipping_status 'shipped' }}selected{{/ifCond}}>Shipped</option>
           <option value="unshipped" {{#ifCond order.shipping_status 'unshipped' }}selected{{/ifCond}}>Unshppied</option>
+          <option value="canceled" {{#ifCond order.shipping_status 'canceled' }}selected{{/ifCond}}disabled>Canceled
+          </option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary col-1" style="padding: 6px 40px;">Save</button>
+      <button type="submit" class="btn btn-primary col-1" style="padding: 6px 40px;" {{#ifCond
+        order.payment_status 'canceled' }} disabled {{/ifCond}}>Save</button>
     </div>
   </form>

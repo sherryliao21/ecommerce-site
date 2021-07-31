@@ -63,14 +63,15 @@ router
 
 router
   .route('/admin/orders/:id')
-  .all(authenticated, authenticatedAdmin)
-  .put(adminController.putOrder)
-  .delete(adminController.deleteOrder)
+  .put(authenticated, authenticatedAdmin, adminController.putOrder)
+
+router
+  .route('/admin/orders/:id/cancel')
+  .post(authenticated, authenticatedAdmin, adminController.cancelOrder)
 
 router
   .route('/admin/orders/:id/edit')
-  .all(authenticated, authenticatedAdmin)
-  .get(adminController.getEditOrder)
+  .get(authenticated, authenticatedAdmin, adminController.getEditOrder)
 
 
 // users login/logout & register

@@ -85,8 +85,8 @@ const adminController = {
     })
   },
 
-  deleteOrder: (req, res) => {
-    adminService.deleteOrder(req, res, data => {
+  cancelOrder: (req, res) => {
+    adminService.cancelOrder(req, res, data => {
       return res.json(data)
     })
   }

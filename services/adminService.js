@@ -391,10 +391,11 @@ const adminService = {
     }
   },
 
-  deleteOrder: async (req, res, callback) => {
+  cancelOrder: async (req, res, callback) => {
     try {
       const { id } = req.params
       const order = await Order.findByPk(id)
+      const sn = order.sn
 
       if (!order) {
         return callback({
@@ -404,10 +405,14 @@ const adminService = {
         })
       }
       
-      await order.destroy()
+      await order.update({
+        ...order,
+        payment_status: 'canceled',
+        shipping_status: 'canceled'
+      })
       return callback({
         status: 'success',
-        message: `successfully deleted order #${id}`
+        message: `successfully canceled order, serial number: #${sn}`
       })
 
     }
