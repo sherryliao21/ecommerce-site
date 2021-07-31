@@ -1,0 +1,14 @@
+.list-group-item {
+  border: none;
+}
+
+.btn-outline-primary {
+  color: #ff8c95;
+  border: 1px solid #ff8c95;
+}
+
+.btn-outline-primary:hover {
+  color: white;
+  background-color: #ff8c95;
+  border: 1px solid #ff8c95;
+}

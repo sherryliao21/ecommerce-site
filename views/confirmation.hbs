@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="order-confirm-title text-center">
+    <h1>Thank you for your order!</h1>
+  </div>
+  <div class="order-confirm-body d-flex flex-column align-items-center mt-3"
+    style="background: #ffdcdf;border-radius: 8px;">
+    <div class="order-confirm-detail-title mt-4 mb-2">
+      <h5>ORDER CONFIRMATION</h5>
+    </div>
+    <ul class="order-confirm-detail list-group mb-5 px-3">
+      <li class="list-group-item">Order Number: {{order.id}}</li>
+      <li class="list-group-item">Total Amount: $ {{order.amount}}</li>
+      <li class="list-group-item">Shipping Address: {{order.address}}</li>
+    </ul>
+  </div>
+</div>
