@@ -35,7 +35,7 @@
       </tr>
     </thead>
     <tbody style="text-align: center;">
-      {{#each orderedProducts}}
+      {{#each order.orderedProducts}}
       <tr>
         <td><img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;"></td>
         <td>
@@ -45,9 +45,9 @@
           <p style="margin: 0;">$ {{this.price}}</p>
         </td>
         <td>
-          {{this.quantity}}
+          {{this.OrderItem.quantity}}
         </td>
-        <td>{{this.subtotal}}</td>
+        <td>{{this.price}} * {{this.OrderItem.quantity}}</td>
       </tr>
       {{/each}}
       <tr>

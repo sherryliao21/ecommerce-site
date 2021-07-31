@@ -323,18 +323,14 @@ const adminService = {
         })
       }
 
-      const orderedProducts = order.orderedProducts.map((d, i) => ({
-        id: order.orderedProducts[i].id,
-        CategoryId: order.orderedProducts[i].CategoryId,
-        name: order.orderedProducts[i].name,
-        price: order.orderedProducts[i].price,
-        image: order.orderedProducts[i].image,
-        quantity: order.orderedProducts[i].OrderItem.quantity,
-        subtotal: order.orderedProducts[i].price * order.orderedProducts[i].OrderItem.quantity
-      }))
+      if (order.orderedProducts.length > 0) {
+        order.orderedProducts.map((d, i) => ({
+          quantity: order.orderedProducts[i].OrderItem.quantity,
+        }))
+      }
 
       let totalPrice = 0
-      orderedProducts.forEach(e => {
+      order.orderedProducts.forEach(e => {
         totalPrice += e.price * e.quantity
       })
 
@@ -343,7 +339,6 @@ const adminService = {
         statusCode: 200,
         message: 'successfully retrieved data',
         order: order.toJSON(),
-        orderedProducts,
         totalPrice
       })
     }
