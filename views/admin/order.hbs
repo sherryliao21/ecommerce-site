@@ -74,7 +74,7 @@
           value="canceled" disabled {{/ifCond}}>
           <option value="paid" {{#ifCond order.payment_status 'paid' }} selected {{/ifCond}}>Paid</option>
           <option value="unpaid" {{#ifCond order.payment_status 'unpaid' }}selected{{/ifCond}}>Unpaid</option>
-          <option value="canceled" {{#ifCond order.payment_status 'canceled' }}selected{{/ifCond}}disabled>Canceled
+          <option value="canceled" {{#ifCond order.payment_status 'canceled' }}selected{{/ifCond}}>Canceled
           </option>
         </select>
       </div>
@@ -84,7 +84,7 @@
           value="canceled" disabled {{/ifCond}}>
           <option value="shipped" {{#ifCond order.shipping_status 'shipped' }}selected{{/ifCond}}>Shipped</option>
           <option value="unshipped" {{#ifCond order.shipping_status 'unshipped' }}selected{{/ifCond}}>Unshppied</option>
-          <option value="canceled" {{#ifCond order.shipping_status 'canceled' }}selected{{/ifCond}}disabled>Canceled
+          <option value="canceled" {{#ifCond order.shipping_status 'canceled' }}selected{{/ifCond}}>Canceled
           </option>
         </select>
       </div>
