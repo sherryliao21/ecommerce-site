@@ -125,7 +125,7 @@ const userService = {
 
   putProfile: async (req, res, callback) => {
     try {
-      const { name, password, confirmPassword } = req.body
+      const { name, email, oldPassword, password, confirmPassword } = req.body
       const id = req.user.id
       const user = await User.findByPk(id)
       const errors = []
@@ -136,15 +136,27 @@ const userService = {
           message: 'This user does not exist'
         })
       }
-
-      if (!name || !password || !confirmPassword) {
-        errors.push({ message: 'All fields are required' })
+      // if only editing user info
+      if (!oldPassword && !password && !confirmPassword) {
+        if (!name || !email) {
+          errors.push({ message: 'All fields are required' })
+        }
       }
-      if (password && !validator.isByteLength(password, { min: 4, max: 12 })) {
-        errors.push({ message: 'Password does not meet required length' })
-      }
-      if (!validator.equals(password, confirmPassword)) {
-        errors.push({ message: 'Passwords do not match' })
+      // if only editing passwords
+      if (name && email) {
+        if (!oldPassword || !password || !confirmPassword) {
+          errors.push({ message: 'All fields are required' })
+        }
+        // old password check
+        if (!bcrypt.compare(oldPassword, user.password)) {
+          errors.push({ message: 'Old password incorrect' })
+        }
+        if (password && !validator.isByteLength(password, { min: 4, max: 12 })) {
+          errors.push({ message: 'Password does not meet required length' })
+        }
+        if (!validator.equals(password, confirmPassword)) {
+          errors.push({ message: 'Passwords do not match' })
+        }
       }
       if (errors.length) {
         return callback({

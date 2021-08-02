@@ -1,4 +1,64 @@
-<div class="row mt-5">
+{{> message}}
+
+<div class="container flex-col" style="margin: 0 0 100px 100px;">
+  <form action="/user/profile?_method=PUT" method="POST" class="mt-5" style="width: 500px;">
+    <div class="user-info d-flex flex-column">
+      <h1 class="text-center my-3 d-flex justify-content-start row">Edit User Info</h1>
+      <div class="name d-flex align-items-center row">
+        <label for="name" class="col-3">Name</label>
+        <div class="col-9">
+          <input type="text" id="name" name="name" class="form-control my-3" value="{{name}}" />
+        </div>
+      </div>
+      <div class="email d-flex align-items-center row">
+        <label for="email" class="col-3">Email </label>
+        <div class="col-9">
+          <input type="email" id="email" name="email" class="form-control my-2" value="{{email}}" />
+        </div>
+      </div>
+      <div class="btn-group mt-5">
+        <button type="submit" class="btn btn-block col-2 me-2"
+          style="border-radius: 8px; border: 1px solid rgb(109, 109, 109); color:rgb(109, 109, 109);">Save</button>
+        <a href="/home" class="btn btn-block me-2"
+          style="border-radius: 8px; border: 1px solid rgb(109, 109, 109); color:rgb(109, 109, 109);">Back</a>
+      </div>
+    </div>
+    <br>
+    <br>
+    <hr>
+    <div class="password d-flex flex-column mt-5">
+      <h1 class="text-center my-3 d-flex justify-content-start row">Edit Password</h1>
+      <div class="d-flex align-items-center row">
+        <label for="old-password" class="col-4">Old Password</label>
+        <div class="col-8">
+          <input type="password" id="oldPassword" name="oldPassword" class="form-control my-3 col-auto" />
+        </div>
+      </div>
+      <div class="d-flex align-items-center row">
+        <label for="password" class="col-4">New Password</label>
+        <div class="col-8">
+          <input type="password" id="password" name="password" class="form-control my-2" />
+        </div>
+      </div>
+      <div class="d-flex align-items-center row">
+        <label for="confirm-password" class="col-4">Confirm Password</label>
+        <div class="col-8">
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control my-2" />
+        </div>
+      </div>
+      <div class="btn-group mt-5">
+        <button type="submit" class="btn btn-block col-2 me-2"
+          style="border-radius: 8px; border: 1px solid rgb(109, 109, 109); color:rgb(109, 109, 109);">Save</button>
+        <a href="/home" class="btn btn-block me-2"
+          style="border-radius: 8px; border: 1px solid rgb(109, 109, 109); color:rgb(109, 109, 109);">Back</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+{{!-- <div class="row mt-5">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
       <h1 class="text-center mt-3">Edit User Info</h1>
@@ -31,4 +91,4 @@
       </form>
     </div>
   </div>
-</div>
+</div> --}}
