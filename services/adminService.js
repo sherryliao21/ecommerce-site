@@ -395,7 +395,6 @@ const adminService = {
     try {
       const { id } = req.params
       const order = await Order.findByPk(id)
-      const sn = order.sn
 
       if (!order) {
         return callback({
@@ -407,12 +406,12 @@ const adminService = {
       
       await order.update({
         ...order,
-        payment_status: 'canceled',
-        shipping_status: 'canceled'
+        payment_status: '-1',
+        shipping_status: '-1'
       })
       return callback({
         status: 'success',
-        message: `successfully canceled order, serial number: #${sn}`
+        message: `successfully canceled order #${id}`
       })
 
     }

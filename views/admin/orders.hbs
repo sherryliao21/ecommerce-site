@@ -28,7 +28,7 @@
     <thead class="table-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">SN</th>
+        {{!-- <th scope="col">SN</th> --}}
         <th scope="col">UserId</th>
         <th scope="col">Amount</th>
         <th scope="col">Payment</th>
@@ -40,15 +40,32 @@
       {{#each orders}}
       <tr class="align-middle">
         <th scope="row">{{this.id}}</th>
-        <td class="col-1">{{this.sn}}</td>
+        {{!-- <td class="col-1">{{this.sn}}</td> --}}
         <td class="col-2">{{this.UserId}}</td>
         <td class="col-2">{{this.amount}}</td>
         <td class="col-2">
+          {{#ifCond this.payment_status '1'}}
+          <span style="padding: 6px 10px; border-radius: 8px; background-color: #85D68A; color: #2E731D;">Paid</span>
+          {{/ifCond}}
+          {{#ifCond this.payment_status '0'}}
+          <span style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Unpaid</span>
+          {{/ifCond}}
+          {{#ifCond this.payment_status '-1'}}
           <span
-            style="padding: 6px 10px; border-radius: 8px;{{#ifCond this.payment_status 'paid'}} background-color: #85D68A; color: #2E731D; {{else}} background-color: #FEB8B3; color: #B53A2A; {{/ifCond}}">{{this.payment_status}}</span>
+            style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Canceled</span>
+          {{/ifCond}}
         </td>
-        <td class="col-2"><span
-            style="padding: 6px 10px; border-radius: 8px;{{#ifCond this.shipping_status 'shipped'}} background-color: #85D68A; color: #2E731D; {{else}} background-color: #FEB8B3; color: #B53A2A; {{/ifCond}}">{{this.shipping_status}}</span>
+        <td class="col-2"><span {{#ifCond this.shipping_status '1' }} <span
+            style="padding: 6px 10px; border-radius: 8px; background-color: #85D68A; color: #2E731D;">Shipped</span>
+          {{/ifCond}}
+          {{#ifCond this.shipping_status '0'}}
+          <span
+            style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Unshipped</span>
+          {{/ifCond}}
+          {{#ifCond this.shipping_status '-1'}}
+          <span
+            style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Canceled</span>
+          {{/ifCond}}
         </td>
         <td class="col-2">
           <button type="button" class="btn btn-link">
