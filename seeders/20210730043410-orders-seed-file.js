@@ -6,8 +6,8 @@ const faker = require('faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const user = await User.findAll({ where: { role: 'user' } })
-    const payment = ['paid', 'unpaid']
-    const shipment = ['shipped', 'unshipped']
+    const payment = ['1', '0', '-1']
+    const shipment = ['1', '0', '-1']
 
     await queryInterface.bulkInsert(
       'Orders',
@@ -18,8 +18,8 @@ module.exports = {
         name: user[i % 2].name,
         phone: faker.phone.phoneNumber(),
         address: faker.address.streetAddress(),
-        payment_status: payment[ i % 2 ],
-        shipping_status: shipment[i % 2],
+        payment_status: payment[ i % 3 ],
+        shipping_status: shipment[i % 3],
         createdAt: new Date(),
         updatedAt: new Date()
       })),
