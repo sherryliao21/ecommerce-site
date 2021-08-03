@@ -67,4 +67,15 @@
   </table>
 </div>
 
+<div class="row d-flex justify-content-center mt-5">
+  <nav aria-label="Page navigation" class="m-auto w-4/5 mt-10 col-4 d-flex justify-content-center">
+    <ul class="pagination" id="paginator">
+      {{#each pages}}
+      <li class="page-item"><a class="page-link" href="/admin/products?page={{this}}">{{this}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  </nav>
+</div>
+
 <script src="/javascripts/utils.js"></script>

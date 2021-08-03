@@ -26,8 +26,6 @@ const adminService = {
         }
       }
 
-      console.log(keyword)
-
       const products = await Product.findAll({
         where: searchCondition,
         raw: true,
@@ -35,7 +33,22 @@ const adminService = {
         include: [Category],
         order: [['id', 'DESC']]
       })
-      return callback({ products })
+
+      // render pagination
+      const page = req.query.page || 1
+      const limit = 10
+      const offset = (page - 1) * limit
+      const endIndex = offset + limit
+      const PRODUCTS_PER_PAGE = products.length / limit
+      const pages = Array.from(Array(Math.ceil(PRODUCTS_PER_PAGE)).keys()).map(
+        page => page + 1
+      )
+
+
+      return callback({
+        products: products.slice(offset, endIndex),
+        pages
+      })
     } catch (error) {
       console.log(error)
     }
