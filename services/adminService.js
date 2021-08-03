@@ -296,13 +296,37 @@ const adminService = {
 
   getOrders: async (req, res, callback) => {
     try {
-      const orders = await Order.findAll({ raw: true, nest: true, order: [['id', 'DESC']] })
-      
+      const { shipping, payment } = req.query
+      let filterCondition = {}
+
+      if (payment && payment !== 'all') {
+        console.log(payment)
+        filterCondition = {
+          ...filterCondition,
+          payment_status: payment
+        }
+      }
+      if (shipping && shipping !== 'all') {
+        console.log(shipping)
+        filterCondition = {
+          shipping_status: shipping
+        }
+      }
+
+      const orders = await Order.findAll({
+        where: filterCondition,
+        raw: true,
+        nest: true,
+        order: [['id', 'DESC']]
+      })
+
       return callback({
         status: 'success',
         statusCode: 200,
         message: 'successfully retrieved data',
-        orders
+        orders,
+        payment,
+        shipping
       })
     }
     catch (error) {
