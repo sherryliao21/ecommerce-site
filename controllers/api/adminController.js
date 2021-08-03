@@ -65,6 +65,30 @@ const adminController = {
     adminService.deleteCategory(req, res, data => {
       return res.json(data)
     })
+  },
+
+  getOrders: (req, res) => {
+    adminService.getOrders(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  getEditOrder: (req, res) => {
+    adminService.getEditOrder(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  putOrder: (req, res) => {
+    adminService.putOrder(req, res, data => {
+      return res.json(data)
+    })
+  },
+
+  cancelOrder: (req, res) => {
+    adminService.cancelOrder(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

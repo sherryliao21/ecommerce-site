@@ -1,19 +1,54 @@
 const db = require('../models')
 const Product = db.Product
 const Category = db.Category
+const Order = db.Order
+const OrderItem = db.OrderItem
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const { Op } = require('sequelize')
 
 const adminService = {
   getProducts: async (req, res, callback) => {
     try {
+      const { keyword } = req.query
+      let searchCondition = {}
+
+      if (keyword) {
+        searchCondition = {
+          [Op.or]: [
+            {
+              name: { [Op.substring]: keyword }
+            },
+            {
+              id: {[Op.substring]: keyword }
+            }
+          ]          
+        }
+      }
+
       const products = await Product.findAll({
+        where: searchCondition,
         raw: true,
         nest: true,
         include: [Category],
         order: [['id', 'DESC']]
       })
-      return callback({ products })
+
+      // render pagination
+      const page = req.query.page || 1
+      const limit = 10
+      const offset = (page - 1) * limit
+      const endIndex = offset + limit
+      const PRODUCTS_PER_PAGE = products.length / limit
+      const pages = Array.from(Array(Math.ceil(PRODUCTS_PER_PAGE)).keys()).map(
+        page => page + 1
+      )
+
+
+      return callback({
+        products: products.slice(offset, endIndex),
+        pages
+      })
     } catch (error) {
       console.log(error)
     }
@@ -288,6 +323,156 @@ const adminService = {
         message: `successfully deleted category ${category.toJSON().name}`
       })
     } catch (error) {
+      console.log(error)
+    }
+  },
+
+  getOrders: async (req, res, callback) => {
+    try {
+      const { shipping, payment } = req.query
+      let filterCondition = {}
+
+      if (payment && payment !== 'all') {
+        console.log(payment)
+        filterCondition = {
+          ...filterCondition,
+          payment_status: payment
+        }
+      }
+      if (shipping && shipping !== 'all') {
+        console.log(shipping)
+        filterCondition = {
+          shipping_status: shipping
+        }
+      }
+
+      const orders = await Order.findAll({
+        where: filterCondition,
+        raw: true,
+        nest: true,
+        order: [['id', 'DESC']]
+      })
+
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully retrieved data',
+        orders,
+        payment,
+        shipping
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+  
+  getEditOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const order = await Order.findByPk(id, { include: 'orderedProducts'})
+      
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist'
+        })
+      }
+
+      if (order.orderedProducts.length > 0) {
+        order.orderedProducts.map((d, i) => ({
+          quantity: order.orderedProducts[i].OrderItem.quantity,
+        }))
+      }
+
+      let totalPrice = 0
+      order.orderedProducts.forEach(e => {
+        totalPrice += e.price * e.quantity
+      })
+
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully retrieved data',
+        order: order.toJSON(),
+        totalPrice
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  putOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const { payment, shipment } = req.body
+      const order = await Order.findByPk(id)
+
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist!'
+        })
+      }
+
+      if (!payment || !shipment) {
+        return callback({
+          status: 'error',
+          message: 'Please select a status'
+        })
+      }
+
+      await order.update({
+        id,
+        UserId: order.userId,
+        sn: order.sn,
+        amount: order.amount,
+        name: order.name,
+        phone: order.phone,
+        address: order.address,
+        payment_status: payment,
+        shipping_status: shipment
+      })
+
+      return callback({
+        status: 'success',
+        statusCode: 200,
+        message: 'successfully updated order'
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  cancelOrder: async (req, res, callback) => {
+    try {
+      const { id } = req.params
+      const order = await Order.findByPk(id)
+
+      if (!order) {
+        return callback({
+          status: 'error',
+          statusCode: 404,
+          message: 'This order does not exist'
+        })
+      }
+      
+      await order.update({
+        ...order,
+        payment_status: '-1',
+        shipping_status: '-1'
+      })
+      return callback({
+        status: 'success',
+        message: `successfully canceled order #${id}`
+      })
+
+    }
+    catch (error) {
       console.log(error)
     }
   }

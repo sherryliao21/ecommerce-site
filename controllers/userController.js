@@ -20,7 +20,38 @@ const userController = {
         return res.redirect('back')
       }
       req.flash('success_msg', data.message)
-      return res.redirect('/users/login')
+      return res.redirect('/user/login')
+    })
+  },
+  getEditProfilePage: (req, res) => {
+    userService.getEditProfilePage(req, res, data => {
+      if (data.status === 'error') {
+        req.flash('error_msg', data.message)
+        return res.redirect('back')
+      }
+      return res.render('user/profile', data)
+    })
+  },
+  putProfile: (req, res) => {
+    userService.putProfile(req, res, data => {
+      if (data.status === 'error') {
+        console.log(data.errors.message)
+        req.flash('error_msg', data.message || data.errors.message)
+        return res.redirect('back')
+      } 
+      req.flash('success_msg', 'Successfully updated user info')
+      return res.redirect('/user/profile')
+    })
+  },
+  putPassword: (req, res) => {
+    userService.putPassword(req, res, data => {
+      if (data.status === 'error') {
+        console.log(data.errors.message)
+        req.flash('error_msg', data.message || data.errors.message)
+        return res.redirect('back')
+      } 
+      req.flash('success_msg', 'Successfully updated user password')
+      return res.redirect('/user/profile')
     })
   }
 }

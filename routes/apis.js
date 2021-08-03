@@ -9,7 +9,7 @@ const userController = require('../controllers/api/userController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
-const { authenticated, authenticatedAdmin } = require('../middlewares/api/auth')
+const { authenticated, authenticatedUser, authenticatedAdmin } = require('../middlewares/api/auth')
 
 // storefront
 router.get('/products', productController.getProducts)
@@ -57,9 +57,34 @@ router
   .put(adminController.putCategory)
   .delete(adminController.deleteCategory)
 
-// users login/logout & register
-router.route('/users/login').post(userController.login)
+router
+  .route('/admin/orders')
+  .get(authenticated, authenticatedAdmin, adminController.getOrders)
 
-router.route('/users/register').post(userController.register)
+router
+  .route('/admin/orders/:id')
+  .put(authenticated, authenticatedAdmin, adminController.putOrder)
+
+router
+  .route('/admin/orders/:id/cancel')
+  .post(authenticated, authenticatedAdmin, adminController.cancelOrder)
+
+router
+  .route('/admin/orders/:id/edit')
+  .get(authenticated, authenticatedAdmin, adminController.getEditOrder)
+
+
+// users login/logout & register
+router.route('/user/login').post(userController.login)
+router.route('/user/register').post(userController.register)
+
+// user profile
+router.route('/user/profile')
+  .all(authenticated, authenticatedUser)
+  .get(userController.getEditProfilePage)
+  .put(userController.putProfile)
+
+router.route('/user/profile/password').put(authenticated, authenticatedUser, userController.putPassword)
+
 
 module.exports = router

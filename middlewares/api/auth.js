@@ -22,5 +22,16 @@ module.exports = {
     } else {
       return res.json({ status: 'error', message: 'permission denied' })
     }
-  }
+  },
+    authenticatedUser: (req, res, next) => {
+      if (req.user) {
+        console.log('=========req.user', req.user)
+      if (req.user.role === 'user') {
+        return next()
+      }
+      return res.json({ status: 'error', message: 'permission denied' })
+    } else {
+      return res.json({ status: 'error', message: 'permission denied' })
+    }
+  },
 }

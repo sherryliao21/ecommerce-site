@@ -1,14 +1,25 @@
 <h1>Control panel</h1>
 
 <div class="row">
-  <div class="products-header d-flex align-items-center justify-content-between col-11">
-    <div class="products-nav">
+  <div class="products-header d-flex align-items-center justify-content-between col-12 row">
+    <div class="products-nav col-7">
       <a href="/admin/products">Products</a>
       <span> | </span>
       <a href="/admin/categories">Categories</a>
+      <span> | </span>
+      <a href="/admin/orders">Orders</a>
     </div>
 
-    <div class="add-product">
+    <div class="search col-3 d-flex align-items-center">
+      <form action="/admin/products" class="d-flex align-items-center m-0">
+        <input type="text" value="{{keyword}}" name="keyword" class="form-control" placeholder="Search id or keyword"
+          aria-describedby="search-button">
+        <button class="btn btn-success p-2 ms-2" type="submit" id="search-button"><i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="add-product col-2 d-flex justify-content-end">
       <a href="/admin/products/create">
         <button type="button" class="btn btn-primary">New Product</button>
       </a>
@@ -54,6 +65,17 @@
       {{/each}}
     </tbody>
   </table>
+</div>
+
+<div class="row d-flex justify-content-center mt-5">
+  <nav aria-label="Page navigation" class="m-auto w-4/5 mt-10 col-4 d-flex justify-content-center">
+    <ul class="pagination" id="paginator">
+      {{#each pages}}
+      <li class="page-item"><a class="page-link" href="/admin/products?page={{this}}">{{this}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  </nav>
 </div>
 
 <script src="/javascripts/utils.js"></script>
