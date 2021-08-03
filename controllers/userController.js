@@ -42,6 +42,17 @@ const userController = {
       req.flash('success_msg', 'Successfully updated user info')
       return res.redirect('/user/profile')
     })
+  },
+  putPassword: (req, res) => {
+    userService.putPassword(req, res, data => {
+      if (data.status === 'error') {
+        console.log(data.errors.message)
+        req.flash('error_msg', data.message || data.errors.message)
+        return res.redirect('back')
+      } 
+      req.flash('success_msg', 'Successfully updated user password')
+      return res.redirect('/user/profile')
+    })
   }
 }
 

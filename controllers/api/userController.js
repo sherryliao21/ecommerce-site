@@ -20,6 +20,11 @@ const userController = {
     userService.putProfile(req, res, data => {
       return res.json(data)
     })
+  },
+  putPassword: (req, res) => {
+    userService.putPassword(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

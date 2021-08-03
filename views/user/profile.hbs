@@ -7,13 +7,13 @@
       <div class="name d-flex align-items-center row">
         <label for="name" class="col-3">Name</label>
         <div class="col-9">
-          <input type="text" id="name" name="name" class="form-control my-3" value="{{name}}" />
+          <input type="text" id="name" name="name" class="form-control my-3" value="{{name}}" required />
         </div>
       </div>
       <div class="email d-flex align-items-center row">
         <label for="email" class="col-3">Email </label>
         <div class="col-9">
-          <input type="email" id="email" name="email" class="form-control my-2" value="{{email}}" />
+          <input type="email" id="email" name="email" class="form-control my-2" value="{{email}}" required />
         </div>
       </div>
       <div class="btn-group mt-5">
@@ -23,27 +23,29 @@
           style="border-radius: 8px; border: 1px solid rgb(109, 109, 109); color:rgb(109, 109, 109);">Back</a>
       </div>
     </div>
-    <br>
-    <br>
-    <hr>
+  </form>
+  <br>
+  <br>
+  <hr>
+  <form action="/user/profile/password?_method=PUT" method="POST" class="mt-5" style="width: 500px;">
     <div class="password d-flex flex-column mt-5">
       <h1 class="text-center my-3 d-flex justify-content-start row">Edit Password</h1>
       <div class="d-flex align-items-center row">
         <label for="old-password" class="col-4">Old Password</label>
         <div class="col-8">
-          <input type="password" id="oldPassword" name="oldPassword" class="form-control my-3 col-auto" />
+          <input type="password" id="oldPassword" name="oldPassword" class="form-control my-3 col-auto" required />
         </div>
       </div>
       <div class="d-flex align-items-center row">
         <label for="password" class="col-4">New Password</label>
         <div class="col-8">
-          <input type="password" id="password" name="password" class="form-control my-2" />
+          <input type="password" id="password" name="password" class="form-control my-2" required />
         </div>
       </div>
       <div class="d-flex align-items-center row">
         <label for="confirm-password" class="col-4">Confirm Password</label>
         <div class="col-8">
-          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control my-2" />
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control my-2" required />
         </div>
       </div>
       <div class="btn-group mt-5">

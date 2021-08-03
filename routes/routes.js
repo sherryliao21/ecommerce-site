@@ -126,4 +126,6 @@ router.route('/user/profile')
   .get(userController.getEditProfilePage)
   .put(userController.putProfile)
 
+router.route('/user/profile/password').put(authenticated, authenticatedUser, userController.putPassword)
+
 module.exports = router
