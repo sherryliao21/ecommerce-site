@@ -5,11 +5,31 @@ const Order = db.Order
 const OrderItem = db.OrderItem
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const { Op } = require('sequelize')
 
 const adminService = {
   getProducts: async (req, res, callback) => {
     try {
+      const { keyword } = req.query
+      let searchCondition = {}
+
+      if (keyword) {
+        searchCondition = {
+          [Op.or]: [
+            {
+              name: { [Op.substring]: keyword }
+            },
+            {
+              id: {[Op.substring]: keyword }
+            }
+          ]          
+        }
+      }
+
+      console.log(keyword)
+
       const products = await Product.findAll({
+        where: searchCondition,
         raw: true,
         nest: true,
         include: [Category],
