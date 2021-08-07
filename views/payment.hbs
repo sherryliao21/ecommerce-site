@@ -5,29 +5,29 @@
   <div class="payment d-flex flex-column align-items-center p-5"
     style="border-radius: 10px; background-color: #FFDCDF;">
     <h4>TOTAL AMOUNT: ${{order.amount}}</h4>
-    <form action="" class="mt-4">
+    <form action="{{tradeInfo.PayGateWay}}" class="mt-4">
       <div class="flex row align-items-center">
         <label for="merchantID" class="col-5">Merchant ID: </label>
         <div class="input col-7">
-          <input type="text" value="" name="merchantID" class="form-control">
+          <input type="text" value="{{tradeInfo.MerchantID}}" name="merchantID" class="form-control">
         </div>
       </div>
       <div class="flex row align-items-center my-2">
         <label for="tradeInfo" class="col-5">TradeInfo: </label>
         <div class="input col-7">
-          <input type="text" value="" name="tradeInfo" class="form-control">
+          <input type="text" value="{{tradeInfo.TradeInfo}}" name="tradeInfo" class="form-control">
         </div>
       </div>
       <div class="flex row align-items-center my-2">
-        <label for="tradeSHA" class="col-5">TradeSHA: </label>
+        <label for="tradeSha" class="col-5">TradeSHA: </label>
         <div class="input col-7">
-          <input type="text" value="" name="tradeSHA" class="form-control">
+          <input type="text" value="{{tradeInfo.TradeSha}}" name="tradeSha" class="form-control">
         </div>
       </div>
       <div class="flex row align-items-center my-2">
         <label for="version" class="col-5">Version: </label>
         <div class="input col-7">
-          <input type="text" value="" name="version" class="form-control">
+          <input type="text" value="{{tradeInfo.Version}}" name="version" class="form-control">
         </div>
       </div>
       <div class="button d-flex justify-content-center mt-5">

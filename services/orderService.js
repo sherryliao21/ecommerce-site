@@ -7,8 +7,8 @@ const OrderItem = db.OrderItem
 const Order = db.Order
 
 const moment = require('moment')
-
 const { sendMail, orderConfirmMail } = require('../utils/mail')
+const { getDataForTradeInfo } = require('../utils/encrypt')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -146,13 +146,13 @@ const orderService = {
 
   getPayment: async (req, res, callback) => {
     try {
-      console.log('======== get payment =======')
-      console.log(req.params.id)
-      console.log('===========')
-
       const order = await Order.findByPk(req.params.id)
-      
-      callback({ order: order.toJSON() })      
+      const tradeInfo = getDataForTradeInfo(order.amount, 'Order detail', req.user.email)
+
+      callback({
+        order: order.toJSON(),
+        tradeInfo
+      })
     }
     catch (error) {
       console.log(error)
