@@ -44,6 +44,16 @@ router
   .get(orderController.getOrders)
   .post(orderController.postOrder)
 
+router
+  .route('/order/:id/payment')
+  .all(authenticated, authenticatedUser)
+  .get(orderController.getPayment)
+
+router
+  .route('/newebpay/callback')
+  .all(authenticated, authenticatedUser)
+  .post(orderController.newebpayCallback)
+
 // admin control panel
 router.route('/admin').get(
   authenticated,

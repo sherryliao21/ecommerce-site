@@ -5,6 +5,7 @@ const productController = require('../controllers/api/productController')
 const cartController = require('../controllers/api/cartController')
 const adminController = require('../controllers/api/adminController')
 const userController = require('../controllers/api/userController')
+const orderController = require('../controllers/api/orderController')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -21,6 +22,12 @@ router.post('/cart', cartController.postCart)
 router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
+
+// order
+router
+  .route('/order/:id/payment')
+  .all(authenticated, authenticatedUser)
+  .get(orderController.getPayment)
 
 // admin control panel
 router

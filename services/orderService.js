@@ -5,10 +5,11 @@ const Category = db.Category
 const Product = db.Product
 const OrderItem = db.OrderItem
 const Order = db.Order
+const Payment = db.Payment
 
 const moment = require('moment')
-
 const { sendMail, orderConfirmMail } = require('../utils/mail')
+const { getDataForTradeInfo, decryptData, convertTimeFormat } = require('../utils/encrypt')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -142,6 +143,71 @@ const orderService = {
       payment_status: '-1'
     })
     callback({ orderId: order.id })
+  },
+
+  getPayment: async (req, res, callback) => {
+    try {
+      const order = await Order.findByPk(req.params.id)
+      
+      if (!order) {
+        return callback({
+          status: 'error',
+          message: 'This order does not exist!'
+        })
+      }
+      
+      const tradeInfo = getDataForTradeInfo(order.amount, 'Order detail', req.user.email)
+      order.update({
+        ...order,
+        sn: tradeInfo.MerchantOrderNo
+      })
+
+      callback({
+        status: 'success',
+        message: 'retrieve order payment data',
+        order: order.toJSON(),
+        tradeInfo
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  newebpayCallback: async (req, res, callback) => {
+    try {
+      // decrypt callback data and find said order with updated sn
+      const decryptedData = JSON.parse(decryptData(req.body.TradeInfo))
+      const order = await Order.findOne({ where: { sn: decryptedData.Result.MerchantOrderNo } })
+
+      const paytime = convertTimeFormat(decryptedData.Result.PayTime)
+
+      await Payment.create({
+        OrderId: order.toJSON().id,
+        payment_method: decryptedData.Result.PaymentMethod ? decryptedData.Result.PaymentMethod : decryptedData.Result.PaymentType,
+        paid_at: new Date(paytime),
+        params: decryptedData.Status
+      })
+
+      if (decryptedData.Status === 'SUCCESS') {
+        await order.update({
+          ...order,
+          payment_status: 1
+        })
+        req.flash('success_msg', `Order #${order.id} payment success!`)
+
+        // SEND PAYMENT STATUS EMAIL 
+        // const mailContent = 
+        // await sendMail(req.user.email, mailContent)
+      } else {
+        req.flash('error_msg', `Order #${order.id} payment failure! ${decryptedData.Message}`)
+      }
+
+      callback({ status: 'success' })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 
