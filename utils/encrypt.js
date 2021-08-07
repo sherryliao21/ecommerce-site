@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const URL = 'https://1bd077ae4efc.ngrok.io'
+const URL = 'https://7f5a9ef16777.ngrok.io'
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.MERCHANT_HASH_KEY
 const HashIV = process.env.MERCHANT_HASH_IV
@@ -13,7 +13,7 @@ function getDataForTradeInfo(amount, orderDescription, email) {
   const data = {
     MerchantID: MerchantID, 
     RespondType: 'JSON', 
-    TimeStamp: Date.now(), 
+    TimeStamp: new Date(), 
     Version: 1.6, 
     LangType: 'en',
     MerchantOrderNo: Date.now(), 
@@ -77,10 +77,17 @@ function decryptData(encryptedData) {
   return result
 }
 
+function convertTimeFormat(paytime) {
+  const date = paytime.slice(0, 10)
+  const time = paytime.slice(10)
+  return date + 'T' + time + 'Z'
+}
+
 module.exports = {
   chainData,
   aesEncrypt,
   shaHash,
   getDataForTradeInfo,
-  decryptData
+  decryptData,
+  convertTimeFormat
 }

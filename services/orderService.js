@@ -9,7 +9,7 @@ const Payment = db.Payment
 
 const moment = require('moment')
 const { sendMail, orderConfirmMail } = require('../utils/mail')
-const { getDataForTradeInfo, decryptData } = require('../utils/encrypt')
+const { getDataForTradeInfo, decryptData, convertTimeFormat } = require('../utils/encrypt')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -170,12 +170,13 @@ const orderService = {
       // decrypt callback data and find said order with updated sn
       const decryptedData = JSON.parse(decryptData(req.body.TradeInfo))
       const order = await Order.findOne({ where: { sn: decryptedData.Result.MerchantOrderNo } })
-        
+
+      const paytime = convertTimeFormat(decryptedData.Result.PayTime)
+
       await Payment.create({
         OrderId: order.toJSON().id,
         payment_method: decryptedData.Result.PaymentMethod ? decryptedData.Result.PaymentMethod : decryptedData.Result.PaymentType,
-        // paid_at: decryptedData.Result.PayTime,  // format mismatch
-        paid_at: new Date(), // temporary solution
+        paid_at: new Date(paytime),
         params: decryptedData.Status
       })
 
