@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const URL = ''
+const URL = 'https://1bd077ae4efc.ngrok.io'
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.MERCHANT_HASH_KEY
 const HashIV = process.env.MERCHANT_HASH_IV
@@ -11,20 +11,21 @@ const ClientBackURL = URL+"/orders"
 
 function getDataForTradeInfo(amount, orderDescription, email) {
   const data = {
-    MerchantID: MerchantID, // 商店代號
-    RespondType: 'JSON', // 回傳格式
-    TimeStamp: Date.now(), // 時間戳記
-    Version: 1.6, // 串接程式版本
-    MerchantOrderNo: Date.now(), // 商店訂單編號
-    LoginType: 0, // 智付通會員
+    MerchantID: MerchantID, 
+    RespondType: 'JSON', 
+    TimeStamp: Date.now(), 
+    Version: 1.6, 
+    LangType: 'en',
+    MerchantOrderNo: Date.now(), 
+    LoginType: 0, // newebpay member login
     TradeLimit: 60, // trade duration limit, if exceed, result in trade failure
-    OrderComment: 'Proceeding to payment', // 商店備註
-    Amt: amount, // 訂單金
-    ItemDesc: orderDescription, // 產品名稱
-    Email: email, // 付款人電子信箱
-    ReturnURL: ReturnURL, // 支付完成返回商店網址
-    NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
-    ClientBackURL: ClientBackURL, // 支付取消返回商店網址
+    OrderComment: 'Proceeding to payment', // order comment
+    Amt: amount,
+    ItemDesc: orderDescription, 
+    Email: email,
+    ReturnURL: ReturnURL, // after payment, notify user
+    NotifyURL: NotifyURL, // after payment, notify admin
+    ClientBackURL: ClientBackURL, // if cancel payment, go back to this url
   }
 
   const chainedData = chainData(data)  // chain data first, then encrypt & hash

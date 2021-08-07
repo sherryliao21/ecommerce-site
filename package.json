@@ -29,7 +29,6 @@
     "moment": "^2.29.1",
     "multer": "^1.4.2",
     "mysql2": "^2.2.5",
-    "ngrok": "^4.1.0",
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
