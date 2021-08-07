@@ -68,9 +68,19 @@ function shaHash(aesEncryptedData) {
   return result
 }
 
+// decrypt encryption from pay gateway callback into our desired data
+function decryptData(encryptedData) {
+  let decryptParams = crypto.createDecipheriv("aes256", HashKey, HashIV)
+  decryptParams.setAutoPadding(false)
+  let decryption = decryptParams.update(encryptedData, "hex", "utf8") + decryptParams.final("utf8")
+  let result = decryption.replace(/[\x00-\x20]+/g, "")
+  return result
+}
+
 module.exports = {
   chainData,
   aesEncrypt,
   shaHash,
-  getDataForTradeInfo
+  getDataForTradeInfo,
+  decryptData
 }
