@@ -142,6 +142,34 @@ const orderService = {
       payment_status: '-1'
     })
     callback({ orderId: order.id })
+  },
+
+  getPayment: async (req, res, callback) => {
+    try {
+      console.log('======== get payment =======')
+      console.log(req.params.id)
+      console.log('===========')
+
+      const order = await Order.findByPk(req.params.id)
+      
+      callback({ order: order.toJSON() })      
+    }
+    catch (error) {
+      console.log(error)
+    }
+  },
+
+  newebpayCallback: async (req, res, callback) => {
+    try {
+      console.log('======== newebpayCallback =======')
+      console.log(req.body)
+      console.log('===========')
+      
+      callback({ status: 'success' })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 

@@ -21,6 +21,18 @@ const orderController = {
       }
       return res.redirect('back')
     })
+  },
+
+  getPayment: (req, res) => {
+    orderService.getPayment(req, res, data => {
+      return res.render('payment', data)
+    })
+  },
+
+  newebpayCallback: (req, res) => {
+    orderService.newebpayCallback(req, res, data => {
+      return res.redirect('/orders')
+    })
   }
 }
 

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="title text-center">
+    <h1 class="mb-3">Confirm payment for order #{{order.id}}</h1>
+  </div>
+  <div class="payment d-flex flex-column align-items-center p-5"
+    style="border-radius: 10px; background-color: #FFDCDF;">
+    <h4>TOTAL AMOUNT: ${{order.amount}}</h4>
+    <form action="" class="mt-4">
+      <div class="flex row align-items-center">
+        <label for="merchantID" class="col-5">Merchant ID: </label>
+        <div class="input col-7">
+          <input type="text" value="" name="merchantID" class="form-control">
+        </div>
+      </div>
+      <div class="flex row align-items-center my-2">
+        <label for="tradeInfo" class="col-5">TradeInfo: </label>
+        <div class="input col-7">
+          <input type="text" value="" name="tradeInfo" class="form-control">
+        </div>
+      </div>
+      <div class="flex row align-items-center my-2">
+        <label for="tradeSHA" class="col-5">TradeSHA: </label>
+        <div class="input col-7">
+          <input type="text" value="" name="tradeSHA" class="form-control">
+        </div>
+      </div>
+      <div class="flex row align-items-center my-2">
+        <label for="version" class="col-5">Version: </label>
+        <div class="input col-7">
+          <input type="text" value="" name="version" class="form-control">
+        </div>
+      </div>
+      <div class="button d-flex justify-content-center mt-5">
+        <button type="submit" class="btn btn-primary">Proceed to payment</button>
+      </div>
+    </form>
+  </div>
+</div>
