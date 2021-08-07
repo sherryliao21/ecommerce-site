@@ -25,6 +25,9 @@ const orderController = {
 
   getPayment: (req, res) => {
     orderService.getPayment(req, res, data => {
+      if (data.status === 'error') {
+        return res.redirect('back')
+      }
       return res.render('payment', data)
     })
   },

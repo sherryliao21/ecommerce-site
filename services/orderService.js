@@ -148,14 +148,23 @@ const orderService = {
   getPayment: async (req, res, callback) => {
     try {
       const order = await Order.findByPk(req.params.id)
+      
+      if (!order) {
+        return callback({
+          status: 'error',
+          message: 'This order does not exist!'
+        })
+      }
+      
       const tradeInfo = getDataForTradeInfo(order.amount, 'Order detail', req.user.email)
-
       order.update({
         ...order,
         sn: tradeInfo.MerchantOrderNo
       })
 
       callback({
+        status: 'success',
+        message: 'retrieve order payment data',
         order: order.toJSON(),
         tradeInfo
       })

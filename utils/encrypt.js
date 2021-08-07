@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const URL = 'https://7f5a9ef16777.ngrok.io'
+const URL = 'https://0b23b73c0735.ngrok.io' // ngrok for local testing
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.MERCHANT_HASH_KEY
 const HashIV = process.env.MERCHANT_HASH_IV
