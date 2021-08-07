@@ -5,32 +5,38 @@
   <div class="payment d-flex flex-column align-items-center p-5"
     style="border-radius: 10px; background-color: #FFDCDF;">
     <h4>TOTAL AMOUNT: ${{order.amount}}</h4>
+    <ul class="payment-confirm list-group mt-3 px-3">
+      <li class="list-group-item d-flex justify-content-between"><strong>Merchant ID: </strong> {{tradeInfo.MerchantID}}
+      </li>
+      <li class="list-group-item"><strong>MerchantOrderNo: </strong> {{tradeInfo.MerchantOrderNo}}
+      </li>
+    </ul>
     <form action="{{tradeInfo.PayGateWay}}" method="POST" class="mt-4">
-      <div class="flex row align-items-center">
+      <div class="flex row align-items-center" hidden>
         <label for="MerchantID" class="col-5">Merchant ID: </label>
         <div class="input col-7">
           <input type="text" value="{{tradeInfo.MerchantID}}" name="MerchantID" class="form-control">
         </div>
       </div>
-      <div class="flex row align-items-center my-2">
+      <div class="flex row align-items-center my-2" hidden>
         <label for="TradeInfo" class="col-5">TradeInfo: </label>
         <div class="input col-7">
           <input type="text" value="{{tradeInfo.TradeInfo}}" name="TradeInfo" class="form-control">
         </div>
       </div>
-      <div class="flex row align-items-center my-2">
+      <div class="flex row align-items-center my-2" hidden>
         <label for="TradeSha" class="col-5">TradeSHA: </label>
         <div class="input col-7">
           <input type="text" value="{{tradeInfo.TradeSha}}" name="TradeSha" class="form-control">
         </div>
       </div>
-      <div class="flex row align-items-center my-2">
+      <div class="flex row align-items-center my-2" hidden>
         <label for="Version" class="col-5">Version: </label>
         <div class="input col-7">
           <input type="text" value="{{tradeInfo.Version}}" name="Version" class="form-control">
         </div>
       </div>
-      <div class="button d-flex justify-content-center mt-5">
+      <div class="button d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Proceed to payment</button>
       </div>
     </form>

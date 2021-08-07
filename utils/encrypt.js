@@ -4,10 +4,10 @@ const URL = 'https://7f5a9ef16777.ngrok.io'
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.MERCHANT_HASH_KEY
 const HashIV = process.env.MERCHANT_HASH_IV
-const PayGateWay = "https://ccore.newebpay.com/MPG/mpg_gateway"
-const ReturnURL = URL+"/newebpay/callback?from=ReturnURL"
-const NotifyURL = URL+"/newebpay/callback?from=NotifyURL"
-const ClientBackURL = URL+"/orders"
+const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway'
+const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
+const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
+const ClientBackURL = URL + '/orders'
 
 function getDataForTradeInfo(amount, orderDescription, email) {
   const data = {
@@ -77,6 +77,7 @@ function decryptData(encryptedData) {
   return result
 }
 
+// fix paytime format
 function convertTimeFormat(paytime) {
   const date = paytime.slice(0, 10)
   const time = paytime.slice(10)
