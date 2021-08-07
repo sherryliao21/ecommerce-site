@@ -132,16 +132,25 @@ const orderService = {
       return callback({ status: 'error', message: "The order doesn't exist" })
     }
 
-    if (order.shipping_status === '-1') {
-      return callback({ status: 'error', message: "The order doesn't exist" })
-    }
-
     await order.update({
       ...req.body,
       shipping_status: '-1',
       payment_status: '-1'
     })
     callback({ orderId: order.id })
+  },
+  getPayment: async (req, res, callback) => {
+    console.log(req.params.id)
+
+    const order = (await Order.findByPk(req.params.id)).toJSON()
+    console.log('order', order)
+    return callback({ order })
+  },
+  spgatewayCallback: (req, res, callback) => {
+    console.log('----- spgatewayCallback -----')
+    console.log(req.body)
+
+    callback()
   }
 }
 

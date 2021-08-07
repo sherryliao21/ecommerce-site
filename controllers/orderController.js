@@ -21,6 +21,19 @@ const orderController = {
       }
       return res.redirect('back')
     })
+  },
+  getPayment: (req, res) => {
+    orderService.getPayment(req, res, data => {
+      if (data.status === 'error') {
+        return res.redirect('back')
+      }
+      return res.render('user/payment', data)
+    })
+  },
+  spgatewayCallback: (req, res) => {
+    orderService.spgatewayCallback(req, res, () => {
+      return res.redirect('back')
+    })
   }
 }
 
