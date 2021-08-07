@@ -5,10 +5,12 @@ const Category = db.Category
 const Product = db.Product
 const OrderItem = db.OrderItem
 const Order = db.Order
+const User = db.User
 
 const moment = require('moment')
 
 const { sendMail, orderConfirmMail } = require('../utils/mail')
+const { getTradeInfo, decryptTradeInfo } = require('../utils/payment')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -142,9 +144,29 @@ const orderService = {
   getPayment: async (req, res, callback) => {
     console.log(req.params.id)
 
-    const order = (await Order.findByPk(req.params.id)).toJSON()
-    console.log('order', order)
-    return callback({ order })
+    const order = await Order.findByPk(req.params.id, { include: User })
+
+    if (!order) {
+      return callback({
+        status: 'error',
+        message: "The order doesn't exist"
+      })
+    }
+
+    const tradeInfo = getTradeInfo(
+      order.amount,
+      'Product Name',
+      order.dataValues.User.email
+    )
+
+    console.log('tradeInfo', tradeInfo)
+
+    await order.update({
+      ...req.body,
+      sn: tradeInfo.MerchantOrderNo
+    })
+
+    return callback({ order, tradeInfo })
   },
   spgatewayCallback: (req, res, callback) => {
     console.log('----- spgatewayCallback -----')

@@ -38,3 +38,4 @@ Temporary Items
 .env
 node_modules/
 temp/
+ngrok
