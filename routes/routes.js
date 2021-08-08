@@ -43,6 +43,13 @@ router
   .all(authenticatedUser)
   .get(orderController.getOrders)
   .post(orderController.postOrder)
+router
+  .route('/orders/:id/payment')
+  .all(authenticated)
+  .get(orderController.getPayment)
+router
+  .route('/newebpay/callback')
+  .post(authenticated, orderController.newebpayCallback)
 
 // admin control panel
 router.route('/admin').get(
@@ -121,11 +128,14 @@ router.get('/user/logout', (req, res) => {
 })
 
 // user profile
-router.route('/user/profile')
+router
+  .route('/user/profile')
   .all(authenticated, authenticatedUser)
   .get(userController.getEditProfilePage)
   .put(userController.putProfile)
 
-router.route('/user/profile/password').put(authenticated, authenticatedUser, userController.putPassword)
+router
+  .route('/user/profile/password')
+  .put(authenticated, authenticatedUser, userController.putPassword)
 
 module.exports = router

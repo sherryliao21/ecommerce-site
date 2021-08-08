@@ -5,10 +5,17 @@ const Category = db.Category
 const Product = db.Product
 const OrderItem = db.OrderItem
 const Order = db.Order
+const User = db.User
+const Payment = db.Payment
 
 const moment = require('moment')
 
-const { sendMail, orderConfirmMail } = require('../utils/mail')
+const {
+  sendMail,
+  orderConfirmMail,
+  paymentConfirmMail
+} = require('../utils/mail')
+const { getTradeInfo, decryptTradeInfo } = require('../utils/payment')
 
 const orderService = {
   getOrders: async (req, res, callback) => {
@@ -36,7 +43,10 @@ const orderService = {
         }
       })
 
-      callback({ categories, orders })
+      callback({
+        categories,
+        orders
+      })
     } catch (err) {
       console.log(err)
     }
@@ -122,26 +132,96 @@ const orderService = {
     }
   },
   cancelOrder: async (req, res, callback) => {
-    const order = await Order.findByPk(req.params.id)
-    // User can't cancel other's order
-    if (
-      !order ||
-      order.UserId !== req.user.id ||
-      order.shipping_status === '-1'
-    ) {
-      return callback({ status: 'error', message: "The order doesn't exist" })
+    try {
+      const order = await Order.findByPk(req.params.id)
+      // User can't cancel other's order
+      if (
+        !order ||
+        order.UserId !== req.user.id ||
+        order.shipping_status === '-1'
+      ) {
+        return callback({ status: 'error', message: "The order doesn't exist" })
+      }
+
+      await order.update({
+        ...req.body,
+        shipping_status: '-1',
+        payment_status: '-1'
+      })
+      callback({ orderId: order.id })
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  getPayment: async (req, res, callback) => {
+    let order = await Order.findByPk(req.params.id)
+
+    if (!order) {
+      return callback({
+        status: 'error',
+        message: "The order doesn't exist"
+      })
     }
 
-    if (order.shipping_status === '-1') {
-      return callback({ status: 'error', message: "The order doesn't exist" })
-    }
+    const tradeInfo = getTradeInfo(order.amount, 'Product Name', req.user.email)
 
     await order.update({
-      ...req.body,
-      shipping_status: '-1',
-      payment_status: '-1'
+      sn: tradeInfo.MerchantOrderNo
     })
-    callback({ orderId: order.id })
+
+    return callback({ order: order.toJSON(), tradeInfo })
+  },
+  newebpayCallback: async (req, res, callback) => {
+    try {
+      const data = JSON.parse(decryptTradeInfo(req.body.TradeInfo))
+      const sn = data.Result.MerchantOrderNo
+
+      const order = await Order.findOne({
+        where: { sn },
+        include: User
+      })
+
+      if (!order) {
+        return callback({
+          status: 'error',
+          message: "The order doesn't exist"
+        })
+      }
+
+      // Avoid creating same payment record multiple times
+      await Payment.findOrCreate({
+        where: { params: sn },
+        defaults: {
+          OrderId: order.id,
+          payment_method: data.Result.PaymentType,
+          paid_at: data.Status === 'SUCCESS' ? Date.now() : null,
+          params: sn
+        }
+      })
+
+      if (data.Status === 'SUCCESS') {
+        await order.update({ payment_status: 1 })
+
+        // Send payment completion email
+        const mailContent = paymentConfirmMail(
+          order.toJSON(),
+          data.Result.PaymentType
+        )
+        await sendMail(order.dataValues.User.email, mailContent)
+
+        callback({
+          status: 'success',
+          message: `Payment for order ${order.id} completed!`
+        })
+      } else {
+        callback({
+          status: 'error',
+          message: `Payment for order ${order.id} failed, because ERROR[${data.Status}]: ${data.Message} `
+        })
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 

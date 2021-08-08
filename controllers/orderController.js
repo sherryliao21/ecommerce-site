@@ -21,6 +21,25 @@ const orderController = {
       }
       return res.redirect('back')
     })
+  },
+  getPayment: (req, res) => {
+    orderService.getPayment(req, res, data => {
+      if (data.status === 'error') {
+        return res.redirect('back')
+      }
+      return res.render('user/payment', data)
+    })
+  },
+  newebpayCallback: (req, res) => {
+    orderService.newebpayCallback(req, res, data => {
+      if (data.status !== 'success') {
+        req.flash('error_msg', data.message)
+      } else {
+        req.flash('success_msg', data.message)
+      }
+
+      return res.redirect('/orders')
+    })
   }
 }
 

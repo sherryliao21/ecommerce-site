@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/stylesheets/orders.css">
+{{> message}}
 {{#each orders}}
 <div class="row mb-5">
   {{!-- Order info --}}
@@ -20,7 +21,7 @@
           <td>{{this.id}}</td>
           <td>$ {{this.amount}}</td>
           <td>
-            {{#ifCond this.payment_status '0'}}<a href="/order/{{this.id}}/payment"><button
+            {{#ifCond this.payment_status '0'}}<a href="/orders/{{this.id}}/payment"><button
                 class="btn btn-secondary">Pay</button></a>{{else}}{{#ifCond this.payment_status
             '-1'}}Canceled{{else}}Success{{/ifCond}}{{/ifCond}}
           </td>
