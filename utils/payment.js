@@ -8,7 +8,6 @@ const PayGateWay = 'https://ccore.spgateway.com/MPG/mpg_gateway'
 const ReturnURL = URL + '/spgateway/callback?from=ReturnURL'
 const NotifyURL = URL + '/spgateway/callback?from=NotifyURL'
 const ClientBackURL = URL + '/orders'
-
 let data
 
 function genDataChain(TradeInfo) {
@@ -34,10 +33,6 @@ function hashTradeInfoSHA(TradeInfo) {
 
 module.exports = {
   getTradeInfo: (Amt, Desc, Email) => {
-    console.log('==== getTradeInfo ====')
-    console.log(Amt, Desc, Email)
-    console.log('========')
-
     data = {
       MerchantID,
       RespondType: 'JSON',
@@ -54,15 +49,8 @@ module.exports = {
       OrderComment: 'OrderComment'
     }
 
-    console.log('===== getTradeInfo: data =====')
-    console.log(data)
-
     mpg_aes_encrypt = encryptTradeInfoAES(data)
     mpg_sha_encrypt = hashTradeInfoSHA(mpg_aes_encrypt)
-
-    console.log('===== getTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt =====')
-    console.log(mpg_aes_encrypt)
-    console.log(mpg_sha_encrypt)
 
     tradeInfo = {
       MerchantID,
@@ -72,9 +60,6 @@ module.exports = {
       PayGateWay,
       MerchantOrderNo: data.MerchantOrderNo
     }
-
-    console.log('===== getTradeInfo: tradeInfo =====')
-    console.log(tradeInfo)
 
     return tradeInfo
   },

@@ -42,5 +42,17 @@ module.exports = {
       subject: `Thank you for your Blanche order #${order.id} `,
       html: template({ order, paymentStatus, url: process.env.URL })
     }
+  },
+  paymentConfirmMail: (order, paymentMethod) => {
+    const source = fs.readFileSync('views/mails/paymentConfirm.hbs', 'utf8')
+    const template = Handlebars.compile(source)
+    return {
+      subject: `Payment Confirmation for your Blanche order #${order.id} `,
+      html: template({
+        order,
+        url: process.env.URL,
+        paymentMethod
+      })
+    }
   }
 }

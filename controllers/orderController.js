@@ -31,8 +31,14 @@ const orderController = {
     })
   },
   spgatewayCallback: (req, res) => {
-    orderService.spgatewayCallback(req, res, () => {
-      return res.redirect('back')
+    orderService.spgatewayCallback(req, res, data => {
+      if (data.status !== 'success') {
+        req.flash('error_msg', data.message)
+      } else {
+        req.flash('success_msg', data.message)
+      }
+
+      return res.redirect('/orders')
     })
   }
 }

@@ -43,8 +43,13 @@ router
   .all(authenticatedUser)
   .get(orderController.getOrders)
   .post(orderController.postOrder)
-router.route('/orders/:id/payment').get(orderController.getPayment)
-router.route('/spgateway/callback').post(orderController.spgatewayCallback)
+router
+  .route('/orders/:id/payment')
+  .all(authenticated)
+  .get(orderController.getPayment)
+router
+  .route('/spgateway/callback')
+  .post(authenticated, orderController.spgatewayCallback)
 
 // admin control panel
 router.route('/admin').get(
