@@ -81,23 +81,28 @@ passport.use(
       callbackURL: process.env.GOOGLE_CALLBACK
     },
     async (accessToken, refreshToken, profile, done) => {
-      const user = await User.findOne({ where: { googleId: profile.id } })
-      console.log("=======profile:", profile)
-
-      if (!user) {
-        const randomPassword = Math.random.toString(36).slice(-8)
-        const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(randomPassword, salt)
-        await User.create({
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          password: hash,
-          role: 'user',
-          googleId: profile.id,
-        })
+      try {
+        const user = await User.findOne({ where: { googleId: profile.id } })
+        console.log("=======profile:", profile)
+  
+        if (!user) {
+          const randomPassword = Math.random.toString(36).slice(-8)
+          const salt = await bcrypt.genSalt(10)
+          const hash = await bcrypt.hash(randomPassword, salt)
+          await User.create({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            password: hash,
+            role: 'user',
+            googleId: profile.id,
+          })
+          return done(null, user)
+        }
         return done(null, user)
       }
-      return done(null, user)
+      catch (error) {
+        console.log(error)
+      }
     }
   )
 )
