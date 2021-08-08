@@ -1,14 +1,37 @@
-<h3>準備為訂單編號 {{order.id}} 付款</h3>
+<div class="container">
+  <div class="order-confirm-title text-center">
+    <h1>Confirm Payment for Order #{{order.id}}</h1>
+  </div>
+  <div class="order-confirm-body d-flex flex-column align-items-center mt-4"
+    style="background: #ffdcdf;border-radius: 8px;">
+    <ul class="order-confirm-detail list-group mt-5 mb-3 px-3">
+      <li class="list-group-item">Order Number: {{order.id}}</li>
+      <li class="list-group-item">Total Amount: $ {{order.amount}}</li>
+      <li class="list-group-item">Shipping Address: {{order.address}}</li>
+    </ul>
+    <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
+      <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden>
+      <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}" hidden>
+      <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}" hidden>
+      <input type="text" name="Version" value="{{tradeInfo.Version}}" hidden>
+      <a href="/orders" class="btn btn-outline-danger my-3 me-2">Back</a>
+      <button type="submit" class="btn btn-danger my-3">Pay</button>
+    </form>
+  </div>
+
+</div>
+
+{{!-- <h3>準備為訂單編號 {{order.id}} 付款</h3>
 <h4>Total {{order.amount}}</h4>
 
 <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
   MerchantID:
-  <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
+  <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}">
   TradeInfo:
-  <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
+  <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}">
   TradeSha:
-  <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
+  <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}">
   Version:
-  <input type="text" name="Version" value="{{tradeInfo.Version}}"><br>
+  <input type="text" name="Version" value="{{tradeInfo.Version}}">
   <button type="submit" class="btn btn-primary">Payment</button>
-</form>
+</form> --}}
