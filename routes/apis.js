@@ -42,9 +42,9 @@ router
   .all(authenticated)
   .get(orderController.getPayment)
 router
-  .route('/spgateway/callback')
+  .route('/newebpay/callback')
   .all(authenticated)
-  .post(orderController.spgatewayCallback)
+  .post(orderController.newebpayCallback)
 
 // admin control panel
 router

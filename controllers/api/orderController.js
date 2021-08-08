@@ -21,8 +21,8 @@ const orderController = {
       return res.json(data)
     })
   },
-  spgatewayCallback: (req, res) => {
-    orderService.spgatewayCallback(req, res, data => {
+  newebpayCallback: (req, res) => {
+    orderService.newebpayCallback(req, res, data => {
       return res.json(data)
     })
   }

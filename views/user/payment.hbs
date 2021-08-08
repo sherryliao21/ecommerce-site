@@ -9,7 +9,7 @@
       <li class="list-group-item">Total Amount: $ {{order.amount}}</li>
       <li class="list-group-item">Shipping Address: {{order.address}}</li>
     </ul>
-    <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
+    <form name='newebpay' action='{{tradeInfo.PayGateWay}}' method="POST">
       <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden>
       <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}" hidden>
       <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}" hidden>
@@ -20,18 +20,3 @@
   </div>
 
 </div>
-
-{{!-- <h3>準備為訂單編號 {{order.id}} 付款</h3>
-<h4>Total {{order.amount}}</h4>
-
-<form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
-  MerchantID:
-  <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}">
-  TradeInfo:
-  <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}">
-  TradeSha:
-  <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}">
-  Version:
-  <input type="text" name="Version" value="{{tradeInfo.Version}}">
-  <button type="submit" class="btn btn-primary">Payment</button>
-</form> --}}

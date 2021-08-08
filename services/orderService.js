@@ -171,12 +171,8 @@ const orderService = {
 
     return callback({ order: order.toJSON(), tradeInfo })
   },
-  spgatewayCallback: async (req, res, callback) => {
+  newebpayCallback: async (req, res, callback) => {
     try {
-      if (req.query.from === 'NotifyURL') {
-        return
-      }
-
       const data = JSON.parse(decryptTradeInfo(req.body.TradeInfo))
       const sn = data.Result.MerchantOrderNo
 

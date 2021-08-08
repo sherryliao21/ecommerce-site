@@ -4,9 +4,9 @@ const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
 
-const PayGateWay = 'https://ccore.spgateway.com/MPG/mpg_gateway'
-const ReturnURL = URL + '/spgateway/callback?from=ReturnURL'
-const NotifyURL = URL + '/spgateway/callback?from=NotifyURL'
+const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway'
+const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
+const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
 const ClientBackURL = URL + '/orders'
 let data
 

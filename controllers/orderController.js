@@ -30,8 +30,8 @@ const orderController = {
       return res.render('user/payment', data)
     })
   },
-  spgatewayCallback: (req, res) => {
-    orderService.spgatewayCallback(req, res, data => {
+  newebpayCallback: (req, res) => {
+    orderService.newebpayCallback(req, res, data => {
       if (data.status !== 'success') {
         req.flash('error_msg', data.message)
       } else {
