@@ -8,17 +8,21 @@ const orderController = {
   },
   postOrder: (req, res) => {
     orderService.postOrder(req, res, data => {
-      if (data.status === 'error') {
-        return res.json(data)
-      }
       return res.json(data)
     })
   },
   cancelOrder: (req, res) => {
     orderService.cancelOrder(req, res, data => {
-      if (data.status === 'error') {
-        return res.json(data)
-      }
+      return res.json(data)
+    })
+  },
+  getPayment: (req, res) => {
+    orderService.getPayment(req, res, data => {
+      return res.json(data)
+    })
+  },
+  spgatewayCallback: (req, res) => {
+    orderService.spgatewayCallback(req, res, data => {
       return res.json(data)
     })
   }
