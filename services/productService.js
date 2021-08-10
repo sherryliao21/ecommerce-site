@@ -45,7 +45,8 @@ const productService = {
       prev,
       next,
       keyword,
-      category: true
+      category: true,
+      productsPage: true
     })
   },
 

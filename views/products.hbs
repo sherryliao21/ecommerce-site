@@ -1,5 +1,5 @@
 <br />
-<div class="row" id="data-panel">
+<div class="products-wrapper" id="data-panel">
 
   {{#if keyword}}
   <div class="d-flex justify-content-end text-secondary">
@@ -8,12 +8,12 @@
   {{/if}}
 
   {{#each products}}
-  <div class="col-md-3">
+  <div class="">
     <div class="card mb-4 shadow-sm">
       <a href="/products/{{this.id}}">
-        <img class="card-img-top" src="{{this.image}}" alt="Card image cap" width="286px" height="180px">
+        <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
       </a>
-      <div class="card-body">
+      <div class=" card-body">
         <p class="card-title">
           <a href="/products/{{this.id}}">
             {{this.name}}
