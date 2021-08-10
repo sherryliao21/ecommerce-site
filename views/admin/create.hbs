@@ -1,5 +1,9 @@
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+
 <div class="container ps-4">
-  <div class="row d-flex justify-content-center" style="min-height: 600px">
+  <div class="row d-flex justify-content-center form-container">
     {{#if product }}
     <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data"
       class="col-11 col-lg-6 d-flex flex-column justify-content-between">
@@ -36,7 +40,7 @@
           <label for="quantity" class="mb-1">Quantity</label>
           <input type="number"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            maxlength="10" class="form-control" name="quantity" id="quantity" placeholder="ex: 10"
+            maxlength="10" class="form-control form-input" name="quantity" id="quantity" placeholder="ex: 10"
             value="{{ product.quantity }}" required>
         </div>
 
@@ -51,7 +55,7 @@
           <input type="file" class="form-control-file" id="image" name="image">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-save">Submit</button>
       </form>
   </div>
 </div>

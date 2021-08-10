@@ -1,19 +1,23 @@
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+
 <div class="container ps-4">
   <h1>Control panel</h1>
 
   <div class="row">
     <div class="products-header d-flex align-items-center justify-content-between col-12">
       <div class="products-nav">
-        <a href="/admin/products">Products</a>
-        <span> | </span>
-        <a href="/admin/categories">Categories</a>
-        <span> | </span>
-        <a href="/admin/orders">Orders</a>
+        <a href="/admin/products" class="links">Products</a>
+        <span class="bars"> | </span>
+        <a href="/admin/categories" class="links">Categories</a>
+        <span class="bars"> | </span>
+        <a href="/admin/orders" class="links">Orders</a>
       </div>
 
       <div class="filter d-flex justify-content-between align-items-center" style="width: 560px;">
-        <a href="/admin/orders" class="me-2">All</a>
-        <a href="/admin/orders?payment=-1&shipping=-1" class="me-2">Canceled</a>
+        <a href="/admin/orders" class="me-2 links">All</a>
+        <a href="/admin/orders?payment=-1&shipping=-1" class="me-2 links">Canceled</a>
         <form action="/admin/orders" onchange="submit()" class="d-flex justify-content-between align-items-center m-0">
           <div class="payment d-flex align-items-center me-3">
             <label for="payment" class="me-3">Payment</label>
@@ -43,7 +47,7 @@
 
   <div class="row">
     <table class="table table-hover table-bordered">
-      <thead class="table-dark">
+      <thead>
         <tr>
           <th scope="col">#</th>
           {{!-- <th scope="col">SN</th> --}}
@@ -57,43 +61,38 @@
       <tbody>
         {{#each orders}}
         <tr class="align-middle">
-          <th scope="row">{{this.id}}</th>
+          <th scope="row" class="id">{{this.id}}</th>
           {{!-- <td class="col-1">{{this.sn}}</td> --}}
           <td class="col-2">{{this.UserId}}</td>
           <td class="col-2">{{this.amount}}</td>
           <td class="col-2">
             {{#ifCond this.payment_status '1'}}
-            <span style="padding: 6px 10px; border-radius: 8px; background-color: #85D68A; color: #2E731D;">Paid</span>
+            <span class="success">Paid</span>
             {{/ifCond}}
             {{#ifCond this.payment_status '0'}}
-            <span
-              style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Unpaid</span>
+            <span class="fail">Unpaid</span>
             {{/ifCond}}
             {{#ifCond this.payment_status '-1'}}
-            <span
-              style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Canceled</span>
+            <span class="fail">Canceled</span>
             {{/ifCond}}
           </td>
-          <td class="col-2"><span {{#ifCond this.shipping_status '1' }} <span
-              style="padding: 6px 10px; border-radius: 8px; background-color: #85D68A; color: #2E731D;">Shipped</span>
+          <td class="col-2"><span {{#ifCond this.shipping_status '1' }} class="success">Shipped</span>
             {{/ifCond}}
             {{#ifCond this.shipping_status '0'}}
-            <span
-              style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Unshipped</span>
+            <span class="fail">Unshipped</span>
             {{/ifCond}}
             {{#ifCond this.shipping_status '-1'}}
-            <span
-              style="padding: 6px 10px; border-radius: 8px; background-color: #FEB8B3; color: #B53A2A; ">Canceled</span>
+            <span class="fail">Canceled</span>
             {{/ifCond}}
           </td>
-          <td class="col-2">
+          <td class=" col-2">
             <button type="button" class="btn btn-link">
-              <a href="/admin/orders/{{this.id}}/edit">
+              <a href="/admin/orders/{{this.id}}/edit" class="links">
                 Edit
               </a>
             </button>
             <form action="/admin/orders/{{this.id}}/cancel" method="POST" style="display: inline;">
-              <button type="submit" class="btn btn-link">Cancel</button>
+              <button type="submit" class="btn btn-cancel">Cancel</button>
             </form>
           </td>
         </tr>

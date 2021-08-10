@@ -1,14 +1,18 @@
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+
 <div class="container ps-4">
   <h1>Control panel</h1>
 
   <div class="row">
     <div class="products-header d-flex align-items-center justify-content-between col-11">
       <div class="products-nav">
-        <a href="/admin/products">Products</a>
-        <span> | </span>
-        <a href="/admin/categories">Categories</a>
-        <span> | </span>
-        <a href="/admin/orders">Orders</a>
+        <a href="/admin/products" class="links">Products</a>
+        <span class="bars"> | </span>
+        <a href="/admin/categories" class="links">Categories</a>
+        <span class="bars"> | </span>
+        <a href="/admin/orders" class="links">Orders</a>
       </div>
 
       <div class="search">
@@ -25,8 +29,8 @@
   <h2>Order #{{order.id}}</h2>
 
   <div class="my-3">
-    <table class="table table-borderless" style="vertical-align: middle;">
-      <thead style="text-align: center;">
+    <table class="table table-borderless">
+      <thead class="order-t">
         <tr>
           <th scope="col"></th>
           <th scope="col">Item Name</th>
@@ -35,15 +39,15 @@
           <th scope="col">Subtotal</th>
         </tr>
       </thead>
-      <tbody style="text-align: center;">
+      <tbody class="order-t">
         {{#each order.orderedProducts}}
         <tr>
-          <td><img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;"></td>
+          <td class="card-image"><img src="{{this.image}}" class="card-img me-3" alt="..."></td>
           <td>
             <span>{{this.name}}</span>
           </td>
           <td>
-            <p style="margin: 0;">$ {{this.price}}</p>
+            <p class="m-0">$ {{this.price}}</p>
           </td>
           <td>
             {{this.OrderItem.quantity}}
@@ -54,14 +58,12 @@
         <tr>
           <td></td>
           <td></td>
-          <td style="text-align: right;">
-
+          <td class="total"></td>
+          <td>
+            <h6 class="m-0">Total: </h6>
           </td>
           <td>
-            <h6 style="margin: 0;">Total: </h6>
-          </td>
-          <td>
-            <h6 style="margin: 0;">$ {{totalPrice}}</h6>
+            <h6 class="m-0">$ {{totalPrice}}</h6>
           </td>
         </tr>
       </tbody>
@@ -89,8 +91,8 @@
             </option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary col-1" style="padding: 6px 40px;" {{#ifCond
-          order.payment_status '-1' }} disabled {{/ifCond}}>Save</button>
+        <button type="submit" class="btn btn-save col-1" {{#ifCond order.payment_status '-1' }} disabled
+          {{/ifCond}}>Save</button>
       </div>
     </form>
   </div>

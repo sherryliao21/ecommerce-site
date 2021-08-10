@@ -1,28 +1,32 @@
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+
 <div class="container ps-4">
   <h1>Control panel</h1>
 
   <div class="row">
     <div class="products-header d-flex align-items-center justify-content-between col-12 row">
       <div class="products-nav col-7">
-        <a href="/admin/products">Products</a>
-        <span> | </span>
-        <a href="/admin/categories">Categories</a>
-        <span> | </span>
-        <a href="/admin/orders">Orders</a>
+        <a href="/admin/products" class="links">Products</a>
+        <span class="bars"> | </span>
+        <a href="/admin/categories" class="links">Categories</a>
+        <span class="bars"> | </span>
+        <a href="/admin/orders" class="links">Orders</a>
       </div>
 
       <div class="search col-3 d-flex align-items-center">
         <form action="/admin/products" class="d-flex align-items-center m-0">
           <input type="text" value="{{keyword}}" name="keyword" class="form-control" placeholder="Search id or keyword"
             aria-describedby="search-button">
-          <button class="btn btn-success p-2 ms-2" type="submit" id="search-button" style="background-color: #e29fb0; border: none"><i class="fas fa-search"></i>
+          <button class="btn btn-success p-2 ms-2" type="submit" id="search-button"><i class="fas fa-search"></i>
           </button>
         </form>
       </div>
 
       <div class="add-product col-2 d-flex justify-content-end">
         <a href="/admin/products/create">
-          <button type="button" class="btn btn-primary" style="background-color: #e29fb0; border: none">New
+          <button type="button" class="btn btn-success">New
             Product</button>
         </a>
       </div>
@@ -34,7 +38,7 @@
 
   <div class="row">
     <table class="table table-hover table-bordered">
-      <thead class="table-dark">
+      <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Category</th>
@@ -45,23 +49,22 @@
       <tbody>
         {{#each products}}
         <tr class="align-middle">
-          <th scope="row">{{this.id}}</th>
+          <th scope="row" class="id">{{this.id}}</th>
           <td class="col-4">{{this.Category.name}}</td>
           <td class="col-4">{{this.name}}</td>
           <td class="col-2">
-            <button type="button" class="btn btn-link">
-              <a href="/admin/products/{{this.id}}" style="color: #e29fb0; text-decoration: none;">
+            <button type="button" class="btn">
+              <a href="/admin/products/{{this.id}}" class="links">
                 Show
               </a>
             </button>
-            <button type="button" class="btn btn-link">
-              <a href="/admin/products/{{this.id}}/edit" style="color: #e29fb0; text-decoration: none;">
+            <button type="button" class="btn">
+              <a href="/admin/products/{{this.id}}/edit" class="links">
                 Edit
               </a>
             </button>
-            <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-              <button type="submit" class="btn btn-link" onclick="return confirmDelete()"
-                style="color: #e29fb0;">Delete</button>
+            <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn delete" onclick="return confirmDelete()">Delete</button>
             </form>
           </td>
         </tr>
