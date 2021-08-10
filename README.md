@@ -1,8 +1,7 @@
 Blanche | Fashion Ecommerce
 ===
 
-(snapshot)
-
+![snap]('/assets/landing-page.png')
 
 Blanche is an ecommerce website where users get to shop latest trends in women's clothing. This project serves both as full-stack and backend API server. Built with Node.js, Express, MySQL, and deployed on Heroku. 
 
