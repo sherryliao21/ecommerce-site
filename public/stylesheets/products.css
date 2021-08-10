@@ -1,3 +1,7 @@
+#data-panel {
+  margin: 0 auto 160px;
+}
+
 .products-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -11,4 +15,8 @@
   max-height: 500px;
   object-fit: cover;
   box-shadow: -1px 0px 0px rgba(0, 0, 0, 0.06);
+}
+
+.disabled a span {
+  color: #dee2e6;
 }

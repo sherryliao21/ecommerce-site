@@ -32,7 +32,7 @@ const productService = {
     const pages = Math.ceil(result.count / PAGE_LIMIT)
     const totalPage = Array.from({ length: pages }).map((_, index) => index + 1)
     const prev = page - 1 < 1 ? 1 : page - 1
-    const next = page + 1 > pages ? pages : page + 1
+    const next = page + 1 > page ? page : page + 1
 
     const data = result.rows.map(product => ({ ...product.dataValues }))
 
@@ -41,7 +41,7 @@ const productService = {
       categories,
       categoryId,
       page,
-      totalPage,
+      totalPage: totalPage.length ? totalPage : [1],
       prev,
       next,
       keyword,
