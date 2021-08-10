@@ -1,5 +1,5 @@
 <br />
-<div class="products-wrapper" id="data-panel">
+<div id="data-panel">
 
   {{#if keyword}}
   <div class="d-flex justify-content-end text-secondary">
@@ -7,8 +7,9 @@
   </div>
   {{/if}}
 
-  {{#each products}}
-  <div class="">
+  <div class="products-wrapper">
+    {{#each products}}
+
     <div class="card mb-4 shadow-sm">
       <a href="/products/{{this.id}}">
         <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
@@ -22,8 +23,9 @@
         <p class="card-text">$ {{this.price}}</p>
       </div>
     </div>
+
+    {{/each}}
   </div>
-  {{/each}}
 
 </div>
 
@@ -34,7 +36,8 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item {{#ifCond page prev}}disabled{{/ifCond}}">
-        <a class="page-link" href="/products?page={{prev}}&categoryId={{categoryId}}" aria-label="Previous">
+        <a class="page-link" href="/products?page={{prev}}&categoryId={{categoryId}}&keyword={{keyword}}"
+          aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -43,11 +46,12 @@
       <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
       {{else}}
       <li class="page-item"><a class="page-link"
-          href="/products?page={{this}}&categoryId={{../categoryId}}">{{this}}</a></li>
+          href="/products?page={{this}}&categoryId={{../categoryId}}&keyword={{../keyword}}">{{this}}</a></li>
       {{/ifCond}}
       {{/each}}
       <li class="page-item {{#ifCond page next}}disabled{{/ifCond}}">
-        <a class="page-link" href="/products?page={{next}}&categoryId={{categoryId}}" aria-label="Next">
+        <a class="page-link" href="/products?page={{next}}&categoryId={{categoryId}}&keyword={{keyword}}"
+          aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
