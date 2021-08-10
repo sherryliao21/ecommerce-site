@@ -1,0 +1,76 @@
+main {
+  margin-bottom: 10vh;
+  margin-top: 20vh;
+}
+
+header {
+  position: fixed;
+  top: 0px;
+  z-index: 999;
+  background-color: white;
+}
+
+/* Category Navbar */
+.navigation .nav-link {
+  color: #e29fb0;
+}
+
+.navigation .nav-link:hover {
+  color: #ce7a8f;
+}
+
+.navigation .nav-link.active {
+  background-color: transparent;
+  border-radius: 0;
+  color: #e29fb0;
+  border-bottom: 1px solid #ce7a8f;
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-link {
+  height: 37px;
+  padding: 7px 20px;
+  color: #e29fb0;
+}
+
+.page-item.active .page-link,
+.page-item.active span {
+  color: white;
+  background-color: #e29fb0;
+  border-color: #e29fb0;
+  z-index: 1;
+}
+
+.page-item span {
+  color: #e29fb0;
+}
+
+a.page-link:hover,
+a.page-link:hover span {
+  color: white;
+  background-color: #e29fb0;
+  border-color: #e29fb0;
+}
+
+/* Footer */
+.footer i,
+.footer a {
+  color: #e29fb0;
+}
+
+.footer i:hover,
+.footer a:hover {
+  color: #ce7a8f;
+}
+
+/* Products */
+#data-panel .card-title a {
+  color: #ce7a8f;
+}

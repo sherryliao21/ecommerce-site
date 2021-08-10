@@ -31,7 +31,7 @@ const cartController = {
       if (data.status === 'error') {
         return res.redirect('back')
       }
-      return res.render('checkout', data)
+      return res.render('user/checkout', data)
     })
   }
 }

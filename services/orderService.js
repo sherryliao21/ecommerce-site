@@ -45,7 +45,8 @@ const orderService = {
 
       callback({
         categories,
-        orders
+        orders,
+        category: true
       })
     } catch (err) {
       console.log(err)
@@ -126,7 +127,12 @@ const orderService = {
       const mailContent = orderConfirmMail(order.toJSON(), 'unpaid')
       await sendMail(req.user.email, mailContent)
 
-      callback({ categories, order: order.toJSON() })
+      callback({
+        categories,
+        order: order.toJSON(),
+        category: true,
+        checkout: true
+      })
     } catch (err) {
       console.log(err)
     }

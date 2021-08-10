@@ -1,0 +1,34 @@
+<div class="container" style="max-width: 910px;">
+  <div class="step-container row p-5">
+    <div class="col-12 col-md-4 step mb-3">
+      <span>1. CHECK ITEMS</span>
+    </div>
+    <div class="col-12 col-md-4 step mb-3">
+      <span>2. ADD SHIPPING INFO</span>
+    </div>
+    <div class="col-12 col-md-4 step selected mb-3">
+      <span>3. CONFIRM ORDER</span>
+    </div>
+
+  </div>
+
+  <div class="my-3">
+    <div class="order-confirm-title text-center mb-4">
+      <h1>Thank you for your order!</h1>
+    </div>
+    <div class="order-confirm-body d-flex flex-column align-items-center mt-3"
+      style="background: #ffdcdf;border-radius: 8px;">
+      <div class="order-confirm-detail-title mt-4 mb-2">
+        <h5>ORDER CONFIRMATION</h5>
+      </div>
+      <ul class="order-confirm-detail list-group mb-5 px-3">
+        <li class="list-group-item">Order Number: {{order.id}}</li>
+        <li class="list-group-item">Total Amount: $ {{order.amount}}</li>
+        <li class="list-group-item">Shipping Address: {{order.address}}</li>
+      </ul>
+      <div class="order-confirm-pay">
+        <a href="/orders/{{order.id}}/payment" class="btn btn-danger mb-5">Direct to Payment</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -46,7 +46,8 @@ module.exports = {
       ReturnURL,
       NotifyURL,
       ClientBackURL,
-      OrderComment: 'OrderComment'
+      OrderComment: 'OrderComment',
+      LangType: 'en'
     }
 
     mpg_aes_encrypt = encryptTradeInfoAES(data)

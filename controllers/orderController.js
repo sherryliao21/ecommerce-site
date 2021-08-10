@@ -3,7 +3,7 @@ const orderService = require('../services/orderService')
 const orderController = {
   getOrders: (req, res) => {
     orderService.getOrders(req, res, data => {
-      return res.render('orders', data)
+      return res.render('user/orders', data)
     })
   },
   postOrder: (req, res) => {
@@ -11,7 +11,7 @@ const orderController = {
       if (data.status === 'error') {
         return res.redirect('back')
       }
-      return res.render('confirmation', data)
+      return res.render('user/confirmation', data)
     })
   },
   cancelOrder: (req, res) => {
