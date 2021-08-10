@@ -1,62 +1,64 @@
-<h1>Control panel</h1>
+<div class="container ps-4">
+	<h1>Control panel</h1>
 
-<a href="/admin/products">Products</a>
-<span> | </span>
-<a href="/admin/categories">Categories</a>
-<span> | </span>
-<a href="/admin/orders">Orders</a>
-<br />
-<br />
+	<a href="/admin/products">Products</a>
+	<span> | </span>
+	<a href="/admin/categories">Categories</a>
+	<span> | </span>
+	<a href="/admin/orders">Orders</a>
+	<br />
+	<br />
 
-{{> message}}
-<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm justify-content-start">
-	{{#if category}}
-	<form action="/admin/categories/{{category.id}}?_method=PUT" method="POST" class="d-flex align-items-center"
-		style="min-width: 700px;">
-		<input class="form-control" type="text" placeholder="name" name="name" value="{{category.name}}"
-			style="width: 200px;" required>
-		<button class="btn btn-primary ms-2" type="submit">Update</button>
-		<div class="create-new ms-3" style="width: 160px; display: inline-block;">
-			<a href="/admin/categories">or Create New</a>
-		</div>
-	</form>
-	{{else}}
-	<form action="/admin/categories" method="POST" class="d-flex">
-		<input class="form-control" type="text" placeholder="name" name="name" required>
-		<button type="submit" class="btn btn-primary ms-2">Create</button>
-	</form>
-	{{/if}}
+	{{> message}}
+	<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm justify-content-start">
+		{{#if category}}
+		<form action="/admin/categories/{{category.id}}?_method=PUT" method="POST" class="d-flex align-items-center"
+			style="min-width: 700px;">
+			<input class="form-control" type="text" placeholder="name" name="name" value="{{category.name}}"
+				style="width: 200px;" required>
+			<button class="btn btn-primary ms-2" type="submit">Update</button>
+			<div class="create-new ms-3" style="width: 160px; display: inline-block;">
+				<a href="/admin/categories">or Create New</a>
+			</div>
+		</form>
+		{{else}}
+		<form action="/admin/categories" method="POST" class="d-flex">
+			<input class="form-control" type="text" placeholder="name" name="name" required>
+			<button type="submit" class="btn btn-primary ms-2">Create</button>
+		</form>
+		{{/if}}
+	</div>
+	<br />
+	<br />
+	<table class="table table-hover table-bordered">
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Category Name</th>
+				<th scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each categories}}
+			<tr class="align-middle">
+				<th scope="row">{{this.id}}</th>
+				<td>{{this.name}}</td>
+				<td>
+					<button type="button" class="btn btn-link">
+						<a href="/admin/categories/{{this.id}}">
+							Edit
+						</a>
+					</button>
+					<form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+						<button type="submit" class="btn btn-link" onclick="return confirmDelete()">Delete</button>
+					</form>
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	<br />
+	<br />
 </div>
-<br />
-<br />
-<table class="table table-hover table-bordered">
-	<thead class="table-dark">
-		<tr>
-			<th scope="col">#</th>
-			<th scope="col">Category Name</th>
-			<th scope="col">Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		{{#each categories}}
-		<tr class="align-middle">
-			<th scope="row">{{this.id}}</th>
-			<td>{{this.name}}</td>
-			<td>
-				<button type="button" class="btn btn-link">
-					<a href="/admin/categories/{{this.id}}">
-						Edit
-					</a>
-				</button>
-				<form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-					<button type="submit" class="btn btn-link" onclick="return confirmDelete()">Delete</button>
-				</form>
-			</td>
-		</tr>
-		{{/each}}
-	</tbody>
-</table>
-<br />
-<br />
 
 <script src="/javascripts/utils.js"></script>
