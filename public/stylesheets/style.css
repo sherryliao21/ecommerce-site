@@ -1,5 +1,13 @@
 main {
   margin-bottom: 10vh;
+  margin-top: 20vh;
+}
+
+header {
+  position: fixed;
+  top: 0px;
+  z-index: 999;
+  background-color: white;
 }
 
 /* Category Navbar */
