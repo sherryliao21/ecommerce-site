@@ -1,82 +1,84 @@
 <link rel="stylesheet" href="/stylesheets/cart.css">
-<h4>Shopping Cart</h4>
-<div class="step-container row p-5">
-  <div class="col-12 col-md-4 step selected mb-3">
-    <span>1. CHECK ORDER</span>
-  </div>
-  <div class="col-12 col-md-4 step mb-3">
-    <span>2. ADD SHIPPING INFO</span>
-  </div>
-  <div class="col-12 col-md-4 step mb-3">
-    <span>3. DONE</span>
-  </div>
+<div class="container" style="max-width: 910px;">
+  <h5>Shopping Cart</h5>
+  <div class="step-container row p-5">
+    <div class="col-12 col-md-4 step selected mb-3">
+      <span>1. CHECK ITEMS</span>
+    </div>
+    <div class="col-12 col-md-4 step mb-3">
+      <span>2. ADD SHIPPING INFO</span>
+    </div>
+    <div class="col-12 col-md-4 step mb-3">
+      <span>3. CONFIRM ORDER</span>
+    </div>
 
-</div>
-<div class="my-3">
+  </div>
+  <div class="my-3">
 
-  <table class="table table-borderless" style="vertical-align: middle;">
-    <thead style="text-align: center;">
-      <tr>
-        <th scope="col">Item Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Subtotal</th>
-        <th scope="col">Remove</th>
-      </tr>
-    </thead>
-    <tbody style="text-align: center;">
-      {{#each cart.cartedProducts}}
-      <tr>
-        <td>
-          <div style="text-align: left;">
-            <img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;">
-            <span>{{this.name}}</span>
-          </div>
-        </td>
-        <td>
-          <p style="margin: 0;">$ {{this.price}}</p>
-        </td>
-        <td>
-          <div class="d-flex align-items-center justify-content-center">
-            <form action="/cartItem/{{this.CartItem.id}}/add" method="POST" style="margin: 0;">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+    <table class="table table-borderless" style="vertical-align: middle;">
+      <thead style="text-align: center;">
+        <tr>
+          <th scope="col">Item Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center;">
+        {{#each cart.cartedProducts}}
+        <tr>
+          <td>
+            <div style="text-align: left;">
+              <img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;">
+              <span>{{this.name}}</span>
+            </div>
+          </td>
+          <td>
+            <p style="margin: 0;">$ {{this.price}}</p>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <form action="/cartItem/{{this.CartItem.id}}/add" method="POST" style="margin: 0;">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+              </form>
+              <span style="margin: 0 20px;">
+                {{this.CartItem.quantity}}
+              </span>
+              <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST" style="margin: 0;">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+              </form>
+            </div>
+          </td>
+          <td>{{this.price}} * {{this.CartItem.quantity}}</td>
+          <td>
+            <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST" style="margin: 0;">
+              <button type="submit" class="btn btn-link">
+                <i class="fas fa-trash"></i>
+              </button>
             </form>
-            <span style="margin: 0 20px;">
-              {{this.CartItem.quantity}}
-            </span>
-            <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST" style="margin: 0;">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
-            </form>
-          </div>
-        </td>
-        <td>{{this.price}} * {{this.CartItem.quantity}}</td>
-        <td>
-          <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST" style="margin: 0;">
-            <button type="submit" class="btn btn-link">
-              <i class="fas fa-trash"></i>
-            </button>
-          </form>
-        </td>
-      </tr>
-      {{/each}}
-      <tr>
-        <td></td>
-        <td></td>
-        <td style="text-align: right;">
+          </td>
+        </tr>
+        {{/each}}
+        <tr>
+          <td></td>
+          <td></td>
+          <td style="text-align: right;">
 
-        </td>
-        <td>
-          <h6 style="margin: 0;">Total: </h6>
-        </td>
-        <td>
-          <h6 style="margin: 0;">$ {{totalPrice}}</h6>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+          <td>
+            <h6 style="margin: 0;">Total: </h6>
+          </td>
+          <td>
+            <h6 style="margin: 0;">$ {{totalPrice}}</h6>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class=" button-container d-flex justify-content-end mt-5">
-    <a href="/products" class="btn btn-secondary mx-2">Continue Shopping</a>
-    <a href="/cart/checkout" class="btn btn-secondary">ORDER</a>
+    <div class=" button-container d-flex justify-content-end mt-5">
+      <a href="/products" class="btn btn-secondary mx-2">Continue Shopping</a>
+      <a href="/cart/checkout" class="btn btn-secondary">ORDER</a>
+    </div>
   </div>
 </div>
