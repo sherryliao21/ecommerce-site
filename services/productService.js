@@ -44,7 +44,8 @@ const productService = {
       totalPage,
       prev,
       next,
-      keyword
+      keyword,
+      category: true
     })
   },
 
@@ -62,13 +63,18 @@ const productService = {
       quantity = Array.from({ length: 10 }).map((_, i) => i + 1)
     }
 
-    callback({ product: product.toJSON(), categories, quantity })
+    callback({
+      product: product.toJSON(),
+      categories,
+      quantity,
+      category: true
+    })
   },
 
   getHome: async (req, res, callback) => {
     const categories = await Category.findAll({ raw: true, nest: true })
 
-    callback({ categories })
+    callback({ categories, category: true })
   }
 }
 

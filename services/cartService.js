@@ -49,7 +49,7 @@ const cartService = {
             .map(d => d.price * d.CartItem.quantity)
             .reduce((a, b) => a + b)
         : 0
-    callback({ cart, totalPrice, categories })
+    callback({ cart, totalPrice, categories, category: true, checkout: true })
   },
   addCartItem: async (req, res, callback) => {
     const cartItem = await CartItem.findByPk(req.params.id, {
@@ -104,7 +104,9 @@ const cartService = {
     callback({
       cart,
       totalPrice,
-      categories
+      categories,
+      category: true,
+      checkout: true
     })
   }
 }
