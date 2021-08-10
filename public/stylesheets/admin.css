@@ -1,0 +1,97 @@
+/* Products */
+body {
+  color: #6d6a6b;
+}
+
+.links {
+  color:#e29fb0; 
+  text-decoration: none;
+}
+
+.links:hover {
+  color: #ce7a8f;
+}
+
+.bars {
+  color: #ce7a8f;
+  margin: 0 4px;
+}
+
+.delete {
+  color:#e29fb0; 
+}
+
+.btn-success {
+  background-color: #e29fb0;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #eb7492;
+}
+
+table {
+  color: #7c7c7c;
+}
+
+thead {
+  background-color:#f7bac9; 
+  color: #ffffff;
+  border: none;
+}
+
+.id {
+  color:#535252;
+}
+
+/* Orders */
+.btn-cancel {
+  color:#e29fb0; 
+}
+
+.success {
+  padding: 6px 10px; 
+  border-radius: 8px; 
+  background-color: #85D68A; 
+  color: #2E731D;
+}
+
+.fail {
+  padding: 6px 10px; 
+  border-radius: 8px; 
+  background-color: #FEB8B3; 
+  color: #B53A2A; 
+}
+
+/* order  */
+.table-borderless {
+  vertical-align: middle;
+}
+
+.order-t {
+  text-align: center;
+}
+
+.card-image {
+  width: 120px
+}
+
+.total {
+  text-align: right;
+}
+
+.btn-save {
+  padding: 6px 40px;
+  background-color: #e29fb0;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-save:hover {
+  background-color: #eb7492;
+}
+
+/* Create  */
+.form-container {
+  min-height: 600px
+}

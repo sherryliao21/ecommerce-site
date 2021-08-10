@@ -1,25 +1,31 @@
-<div class="row">
-  <div class="col-md-12 d-flex align-items-center">
-    <h1>{{product.name}}</h1>
-    <span class="ms-3"> [{{product.Category.name}}] </span>
-  </div>
-  <img class="img-responsive center-block" src="{{product.image}}" style="width: 250px;margin-bottom: 25px;" />
-  <div class="col-md-4">
-    <br />
-    <div class="well">
-      <ul class="list-unstyled">
-        <li><strong>Price:</strong> ${{product.price}}</li>
-        <li><strong>Quantity:</strong> {{product.quantity}}</li>
-        <li><strong>Description:</strong> {{product.description}}</li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-8">
-    <p>{{restaurant.description}}</p>
-  </div>
-  <hr />
-</div>
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
 
-<br />
-<br />
-<a href="javascript:history.back()">Back</a>
+<div class="container ps-4">
+  <div class="row">
+    <div class="col-md-12 d-flex align-items-center">
+      <h1>{{product.name}}</h1>
+      <span class="ms-3"> [{{product.Category.name}}] </span>
+    </div>
+    <img class="img-responsive center-block" src="{{product.image}}" style="width: 250px;margin-bottom: 25px;" />
+    <div class="col-md-4">
+      <br />
+      <div class="well">
+        <ul class="list-unstyled">
+          <li><strong>Price:</strong> ${{product.price}}</li>
+          <li><strong>Quantity:</strong> {{product.quantity}}</li>
+          <li><strong>Description:</strong> {{product.description}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <p>{{restaurant.description}}</p>
+    </div>
+    <hr />
+  </div>
+
+  <br />
+  <br />
+  <a href="javascript:history.back()" class="links">Back</a>
+</div>

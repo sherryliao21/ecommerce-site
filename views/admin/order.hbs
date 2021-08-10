@@ -1,94 +1,99 @@
-<h1>Control panel</h1>
+<head>
+  <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
 
-<div class="row">
-  <div class="products-header d-flex align-items-center justify-content-between col-11">
-    <div class="products-nav">
-      <a href="/admin/products">Products</a>
-      <span> | </span>
-      <a href="/admin/categories">Categories</a>
-      <span> | </span>
-      <a href="/admin/orders">Orders</a>
-    </div>
+<div class="container ps-4">
+  <h1>Control panel</h1>
 
-    <div class="search">
-      {{!-- <a href="/admin/products/create">
-        <button type="button" class="btn btn-primary">New Product</button>
-      </a> --}}
+  <div class="row">
+    <div class="products-header d-flex align-items-center justify-content-between col-11">
+      <div class="products-nav">
+        <a href="/admin/products" class="links">Products</a>
+        <span class="bars"> | </span>
+        <a href="/admin/categories" class="links">Categories</a>
+        <span class="bars"> | </span>
+        <a href="/admin/orders" class="links">Orders</a>
+      </div>
+
+      <div class="search">
+        {{!-- <a href="/admin/products/create">
+          <button type="button" class="btn btn-primary">New Product</button>
+        </a> --}}
+      </div>
     </div>
   </div>
+
+  <br />
+  <br />
+
+  <h2>Order #{{order.id}}</h2>
+
+  <div class="my-3">
+    <table class="table table-borderless">
+      <thead class="order-t">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Item Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody class="order-t">
+        {{#each order.orderedProducts}}
+        <tr>
+          <td class="card-image"><img src="{{this.image}}" class="card-img me-3" alt="..."></td>
+          <td>
+            <span>{{this.name}}</span>
+          </td>
+          <td>
+            <p class="m-0">$ {{this.price}}</p>
+          </td>
+          <td>
+            {{this.OrderItem.quantity}}
+          </td>
+          <td>{{this.price}} * {{this.OrderItem.quantity}}</td>
+        </tr>
+        {{/each}}
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="total"></td>
+          <td>
+            <h6 class="m-0">Total: </h6>
+          </td>
+          <td>
+            <h6 class="m-0">$ {{totalPrice}}</h6>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form action="/admin/orders/{{order.id}}?_method=PUT" method="POST" class="mt-5">
+      <div class="status-container row d-flex justify-content-end align-items-end">
+        <div class="select-group col-2">
+          <label for="payment">Payment Status</label>
+          <select name="payment" id="payment" class="form-select" {{#ifCond order.payment_status '-1' }} value="-1"
+            disabled {{/ifCond}}>
+            <option value="1" {{#ifCond order.payment_status '1' }} selected {{/ifCond}}>Paid</option>
+            <option value="0" {{#ifCond order.payment_status '0' }}selected{{/ifCond}}>Unpaid</option>
+            <option value="-1" {{#ifCond order.payment_status '-1' }}selected{{/ifCond}}>Canceled
+            </option>
+          </select>
+        </div>
+        <div class="select-group col-2">
+          <label for="shipment">Shipping Status</label>
+          <select name="shipment" id="shipment" class="form-select" {{#ifCond order.payment_status '-1' }} value="-1"
+            disabled {{/ifCond}}>
+            <option value="1" {{#ifCond order.shipping_status '1' }}selected{{/ifCond}}>Shipped</option>
+            <option value="0" {{#ifCond order.shipping_status '0' }}selected{{/ifCond}}>Unshppied</option>
+            <option value="-1" {{#ifCond order.shipping_status '-1' }}selected{{/ifCond}}>Canceled
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-save col-1" {{#ifCond order.payment_status '-1' }} disabled
+          {{/ifCond}}>Save</button>
+      </div>
+    </form>
+  </div>
 </div>
-
-<br />
-<br />
-
-<h2>Order #{{order.id}}</h2>
-
-<div class="my-3">
-  <table class="table table-borderless" style="vertical-align: middle;">
-    <thead style="text-align: center;">
-      <tr>
-        <th scope="col"></th>
-        <th scope="col">Item Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Subtotal</th>
-      </tr>
-    </thead>
-    <tbody style="text-align: center;">
-      {{#each order.orderedProducts}}
-      <tr>
-        <td><img src="{{this.image}}" class="card-img me-3" alt="..." style="width: 120px;"></td>
-        <td>
-          <span>{{this.name}}</span>
-        </td>
-        <td>
-          <p style="margin: 0;">$ {{this.price}}</p>
-        </td>
-        <td>
-          {{this.OrderItem.quantity}}
-        </td>
-        <td>{{this.price}} * {{this.OrderItem.quantity}}</td>
-      </tr>
-      {{/each}}
-      <tr>
-        <td></td>
-        <td></td>
-        <td style="text-align: right;">
-
-        </td>
-        <td>
-          <h6 style="margin: 0;">Total: </h6>
-        </td>
-        <td>
-          <h6 style="margin: 0;">$ {{totalPrice}}</h6>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <form action="/admin/orders/{{order.id}}?_method=PUT" method="POST" class="mt-5">
-    <div class="status-container row d-flex justify-content-end align-items-end">
-      <div class="select-group col-2">
-        <label for="payment">Payment Status</label>
-        <select name="payment" id="payment" class="form-select" {{#ifCond order.payment_status '-1' }} value="-1"
-          disabled {{/ifCond}}>
-          <option value="1" {{#ifCond order.payment_status '1' }} selected {{/ifCond}}>Paid</option>
-          <option value="0" {{#ifCond order.payment_status '0' }}selected{{/ifCond}}>Unpaid</option>
-          <option value="-1" {{#ifCond order.payment_status '-1' }}selected{{/ifCond}}>Canceled
-          </option>
-        </select>
-      </div>
-      <div class="select-group col-2">
-        <label for="shipment">Shipping Status</label>
-        <select name="shipment" id="shipment" class="form-select" {{#ifCond order.payment_status '-1' }} value="-1"
-          disabled {{/ifCond}}>
-          <option value="1" {{#ifCond order.shipping_status '1' }}selected{{/ifCond}}>Shipped</option>
-          <option value="0" {{#ifCond order.shipping_status '0' }}selected{{/ifCond}}>Unshppied</option>
-          <option value="-1" {{#ifCond order.shipping_status '-1' }}selected{{/ifCond}}>Canceled
-          </option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary col-1" style="padding: 6px 40px;" {{#ifCond order.payment_status '-1'
-        }} disabled {{/ifCond}}>Save</button>
-    </div>
-  </form>
