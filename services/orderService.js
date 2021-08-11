@@ -46,7 +46,8 @@ const orderService = {
       callback({
         categories,
         orders,
-        category: true
+        category: true,
+        ordersPage: true
       })
     } catch (err) {
       console.log(err)

@@ -1,7 +1,24 @@
-<link rel="stylesheet" href="/stylesheets/orders.css">
-{{> message}}
+{{#if success_msg}}
+<div class="alert-container d-flex justify-content-center mb-5">
+  <div class="alert alert-success alert-dismissible fade show col-8" role="alert">
+    <strong>{{success_msg}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+{{/if}}
+
+{{#if error_msg}}
+<div class="alert-container d-flex justify-content-center mb-5">
+  <div class="alert alert-danger alert-dismissible fade shows col-8" role="alert">
+    <strong>{{error_msg}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+{{/if}}
+
 {{#each orders}}
 <div class="row mb-5">
+
   {{!-- Order info --}}
   <div class="col-12">
     <table class="table table-borderless" style="border-bottom: 1px solid #dee2e6;">
