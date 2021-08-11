@@ -53,7 +53,7 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const { name, email } = profile._json
-        const user = await User.findAll({ where: { email } })
+        const user = await User.findOne({ where: { email } })
         if (user) return done(null, user)
         const randomPassword = Math.random.toString(36).slice(-8)
         const salt = await bcrypt.genSalt(10)
