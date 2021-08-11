@@ -18,7 +18,7 @@ password: 12345678
 - [API Documentation](#api-documentation)
 - [Features](#features)
 - [Schema ERD](#schema-erd)
-- [Dependencies](#dependencies)
+- [Prerequisites](#prerequisites)
 - [Third Party Payment API](#third-party-payment-api)
 - [Setting up database](#setting-up-database)
 - [Run the application](#run-the-application)
@@ -26,7 +26,7 @@ password: 12345678
 
 # API Documentation
 
-Please refer to Swagger Documentation
+Please refer to Swagger Documentation (Coming soon...)
 
 # Features
 
@@ -78,12 +78,12 @@ Manage orders (Admin)
 
 ![ERD](https://i.imgur.com/rwCPq1Q.png)
 
-# Dependencies
+# Prerequisites
 
-[Git](https://git-scm.com/downloads)
-[Node.js (v14.15.1 or above)](https://nodejs.org/en/)
-[Express](https://expressjs.com/)
-[MySQL](https://www.mysql.com/)
+1. [Git](https://git-scm.com/downloads)   
+2. [Node.js (v14.15.1 or above)](https://nodejs.org/en/)  
+3. [Express](https://expressjs.com/)  
+4. [MySQL](https://www.mysql.com/)
 
 # Third Party Payment API
 
