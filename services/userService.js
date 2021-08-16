@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { checkUserInfo } = require('../utils/users')
+const { checkUserInfo, checkTestUser } = require('../utils/users')
 const validator = require('validator')
 
 const userService = {
@@ -136,6 +136,14 @@ const userService = {
           message: 'This user does not exist'
         })
       }
+
+      if (user.email === 'user2@example.com') {
+        return callback({
+          status: 'error',
+          message: 'In order to keep test account available for others, you are not allowed to change user settings.'
+        })
+      }
+
       if (!name.trim() || !email.trim()) {
         errors.push({ message: 'All fields are required' })
       }
@@ -176,6 +184,14 @@ const userService = {
           message: 'This user does not exist'
         })
       }
+
+      if (user.email === 'user2@example.com') {
+        return callback({
+          status: 'error',
+          message: 'In order to keep test user account available, you are not allowed to change user settings.'
+        })
+      }
+
       if (!oldPassword || !password || !confirmPassword) {
         errors.push({ message: 'All fields are required' })
       }
